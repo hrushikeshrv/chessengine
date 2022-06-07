@@ -6,14 +6,14 @@ class Board:
     A class representing a bitboard
     """
 
-    def __init__(self):
+    def __init__(self, side):
         self.white_pawns = 65280  # 1111111100000000 in binary (A2 to H2)
         self.white_rooks = 129  # 10000001 in binary (A1 and H1)
         self.white_knights = 66  # 01000010 in binary (B1 and G1)
         self.white_bishops = 36  # 00100100 in binary (C1 and F1)
         self.white_queen = 16  # 00010000 in binary (D1)
         self.white_king = 8  # 00001000 in binary (E1)
-
+        # TODO - Fill in these positions
         self.black_pawns = 0  # (A7 to H7)
         self.black_rooks = 0  # (A8 and H8)
         self.black_knights = 0  # (B8 and G8)
@@ -38,3 +38,17 @@ class Board:
             | self.black_queen
             | self.black_king
         )
+        
+        self.all_pieces = self.all_black | self.all_white
+        self.side = side
+
+    def identify_valid_moves(self):
+        """
+        Generator that identifies all valid moves for all pieces on the board on
+        the computer's side and yields Board objects
+        """
+    
+    def move(self, final_board):
+        """
+        
+        """
