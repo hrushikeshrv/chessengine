@@ -44,3 +44,7 @@ mask_file = {
     7: 0,
     8: 0,
 }
+
+mask_position = {
+
+}

@@ -1,4 +1,4 @@
-from .lookup_tables import clear_rank, mask_rank, clear_file, mask_file
+from .lookup_tables import mask_position
 
 
 class Board:
@@ -6,7 +6,7 @@ class Board:
     A class representing a bitboard representation of the chess board
     """
 
-    def __init__(self, side):
+    def __init__(self, side: str):
         self.white_pawns = 65280  # 1111111100000000 in binary (A2 to H2)
         self.white_rooks = 129  # 10000001 in binary (A1 and H1)
         self.white_knights = 66  # 01000010 in binary (B1 and G1)
@@ -41,6 +41,23 @@ class Board:
 
         self.all_pieces = self.all_black | self.all_white
         self.side = side.lower().strip()
+        
+        # A dictionary matching a side and piece to its corresponding bit board.
+        # Useful when we want to iterate through all of the bitboards of the board.
+        self.boards_table = {
+            ('white', 'king'): self.white_king,
+            ('white', 'queen'): self.white_queen,
+            ('white', 'rook'): self.white_rooks,
+            ('white', 'bishop'): self.white_bishops,
+            ('white', 'knight'): self.white_knights,
+            ('white', 'pawns'): self.white_pawns,
+            ('black', 'king'): self.black_king,
+            ('black', 'queen'): self.black_queen,
+            ('black', 'rook'): self.black_rooks,
+            ('black', 'bishop'): self.black_bishops,
+            ('black', 'knight'): self.black_knights,
+            ('black', 'pawns'): self.black_pawns,
+        }
 
     def identify_valid_moves(self):
         """
@@ -121,6 +138,15 @@ class Board:
         if piece not in {"king", "queen"}:
             attrname += 's'
         return getattr(self, attrname)
+    
+    def identify_piece_at(self, position: str):
+        if not position.isnumeric():
+            pass
+        mask = mask_position[position]
+        for side, piece in self.boards_table:
+            board = self.boards_table[(side, piece)]
+            if board & mask > 0:
+                return side, piece, board
 
     def move(self, start: int, to: int, piece_bitboard=None):
         """
