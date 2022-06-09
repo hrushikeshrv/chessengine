@@ -59,62 +59,10 @@ class Board:
             ('black', 'pawns'): self.black_pawns,
         }
 
-    def identify_valid_moves(self):
-        """
-        Generator that identifies all valid moves for all pieces on the board on
-        the computer's side and yields Board objects for each move
-        """
-
-    def get_self_piece_bitboard(self, piece: str):
-        """
-        Returns the attribute corresponding to the passed piece, considering the board's
-        own side. i.e. - If the board is white, calling with piece = 'king' will return
-        white king, etc.
-        piece can be one of - "king", "queen", "bishop", "knight", "rook", "pawn"
-        """
-        piece = piece.lower().strip()
-        if piece not in {
-            "king",
-            "queen",
-            "bishop",
-            "knight",
-            "rook",
-            "pawn",
-        }:
-            raise ValueError(
-                f"get_self_piece_bitboard got unknown piece.\nExpected one of {{'king', 'queen', 'bishop', 'knight', "
-                f"'rook', 'pawn'}}, got {piece} instead."
-            )
-        
-        if self.side == 'white':
-            if piece == 'pawn':
-                return self.white_pawns
-            if piece == 'queen':
-                return self.white_queen
-            if piece == 'bishop':
-                return self.white_bishops
-            if piece == 'knight':
-                return self.white_knights
-            if piece == 'rook':
-                return self.white_rooks
-            return self.white_king
-        else:
-            if piece == 'pawn':
-                return self.black_pawns
-            if piece == 'queen':
-                return self.black_queen
-            if piece == 'bishop':
-                return self.black_bishops
-            if piece == 'knight':
-                return self.black_knights
-            if piece == 'rook':
-                return self.black_rooks
-            return self.black_king
-
     def get_piece_bitboard(self, side: str, piece: str):
         """
-        Similar to get_self_piece_bitboard, but can be used to get bitboard of any piece
-        for any side. Returns the bitboard of the passed side for the passed pieces.
+        Returns the bitboard of the passed side for the passed pieces.
+        Calling with side="black" and piece="king" will return the black_king bitboard
         """
         piece = piece.lower().strip()
         if piece not in {
@@ -139,14 +87,22 @@ class Board:
             attrname += 's'
         return getattr(self, attrname)
     
+    def get_self_piece_bitboard(self, piece: str):
+        """
+        Returns the attribute corresponding to the passed piece, considering the board's
+        own side. i.e. - If the board is white, calling with piece = 'king' will return
+        white king, etc.
+        piece can be one of - "king", "queen", "bishop", "knight", "rook", "pawn"
+        """
+        return self.get_piece_bitboard(side=self.side, piece=piece)
+    
     def identify_piece_at(self, position: str):
-        if not position.isnumeric():
-            pass
         mask = mask_position[position]
         for side, piece in self.boards_table:
             board = self.boards_table[(side, piece)]
             if board & mask > 0:
                 return side, piece, board
+        return None     # explicit > implicit
 
     def move(self, start: int, to: int, piece_bitboard=None):
         """
