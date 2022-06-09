@@ -45,6 +45,10 @@ mask_file = {
     8: 0,
 }
 
-mask_position = {
+# Maps a board position with a binary number only having a 1 at that position
+# Used to check if a particular position on a bitboard is 1 or 0
+mask_position = {}
 
-}
+# Maps a board position with a binary number only having a 0 at that position.
+# Used to set a particular position on a bitboard to 0
+clear_position = {}

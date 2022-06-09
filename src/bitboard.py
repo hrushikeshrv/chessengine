@@ -41,28 +41,28 @@ class Board:
 
         self.all_pieces = self.all_black | self.all_white
         self.side = side.lower().strip()
-        
+
         # A dictionary matching a side and piece to its corresponding bit board.
         # Useful when we want to iterate through all of the bitboards of the board.
         self.boards_table = {
-            ('white', 'king'): self.white_king,
-            ('white', 'queen'): self.white_queen,
-            ('white', 'rook'): self.white_rooks,
-            ('white', 'bishop'): self.white_bishops,
-            ('white', 'knight'): self.white_knights,
-            ('white', 'pawns'): self.white_pawns,
-            ('black', 'king'): self.black_king,
-            ('black', 'queen'): self.black_queen,
-            ('black', 'rook'): self.black_rooks,
-            ('black', 'bishop'): self.black_bishops,
-            ('black', 'knight'): self.black_knights,
-            ('black', 'pawns'): self.black_pawns,
+            ("white", "king"): self.white_king,
+            ("white", "queen"): self.white_queen,
+            ("white", "rook"): self.white_rooks,
+            ("white", "bishop"): self.white_bishops,
+            ("white", "knight"): self.white_knights,
+            ("white", "pawns"): self.white_pawns,
+            ("black", "king"): self.black_king,
+            ("black", "queen"): self.black_queen,
+            ("black", "rook"): self.black_rooks,
+            ("black", "bishop"): self.black_bishops,
+            ("black", "knight"): self.black_knights,
+            ("black", "pawns"): self.black_pawns,
         }
 
     def get_piece_bitboard(self, side: str, piece: str):
         """
         Returns the bitboard of the passed side for the passed pieces.
-        Calling with side="black" and piece="king" will return the black_king bitboard
+        Calling with side="black" and piece="king" will return the black_king bitboard, and so on.
         """
         piece = piece.lower().strip()
         if piece not in {
@@ -82,29 +82,38 @@ class Board:
                 f"get_piece_bitboard got unknown piece.\nExpected one of {{'white', 'black'}}, "
                 f"got {side} instead."
             )
-        attrname = side + '_' + piece
+        attrname = side + "_" + piece
         if piece not in {"king", "queen"}:
-            attrname += 's'
+            attrname += "s"
         return getattr(self, attrname)
-    
+
     def get_self_piece_bitboard(self, piece: str):
         """
         Returns the attribute corresponding to the passed piece, considering the board's
-        own side. i.e. - If the board is white, calling with piece = 'king' will return
+        own side. i.e. - If the board is white, calling with piece='king' will return
         white king, etc.
         piece can be one of - "king", "queen", "bishop", "knight", "rook", "pawn"
         """
         return self.get_piece_bitboard(side=self.side, piece=piece)
-    
-    def identify_piece_at(self, position: str):
+
+    def identify_piece_at(self, position: int):
         mask = mask_position[position]
         for side, piece in self.boards_table:
             board = self.boards_table[(side, piece)]
             if board & mask > 0:
                 return side, piece, board
-        return None     # explicit > implicit
+        return None, None, None
 
-    def move(self, start: int, to: int, piece_bitboard=None):
+    def move(self, start: int, end: int):
         """
-        
+        Moves the piece at start to end. Doesn't check if it is currently the correct
+        side's turn when it identifies and moves a piece.
         """
+        start_side, start_piece, start_board = self.identify_piece_at(start)
+        if start_side is None:
+            raise ValueError(f"There is no piece at position {start} to move")
+        end_side, end_piece, end_board = self.identify_piece_at(end)
+        if end_side == start_side:
+            raise ValueError(
+                f"Can't move from {start} to {end}, both positions have {end_side} pieces."
+            )
