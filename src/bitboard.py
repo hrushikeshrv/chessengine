@@ -7,27 +7,27 @@ class Board:
     """
 
     def __init__(self, side: str):
-        self.white_pawns = 65280  # 1111111100000000 in binary (A2 to H2)
-        self.white_rooks = 129  # 10000001 in binary (A1 and H1)
-        self.white_knights = 66  # 01000010 in binary (B1 and G1)
-        self.white_bishops = 36  # 00100100 in binary (C1 and F1)
-        self.white_queen = 16  # 00010000 in binary (D1)
-        self.white_king = 8  # 00001000 in binary (E1)
-        # TODO - Fill in these positions
-        self.black_pawns = 0  # (A7 to H7)
-        self.black_rooks = 0  # (A8 and H8)
-        self.black_knights = 0  # (B8 and G8)
-        self.black_bishops = 0  # (C8 and F8)
-        self.black_queen = 0  # (D8)
-        self.black_king = 0  # (E8)
+        self.white_pawns = 65280                    # (A2 to H2)
+        self.white_rooks = 129                      # (A1 and H1)
+        self.white_knights = 66                     # (B1 and G1)
+        self.white_bishops = 36                     # (C1 and F1)
+        self.white_queens = 16                      # (D1)
+        self.white_kings = 8                        # (E1)
+        
+        self.black_pawns = 71776119061217280        # (A7 to H7)
+        self.black_rooks = 9295429630892703744      # (A8 and H8)
+        self.black_knights = 4755801206503243776    # (B8 and G8)
+        self.black_bishops = 2594073385365405696    # (C8 and F8)
+        self.black_queens = 576460752303423488      # (D8)
+        self.black_kings = 1152921504606846976      # (E8)
 
         self.all_white = (
             self.white_pawns
             | self.white_rooks
             | self.white_knights
             | self.white_bishops
-            | self.white_queen
-            | self.white_king
+            | self.white_queens
+            | self.white_kings
         )
 
         self.all_black = (
@@ -35,8 +35,8 @@ class Board:
             | self.black_rooks
             | self.black_knights
             | self.black_bishops
-            | self.black_queen
-            | self.black_king
+            | self.black_queens
+            | self.black_kings
         )
 
         self.all_pieces = self.all_black | self.all_white
@@ -45,14 +45,14 @@ class Board:
         # A dictionary matching a side and piece to its corresponding bit board.
         # Useful when we want to iterate through all of the bitboards of the board.
         self.boards_table = {
-            ("white", "king"): self.white_king,
-            ("white", "queen"): self.white_queen,
+            ("white", "king"): self.white_kings,
+            ("white", "queen"): self.white_queens,
             ("white", "rook"): self.white_rooks,
             ("white", "bishop"): self.white_bishops,
             ("white", "knight"): self.white_knights,
             ("white", "pawns"): self.white_pawns,
-            ("black", "king"): self.black_king,
-            ("black", "queen"): self.black_queen,
+            ("black", "king"): self.black_kings,
+            ("black", "queen"): self.black_queens,
             ("black", "rook"): self.black_rooks,
             ("black", "bishop"): self.black_bishops,
             ("black", "knight"): self.black_knights,
@@ -62,7 +62,7 @@ class Board:
     def get_piece_bitboard(self, side: str, piece: str) -> int:
         """
         Returns the bitboard of the passed side for the passed pieces.
-        Calling with side="black" and piece="king" will return the black_king bitboard, and so on.
+        Calling with side="black" and piece="king" will return the black_kings bitboard, and so on.
         """
         if piece not in {
             "king",
@@ -82,8 +82,6 @@ class Board:
                 f"got {side} instead."
             )
         attrname = side + "_" + piece
-        if piece not in {"king", "queen"}:
-            attrname += "s"
         return getattr(self, attrname)
 
     def get_self_piece_bitboard(self, piece: str) -> int:
@@ -117,8 +115,6 @@ class Board:
                 f"got {side} instead."
             )
         attrname = side + "_" + piece
-        if piece not in {"king", "queen"}:
-            attrname += "s"
         setattr(self, attrname, board)
 
     def identify_piece_at(self, position: int) -> tuple:
