@@ -52,3 +52,7 @@ mask_position = {}
 # Maps a board position with a binary number only having a 0 at that position.
 # Used to set a particular position on a bitboard to 0
 clear_position = {}
+
+# Maps a board position with a binary number only having a 1 at that position.
+# Used to set a particular position on a bitboard to 1
+set_position = {}

@@ -1,4 +1,4 @@
-from .lookup_tables import mask_position
+from .lookup_tables import mask_position, clear_position, set_position
 
 
 class Board:
@@ -59,12 +59,11 @@ class Board:
             ("black", "pawns"): self.black_pawns,
         }
 
-    def get_piece_bitboard(self, side: str, piece: str):
+    def get_piece_bitboard(self, side: str, piece: str) -> int:
         """
         Returns the bitboard of the passed side for the passed pieces.
         Calling with side="black" and piece="king" will return the black_king bitboard, and so on.
         """
-        piece = piece.lower().strip()
         if piece not in {
             "king",
             "queen",
@@ -87,7 +86,7 @@ class Board:
             attrname += "s"
         return getattr(self, attrname)
 
-    def get_self_piece_bitboard(self, piece: str):
+    def get_self_piece_bitboard(self, piece: str) -> int:
         """
         Returns the attribute corresponding to the passed piece, considering the board's
         own side. i.e. - If the board is white, calling with piece='king' will return
@@ -95,8 +94,34 @@ class Board:
         piece can be one of - "king", "queen", "bishop", "knight", "rook", "pawn"
         """
         return self.get_piece_bitboard(side=self.side, piece=piece)
+    
+    def set_piece_bitboard(self, side: str, piece: str, board: int) -> None:
+        """
+        
+        """
+        if piece not in {
+            "king",
+            "queen",
+            "bishop",
+            "knight",
+            "rook",
+            "pawn",
+        }:
+            raise ValueError(
+                f"get_piece_bitboard got unknown piece.\nExpected one of {{'king', 'queen', 'bishop', 'knight', "
+                f"'rook', 'pawn'}}, got {piece} instead."
+            )
+        if side not in {"black", "white"}:
+            raise ValueError(
+                f"get_piece_bitboard got unknown piece.\nExpected one of {{'white', 'black'}}, "
+                f"got {side} instead."
+            )
+        attrname = side + "_" + piece
+        if piece not in {"king", "queen"}:
+            attrname += "s"
+        setattr(self, attrname, board)
 
-    def identify_piece_at(self, position: int):
+    def identify_piece_at(self, position: int) -> tuple:
         mask = mask_position[position]
         for side, piece in self.boards_table:
             board = self.boards_table[(side, piece)]
@@ -104,7 +129,7 @@ class Board:
                 return side, piece, board
         return None, None, None
 
-    def move(self, start: int, end: int):
+    def move(self, start: int, end: int) -> None:
         """
         Moves the piece at start to end. Doesn't check if it is currently the correct
         side's turn when it identifies and moves a piece.
@@ -117,3 +142,16 @@ class Board:
             raise ValueError(
                 f"Can't move from {start} to {end}, both positions have {end_side} pieces."
             )
+        if end_piece is not None:
+            # Clear the captured piece's position (set "end" to 0)
+            opp_side_board = self.get_piece_bitboard(end_side, end_piece)
+            opp_side_board &= clear_position[end]
+            self.set_piece_bitboard(end_side, end_piece, opp_side_board)
+            
+        # Clear the moved piece's original position (set "start" to 0)
+        move_side_board = self.get_piece_bitboard(start_side, start_piece)
+        move_side_board &= clear_position[start]
+        
+        # Set the moved piece's final position (set "end" to 1)
+        move_side_board |= set_position[end]
+        self.set_piece_bitboard(start_side, start_piece, move_side_board)
