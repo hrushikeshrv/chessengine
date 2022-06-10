@@ -1,4 +1,4 @@
-from .lookup_tables import mask_position, clear_position, set_position
+from .lookup_tables import mask_position, clear_position
 
 
 class Board:
@@ -7,19 +7,19 @@ class Board:
     """
 
     def __init__(self, side: str):
-        self.white_pawns = 65280                    # (A2 to H2)
-        self.white_rooks = 129                      # (A1 and H1)
-        self.white_knights = 66                     # (B1 and G1)
-        self.white_bishops = 36                     # (C1 and F1)
-        self.white_queens = 16                      # (D1)
-        self.white_kings = 8                        # (E1)
-        
-        self.black_pawns = 71776119061217280        # (A7 to H7)
-        self.black_rooks = 9295429630892703744      # (A8 and H8)
-        self.black_knights = 4755801206503243776    # (B8 and G8)
-        self.black_bishops = 2594073385365405696    # (C8 and F8)
-        self.black_queens = 576460752303423488      # (D8)
-        self.black_kings = 1152921504606846976      # (E8)
+        self.white_pawns = 65280  # (A2 to H2)
+        self.white_rooks = 129  # (A1 and H1)
+        self.white_knights = 66  # (B1 and G1)
+        self.white_bishops = 36  # (C1 and F1)
+        self.white_queens = 16  # (D1)
+        self.white_kings = 8  # (E1)
+
+        self.black_pawns = 71776119061217280  # (A7 to H7)
+        self.black_rooks = 9295429630892703744  # (A8 and H8)
+        self.black_knights = 4755801206503243776  # (B8 and G8)
+        self.black_bishops = 2594073385365405696  # (C8 and F8)
+        self.black_queens = 576460752303423488  # (D8)
+        self.black_kings = 1152921504606846976  # (E8)
 
         self.all_white = (
             self.white_pawns
@@ -92,7 +92,7 @@ class Board:
         piece can be one of - "king", "queen", "bishop", "knight", "rook", "pawn"
         """
         return self.get_piece_bitboard(side=self.side, piece=piece)
-    
+
     def set_piece_bitboard(self, side: str, piece: str, board: int) -> None:
         """
         
@@ -143,11 +143,11 @@ class Board:
             opp_side_board = self.get_piece_bitboard(end_side, end_piece)
             opp_side_board &= clear_position[end]
             self.set_piece_bitboard(end_side, end_piece, opp_side_board)
-            
+
         # Clear the moved piece's original position (set "start" to 0)
         move_side_board = self.get_piece_bitboard(start_side, start_piece)
         move_side_board &= clear_position[start]
-        
+
         # Set the moved piece's final position (set "end" to 1)
-        move_side_board |= set_position[end]
+        move_side_board |= mask_position[end]
         self.set_piece_bitboard(start_side, start_piece, move_side_board)
