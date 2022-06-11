@@ -40,22 +40,25 @@ class Board:
         )
 
         self.all_pieces = self.all_black | self.all_white
+        
+        if side.lower().strip() not in ['black', 'white']:
+            raise ValueError(f"side must be one of \"black\" or \"white\". Got {side}")
         self.side = side.lower().strip()
 
         # A dictionary matching a side and piece to its corresponding bit board.
         # Useful when we want to iterate through all of the bitboards of the board.
         self.boards_table = {
-            ("white", "king"): self.white_kings,
-            ("white", "queen"): self.white_queens,
-            ("white", "rook"): self.white_rooks,
-            ("white", "bishop"): self.white_bishops,
-            ("white", "knight"): self.white_knights,
+            ("white", "kings"): self.white_kings,
+            ("white", "queens"): self.white_queens,
+            ("white", "rooks"): self.white_rooks,
+            ("white", "bishops"): self.white_bishops,
+            ("white", "knights"): self.white_knights,
             ("white", "pawns"): self.white_pawns,
-            ("black", "king"): self.black_kings,
-            ("black", "queen"): self.black_queens,
-            ("black", "rook"): self.black_rooks,
-            ("black", "bishop"): self.black_bishops,
-            ("black", "knight"): self.black_knights,
+            ("black", "kings"): self.black_kings,
+            ("black", "queens"): self.black_queens,
+            ("black", "rooks"): self.black_rooks,
+            ("black", "bishops"): self.black_bishops,
+            ("black", "knights"): self.black_knights,
             ("black", "pawns"): self.black_pawns,
         }
 
@@ -65,16 +68,16 @@ class Board:
         Calling with side="black" and piece="king" will return the black_kings bitboard, and so on.
         """
         if piece not in {
-            "king",
-            "queen",
-            "bishop",
-            "knight",
-            "rook",
-            "pawn",
+            "kings",
+            "queens",
+            "bishops",
+            "knights",
+            "rooks",
+            "pawns",
         }:
             raise ValueError(
-                f"get_piece_bitboard got unknown piece.\nExpected one of {{'king', 'queen', 'bishop', 'knight', "
-                f"'rook', 'pawn'}}, got {piece} instead."
+                f"get_piece_bitboard got unknown piece.\nExpected one of {{'kings', 'queens', 'bishops', 'knights', "
+                f"'rooks', 'pawns'}}, got {piece} instead."
             )
         if side not in {"black", "white"}:
             raise ValueError(
@@ -89,7 +92,7 @@ class Board:
         Returns the attribute corresponding to the passed piece, considering the board's
         own side. i.e. - If the board is white, calling with piece='king' will return
         white king, etc.
-        piece can be one of - "king", "queen", "bishop", "knight", "rook", "pawn"
+        piece can be one of - "kings", "queens", "bishops", "knights", "rooks", "pawns"
         """
         return self.get_piece_bitboard(side=self.side, piece=piece)
 
@@ -98,16 +101,16 @@ class Board:
         
         """
         if piece not in {
-            "king",
-            "queen",
-            "bishop",
-            "knight",
-            "rook",
-            "pawn",
+            "kings",
+            "queens",
+            "bishops",
+            "knights",
+            "rooks",
+            "pawns",
         }:
             raise ValueError(
-                f"get_piece_bitboard got unknown piece.\nExpected one of {{'king', 'queen', 'bishop', 'knight', "
-                f"'rook', 'pawn'}}, got {piece} instead."
+                f"get_piece_bitboard got unknown piece.\nExpected one of {{'kings', 'queens', 'bishops', 'knights', "
+                f"'rooks', 'pawns'}}, got {piece} instead."
             )
         if side not in {"black", "white"}:
             raise ValueError(
