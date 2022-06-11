@@ -3,7 +3,7 @@ from .lookup_tables import mask_position, clear_position
 
 class Board:
     """
-    A class representing a bitboard representation of the chess board
+    A class implementing a bitboard representation of a chess board
     """
 
     def __init__(self, side: str):
@@ -40,9 +40,9 @@ class Board:
         )
 
         self.all_pieces = self.all_black | self.all_white
-        
-        if side.lower().strip() not in ['black', 'white']:
-            raise ValueError(f"side must be one of \"black\" or \"white\". Got {side}")
+
+        if side.lower().strip() not in ["black", "white"]:
+            raise ValueError(f'side must be one of "black" or "white". Got {side}')
         self.side = side.lower().strip()
 
         # A dictionary matching a side and piece to its corresponding bit board.
@@ -98,7 +98,7 @@ class Board:
 
     def set_piece_bitboard(self, side: str, piece: str, board: int) -> None:
         """
-        
+        Sets the bitboard for the passed arguments to the passed bitboard
         """
         if piece not in {
             "kings",
@@ -121,12 +121,19 @@ class Board:
         setattr(self, attrname, board)
 
     def identify_piece_at(self, position: int) -> tuple:
+        """
+        Identifies if there is any piece on the position passed. Returns
+        the identified piece, its side, and its board if a piece is found
+        at that position, None otherwise.
+        """
         mask = mask_position[position]
+        if self.all_pieces & mask == 0:
+            # If we don't return here, the for loop will definitely return a non-null value
+            return None, None, None
         for side, piece in self.boards_table:
             board = self.boards_table[(side, piece)]
             if board & mask > 0:
                 return side, piece, board
-        return None, None, None
 
     def move(self, start: int, end: int) -> None:
         """
