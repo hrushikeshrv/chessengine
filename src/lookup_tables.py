@@ -1,5 +1,5 @@
 """
-Lookup tables are bitboards that allow us to mask or clear specific ranks or files of the chessboard
+Lookup tables are bitboards that allow us to mask or clear specific ranks, files, or positions of the chessboard
 """
 pos_to_coords = {
     0: "A1",

@@ -1,4 +1,4 @@
-from .lookup_tables import mask_position, clear_position
+from lookup_tables import mask_position, clear_position
 
 
 class Board:
@@ -103,25 +103,25 @@ class Board:
         TODO - It might be better to define these attributes by reference later
         """
         self.all_white = (
-                self.white_pawns
-                | self.white_rooks
-                | self.white_knights
-                | self.white_bishops
-                | self.white_queens
-                | self.white_kings
+            self.white_pawns
+            | self.white_rooks
+            | self.white_knights
+            | self.white_bishops
+            | self.white_queens
+            | self.white_kings
         )
-    
+
         self.all_black = (
-                self.black_pawns
-                | self.black_rooks
-                | self.black_knights
-                | self.black_bishops
-                | self.black_queens
-                | self.black_kings
+            self.black_pawns
+            | self.black_rooks
+            | self.black_knights
+            | self.black_bishops
+            | self.black_queens
+            | self.black_kings
         )
-    
+
         self.all_pieces = self.all_black | self.all_white
-        
+
         self.boards_table = {
             ("white", "kings"): self.white_kings,
             ("white", "queens"): self.white_queens,
