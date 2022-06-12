@@ -96,6 +96,47 @@ class Board:
         """
         return self.get_piece_bitboard(side=self.side, piece=piece)
 
+    def update_secondary_board_attrs(self) -> None:
+        """
+        Updates self.all_white, self.all_black, self.all_pieces, and self.boards_table
+        every time a bitboard is updated
+        TODO - It might be better to define these attributes by reference later
+        """
+        self.all_white = (
+                self.white_pawns
+                | self.white_rooks
+                | self.white_knights
+                | self.white_bishops
+                | self.white_queens
+                | self.white_kings
+        )
+    
+        self.all_black = (
+                self.black_pawns
+                | self.black_rooks
+                | self.black_knights
+                | self.black_bishops
+                | self.black_queens
+                | self.black_kings
+        )
+    
+        self.all_pieces = self.all_black | self.all_white
+        
+        self.boards_table = {
+            ("white", "kings"): self.white_kings,
+            ("white", "queens"): self.white_queens,
+            ("white", "rooks"): self.white_rooks,
+            ("white", "bishops"): self.white_bishops,
+            ("white", "knights"): self.white_knights,
+            ("white", "pawns"): self.white_pawns,
+            ("black", "kings"): self.black_kings,
+            ("black", "queens"): self.black_queens,
+            ("black", "rooks"): self.black_rooks,
+            ("black", "bishops"): self.black_bishops,
+            ("black", "knights"): self.black_knights,
+            ("black", "pawns"): self.black_pawns,
+        }
+
     def set_piece_bitboard(self, side: str, piece: str, board: int) -> None:
         """
         Sets the bitboard for the passed arguments to the passed bitboard
@@ -119,6 +160,7 @@ class Board:
             )
         attrname = side + "_" + piece
         setattr(self, attrname, board)
+        self.update_secondary_board_attrs()
 
     def identify_piece_at(self, position: int) -> tuple:
         """
@@ -161,3 +203,8 @@ class Board:
         # Set the moved piece's final position (set "end" to 1)
         move_side_board |= mask_position[end]
         self.set_piece_bitboard(start_side, start_piece, move_side_board)
+        
+    def identify_white_pawn_moves(self):
+        """
+        
+        """
