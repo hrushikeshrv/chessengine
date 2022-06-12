@@ -1,4 +1,4 @@
-from lookup_tables import mask_position, clear_position
+from .lookup_tables import mask_position, clear_position
 
 
 class Board:
