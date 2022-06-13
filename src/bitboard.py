@@ -179,8 +179,8 @@ class Board:
 
     def move(self, start: int, end: int) -> None:
         """
-        Moves the piece at start to end. Doesn't check if it is currently the correct
-        side's turn when it identifies and moves a piece.
+        Moves the piece at start to end. Doesn't check anything, just makes
+        the move (unless the start or end positions are invalid).
         """
         start_side, start_piece, start_board = self.identify_piece_at(start)
         if start_side is None:
