@@ -61,6 +61,14 @@ class Board:
             ("black", "knights"): self.black_knights,
             ("black", "pawns"): self.black_pawns,
         }
+        
+    def get_side_bitboard(self, side: str) -> int:
+        """
+        Returns the bitboard containing all pieces for the given side
+        """
+        if side == 'white':
+            return self.all_white
+        return self.all_black
 
     def get_piece_bitboard(self, side: str, piece: str) -> int:
         """
