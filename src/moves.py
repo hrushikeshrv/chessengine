@@ -53,3 +53,10 @@ def get_white_pawn_moves(
         if double_side != side and _ is None:
             moves.append(position << 16)
     return moves
+
+
+def get_white_rook_moves(board, position: int) -> list[int]:
+    """
+    Returns a list of end positions a white rook starting at position can reach
+    """
+    moves = []

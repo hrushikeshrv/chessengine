@@ -1,6 +1,10 @@
 """
 Lookup tables are bitboards that allow us to mask or clear specific ranks, files, or positions of the chessboard
 """
+
+from math import log2
+
+
 pos_to_coords = {
     0: "A1",
     1: "B1",
@@ -316,3 +320,20 @@ clear_position = {
     62: 32281802128991715327,
     63: 27670116110564327423,
 }
+
+
+def get_rank(position: int) -> int:
+    """
+    Returns the rank of a position. position has to be a power of 2.
+    Returns the rank which is in range [1, 8]
+    """
+    pos = int(log2(position))
+    return int(pos / 8) + 1
+
+
+def get_file(position: int) -> int:
+    """
+    Returns the file of a position. position has to be a power of 2.
+    Returns the file which is in range [1, 8]
+    """
+    return (position % 8) + 1
