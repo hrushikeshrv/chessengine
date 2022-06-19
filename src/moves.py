@@ -49,6 +49,7 @@ def get_white_pawn_moves(
         double_side, double_piece, double_board = board.identify_piece_at(
             position << 16
         )
-        if double_side is None or double_side != side:
+        _, _, _ = board.identify_piece_at(position << 8)
+        if double_side != side and _ is None:
             moves.append(position << 16)
     return moves
