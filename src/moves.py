@@ -1,3 +1,5 @@
+from .lookup_tables import get_rank, get_file
+
 HIGHEST_SQUARE = 2 ** 63
 
 
@@ -60,3 +62,5 @@ def get_white_rook_moves(board, position: int) -> list[int]:
     Returns a list of end positions a white rook starting at position can reach
     """
     moves = []
+    rank = get_rank(position)
+    file = get_file(position)

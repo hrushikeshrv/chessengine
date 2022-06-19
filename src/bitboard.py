@@ -62,12 +62,12 @@ class Board:
             ("black", "knights"): self.black_knights,
             ("black", "pawns"): self.black_pawns,
         }
-        
+
     def get_side_bitboard(self, side: str) -> int:
         """
         Returns the bitboard containing all pieces for the given side
         """
-        if side == 'white':
+        if side == "white":
             return self.all_white
         return self.all_black
 
@@ -109,7 +109,6 @@ class Board:
         """
         Updates self.all_white, self.all_black, self.all_pieces, and self.boards_table
         every time a bitboard is updated
-        TODO - It might be better to define these attributes by reference later
         """
         self.all_white = (
             self.white_pawns
