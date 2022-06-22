@@ -22,24 +22,24 @@ class TestBoard(unittest.TestCase):
     def test_identify_piece_at(self):
         board = Board("white")
         self.assertEqual(
-            board.identify_piece_at(2**8), ("white", "pawns", board.white_pawns)
+            board.identify_piece_at(2 ** 8), ("white", "pawns", board.white_pawns)
         )
         self.assertEqual(
-            board.identify_piece_at(2**7), ("white", "rooks", board.white_rooks)
+            board.identify_piece_at(2 ** 7), ("white", "rooks", board.white_rooks)
         )
 
     def test_move(self):
         board = Board("white")
-        board.move(2**8, 2**16)
+        board.move(2 ** 8, 2 ** 16)
         self.assertEqual(board.white_pawns, 0b11111111 << 9)
-        board.move(2**9, 2**17)
+        board.move(2 ** 9, 2 ** 17)
         self.assertEqual(board.white_pawns, 0b11111111 << 10)
 
     def test_invalid_move(self):
         board = Board("white")
         with self.assertRaises(ValueError):
-            board.move(1, 2**8)
+            board.move(1, 2 ** 8)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()
