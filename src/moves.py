@@ -1,4 +1,4 @@
-from .lookup_tables import get_rank, get_file
+from .lookup_tables import get_rank, get_file, mask_file, lsb_pos
 
 HIGHEST_SQUARE = 2 ** 63
 
@@ -64,3 +64,21 @@ def get_white_rook_moves(board, position: int) -> list[int]:
     moves = []
     rank = get_rank(position)
     file = get_file(position)
+    
+    masked_file = board.all_pieces & mask_file[file]
+    lsb = lsb_pos(masked_file)
+    while True:
+        lsb = lsb << 8
+        if lsb > HIGHEST_SQUARE:
+            break
+        if lsb & board.all_pieces == 0:
+            # If there is no piece at the current value of lsb,
+            # we can move the piece there
+            moves.append(lsb)
+        elif lsb != position:
+            # If there is some piece at the current value of lsb,
+            # and it is not the piece itself, then we can move our
+            # piece there if that piece is black
+            if lsb & board.all_white == 0:
+                moves.append(lsb)
+            break

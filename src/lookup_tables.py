@@ -336,7 +336,8 @@ def get_file(position: int) -> int:
     Returns the file of a position. position has to be a power of 2.
     Returns the file which is in range [1, 8]
     """
-    return (position % 8) + 1
+    pos = int(log2(position))
+    return (pos % 8) + 1
 
 
 def lsb_pos(board: int) -> int:
