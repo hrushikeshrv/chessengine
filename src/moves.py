@@ -1,6 +1,6 @@
-from .lookup_tables import get_rank, get_file, mask_file, lsb_pos
+from .lookup_tables import get_rank, get_file, mask_file, mask_rank, lsb_pos
 
-HIGHEST_SQUARE = 2 ** 63
+HIGHEST_SQUARE = 2**63
 
 
 def get_white_pawn_moves(
@@ -47,7 +47,7 @@ def get_white_pawn_moves(
                 and en_passant_side != side
             ):
                 moves.append(position << 7)
-    if position <= 2 ** 15:
+    if position <= 2**15:
         double_side, double_piece, double_board = board.identify_piece_at(
             position << 16
         )
@@ -64,7 +64,7 @@ def get_white_rook_moves(board, position: int) -> list[int]:
     moves = []
     rank = get_rank(position)
     file = get_file(position)
-    
+
     masked_file = board.all_pieces & mask_file[file]
     lsb = lsb_pos(masked_file)
     while True:
@@ -82,3 +82,18 @@ def get_white_rook_moves(board, position: int) -> list[int]:
             if lsb & board.all_white == 0:
                 moves.append(lsb)
             break
+
+    masked_rank = board.all_pieces & mask_rank[rank]
+    lsb = lsb_pos(masked_rank)
+    while True:
+        lsb = lsb << 1
+        if lsb > HIGHEST_SQUARE:
+            break
+        if lsb & board.all_pieces == 0:
+            moves.append(lsb)
+        elif lsb != position:
+            if lsb & board.all_white == 0:
+                moves.append(lsb)
+            break
+
+    return moves
