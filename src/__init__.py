@@ -1,0 +1,1 @@
+from .bitboard import Board

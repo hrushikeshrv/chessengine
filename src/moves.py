@@ -69,18 +69,20 @@ def get_white_rook_moves(board, position: int) -> list[int]:
     lsb = lsb_pos(masked_file)
     while True:
         lsb = lsb << 8
+        print(lsb)
         if lsb > HIGHEST_SQUARE:
             break
+        if lsb == position:
+            continue
+
         if lsb & board.all_pieces == 0:
             # If there is no piece at the current value of lsb,
             # we can move the piece there
             moves.append(lsb)
-        elif lsb != position:
-            # If there is some piece at the current value of lsb,
-            # and it is not the piece itself, then we can move our
-            # piece there if that piece is black
-            if lsb & board.all_white == 0:
-                moves.append(lsb)
+        elif lsb & board.all_white == 0:
+            moves.append(lsb)
+            break
+        else:
             break
 
     masked_rank = board.all_pieces & mask_rank[rank]
@@ -89,11 +91,15 @@ def get_white_rook_moves(board, position: int) -> list[int]:
         lsb = lsb << 1
         if lsb > HIGHEST_SQUARE:
             break
+        if lsb == position:
+            continue
+
         if lsb & board.all_pieces == 0:
             moves.append(lsb)
-        elif lsb != position:
-            if lsb & board.all_white == 0:
-                moves.append(lsb)
+        elif lsb & board.all_white == 0:
+            moves.append(lsb)
+            break
+        else:
             break
 
     return moves
