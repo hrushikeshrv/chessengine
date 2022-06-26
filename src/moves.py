@@ -69,7 +69,6 @@ def get_white_rook_moves(board, position: int) -> list[int]:
     lsb = lsb_pos(masked_file)
     while True:
         lsb = lsb << 8
-        print(lsb)
         if lsb > HIGHEST_SQUARE:
             break
         if lsb == position:

@@ -62,6 +62,9 @@ class Board:
             ("black", "knights"): self.black_knights,
             ("black", "pawns"): self.black_pawns,
         }
+    
+    def __repr__(self):
+        board = bin(self.all_pieces)[2:]
 
     def get_side_bitboard(self, side: str) -> int:
         """
@@ -105,7 +108,7 @@ class Board:
         """
         return self.get_piece_bitboard(side=self.side, piece=piece)
 
-    def update_secondary_board_attrs(self) -> None:
+    def update_board_state(self) -> None:
         """
         Updates self.all_white, self.all_black, self.all_pieces, and self.boards_table
         every time a bitboard is updated
@@ -168,7 +171,7 @@ class Board:
             )
         attrname = side + "_" + piece
         setattr(self, attrname, board)
-        self.update_secondary_board_attrs()
+        self.update_board_state()
 
     def identify_piece_at(self, position: int) -> tuple:
         """
@@ -212,3 +215,6 @@ class Board:
         # Set the moved piece's final position (set "end" to 1)
         move_side_board |= mask_position[end_pos]
         self.set_piece_bitboard(start_side, start_piece, move_side_board)
+    
+    def print(self, piece: str, side: str) -> str:
+        pass
