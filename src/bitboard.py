@@ -12,8 +12,8 @@ class Board:
         self.white_rooks = 129  # (A1 and H1)
         self.white_knights = 66  # (B1 and G1)
         self.white_bishops = 36  # (C1 and F1)
-        self.white_queens = 16  # (D1)
-        self.white_kings = 8  # (E1)
+        self.white_queens = 8  # (D1)
+        self.white_kings = 16  # (E1)
 
         self.black_pawns = 71776119061217280  # (A7 to H7)
         self.black_rooks = 9295429630892703744  # (A8 and H8)
@@ -64,7 +64,7 @@ class Board:
         }
     
     def __repr__(self):
-        piece_list = [' ' for _ in range(64)]
+        piece_list = ['\u2001' for _ in range(64)]
         unicode_piece = {
             ('white', 'kings'): '\u2654',
             ('white', 'queens'): '\u2655',
@@ -92,7 +92,7 @@ class Board:
         
         board_repr = ''
         for i in range(8):
-            board_repr += '\u2001'.join(piece_list[8*i:8*i+8])
+            board_repr += '\u2001'.join(piece_list[8*i:8*i+8][::-1])
             board_repr += '\n'
         return board_repr
     
