@@ -62,40 +62,40 @@ class Board:
             ("black", "knights"): self.black_knights,
             ("black", "pawns"): self.black_pawns,
         }
-    
+
     def __repr__(self):
-        piece_list = ['\u2001' for _ in range(64)]
+        piece_list = ["\u2001" for _ in range(64)]
         unicode_piece = {
-            ('white', 'kings'): '\u2654',
-            ('white', 'queens'): '\u2655',
-            ('white', 'rooks'): '\u2656',
-            ('white', 'bishops'): '\u2657',
-            ('white', 'knights'): '\u2658',
-            ('white', 'pawns'): '\u2659',
-            ('black', 'kings'): '\u265A',
-            ('black', 'queens'): '\u265B',
-            ('black', 'rooks'): '\u265C',
-            ('black', 'bishops'): '\u265D',
-            ('black', 'knights'): '\u265E',
-            ('black', 'pawns'): '\u265F',
+            ("white", "kings"): "\u2654",
+            ("white", "queens"): "\u2655",
+            ("white", "rooks"): "\u2656",
+            ("white", "bishops"): "\u2657",
+            ("white", "knights"): "\u2658",
+            ("white", "pawns"): "\u2659",
+            ("black", "kings"): "\u265A",
+            ("black", "queens"): "\u265B",
+            ("black", "rooks"): "\u265C",
+            ("black", "bishops"): "\u265D",
+            ("black", "knights"): "\u265E",
+            ("black", "pawns"): "\u265F",
         }
-        
+
         def add_bitboard_to_repr(board, s, p):
             board_string = bin(board)[2:]
-            board_string = '0'*(64-len(board_string)) + board_string
+            board_string = "0" * (64 - len(board_string)) + board_string
             for _ in range(64):
-                if board_string[_] == '1':
+                if board_string[_] == "1":
                     piece_list[_] = unicode_piece[(s, p)]
-        
+
         for side, piece in self.boards_table:
             add_bitboard_to_repr(self.boards_table[(side, piece)], side, piece)
-        
-        board_repr = ''
+
+        board_repr = ""
         for i in range(8):
-            board_repr += '\u2001'.join(piece_list[8*i:8*i+8][::-1])
-            board_repr += '\n'
+            board_repr += "\u2001".join(piece_list[8 * i : 8 * i + 8][::-1])
+            board_repr += "\n"
         return board_repr
-    
+
     def __str__(self):
         return self.__repr__()
 
@@ -248,6 +248,6 @@ class Board:
         # Set the moved piece's final position (set "end" to 1)
         move_side_board |= mask_position[end_pos]
         self.set_piece_bitboard(start_side, start_piece, move_side_board)
-    
+
     def print(self, piece: str, side: str) -> str:
         pass
