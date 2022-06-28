@@ -20,6 +20,12 @@ class TestMoves(unittest.TestCase):
         board.move(2**8, 2**16)
         moves = get_white_rook_moves(board, 1)
         self.assertEqual(moves, [2**8])
+        
+        board.move(2, 2**17)
+        board.move(4, 2**18)
+        board.move(8, 2**19)
+        moves = get_white_rook_moves(board, 1)
+        self.assertEqual(moves, [2**8, 2**1, 2**2, 2**3])
 
 
 if __name__ == "__main__":
