@@ -1,3 +1,4 @@
+from math import log2
 from .lookup_tables import get_rank, get_file, mask_file, mask_rank, lsb_pos
 
 HIGHEST_SQUARE = 2**63
