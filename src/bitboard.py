@@ -248,7 +248,7 @@ class Board:
         # Set the moved piece's final position (set "end" to 1)
         move_side_board |= mask_position[end_pos]
         self.set_piece_bitboard(start_side, start_piece, move_side_board)
-        
+
     def make_moves(self, *moves: tuple[int]) -> None:
         """
         Given a number of moves as tuples (start, end), call
