@@ -63,43 +63,65 @@ def get_white_rook_moves(board, position: int) -> list[int]:
     Returns a list of end positions a white rook starting at position can reach
     """
     moves = []
-    rank = get_rank(position)
+
+    def is_valid_position(pos: int) -> tuple[bool, bool]:
+        """
+        Returns a tuple(bool). The first value indicates whether
+        this position is valid, the second indicates whether the
+        loop should break now
+        """
+        if pos > HIGHEST_SQUARE:
+            return False, True
+        if pos <= 0:
+            return False, True
+        if pos & board.all_pieces == 0:
+            return True, False
+        elif pos & board.all_white == 0:
+            return True, True
+        else:
+            return False, True
+
+    _ = position
+    while True:
+        # Move forward
+        _ = _ << 8
+        valid, should_break = is_valid_position(_)
+        if valid:
+            moves.append(_)
+        if should_break:
+            break
+
+    _ = position
+    while True:
+        # Move backward
+        _ = _ >> 8
+        valid, should_break = is_valid_position(_)
+        if valid:
+            moves.append(_)
+        if should_break:
+            break
+
     file = get_file(position)
-
-    masked_file = board.all_pieces & mask_file[file]
-    lsb = lsb_pos(masked_file)
-    while True:
-        lsb = lsb << 8
-        if lsb > HIGHEST_SQUARE:
-            break
-        if lsb == position:
-            continue
-
-        if lsb & board.all_pieces == 0:
-            # If there is no piece at the current value of lsb,
-            # we can move the piece there
-            moves.append(lsb)
-        elif lsb & board.all_white == 0:
-            moves.append(lsb)
-            break
-        else:
+    max_right = 8 - file
+    _ = position
+    for i in range(max_right):
+        # Move right
+        _ = _ << 1
+        valid, should_break = is_valid_position(_)
+        if valid:
+            moves.append(_)
+        if should_break:
             break
 
-    masked_rank = board.all_pieces & mask_rank[rank]
-    lsb = lsb_pos(masked_rank)
-    while True:
-        lsb = lsb << 1
-        if lsb > HIGHEST_SQUARE:
-            break
-        if lsb == position:
-            continue
-
-        if lsb & board.all_pieces == 0:
-            moves.append(lsb)
-        elif lsb & board.all_white == 0:
-            moves.append(lsb)
-            break
-        else:
+    max_left = file - 1
+    _ = position
+    for i in range(max_left):
+        # Move left
+        _ = _ >> 1
+        valid, should_break = is_valid_position(_)
+        if valid:
+            moves.append(_)
+        if should_break:
             break
 
     return moves
