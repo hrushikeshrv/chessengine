@@ -21,28 +21,24 @@ class TestMoves(unittest.TestCase):
         moves = get_white_rook_moves(board, 1)
         self.assertEqual(moves, [2**8])
 
-        board.move(2, 2**17)
-        board.move(4, 2**18)
-        board.move(8, 2**19)
-        moves = get_white_rook_moves(board, 1)
-        self.assertEqual(moves, [2**8, 2**1, 2**2, 2**3])
-
-        board.move(1, 2**35)
-        moves = set(get_white_rook_moves(board, 2**35))
+        board = Board("white")
+        board.move(1, 2**28)
+        moves = get_white_rook_moves(board, 2**28)
         self.assertEqual(
             moves,
-            {
-                2**19,
-                2**27,
-                2**43,
-                2**32,
-                2**33,
-                2**34,
+            [
                 2**36,
-                2**37,
-                2**38,
-                2**39,
-            },
+                2**44,
+                2**52,
+                2**20,
+                2**29,
+                2**30,
+                2**31,
+                2**27,
+                2**26,
+                2**25,
+                2**24,
+            ],
         )
 
 

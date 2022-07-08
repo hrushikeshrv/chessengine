@@ -123,5 +123,7 @@ def get_white_rook_moves(board, position: int) -> list[int]:
             moves.append(_)
         if should_break:
             break
-
+    
+    for move in moves:
+        print(log2(move))
     return moves
