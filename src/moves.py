@@ -132,4 +132,47 @@ def get_white_rook_moves(board, position: int) -> list[int]:
 
 
 def get_white_bishop_moves(board, position: int) -> list[int]:
-    pass
+    moves = []
+    
+    file = get_file(position)
+    max_right = 8 - file
+    _ = position
+    for i in range(max_right):
+        _ = _ << 9
+        valid, should_break = is_valid_position(board, _)
+        if valid:
+            moves.append(_)
+        if should_break:
+            break
+    
+    _ = position
+    for i in range(max_right):
+        _ = _ >> 7
+        valid, should_break = is_valid_position(board, _)
+        if valid:
+            moves.append(_)
+        if should_break:
+            break
+    
+    max_left = file - 1
+    _ = position
+    for i in range(max_left):
+        _ = _ << 7
+        valid, should_break = is_valid_position(board, _)
+        if valid:
+            moves.append(_)
+        if should_break:
+            break
+    
+    _ = position
+    for i in range(max_left):
+        _ = _ >> 9
+        valid, should_break = is_valid_position(board, _)
+        if valid:
+            moves.append(_)
+        if should_break:
+            break
+    
+    for move in moves:
+        print(log2(move))
+    return moves
