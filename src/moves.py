@@ -4,6 +4,27 @@ from .lookup_tables import get_rank, get_file, mask_file, mask_rank, lsb_pos
 HIGHEST_SQUARE = 2**63
 
 
+def is_valid_position(board, pos: int) -> tuple[bool, bool]:
+    """
+    Returns a tuple(bool). The first value indicates whether
+    this position is valid to move to, the second indicates
+    whether this is the last valid position in the direction
+    that the piece is currently moving (whether the piece
+    should try to explore the next position in the direction
+    that is being explored)
+    """
+    if pos > HIGHEST_SQUARE:
+        return False, True
+    if pos <= 0:
+        return False, True
+    if pos & board.all_pieces == 0:
+        return True, False
+    elif pos & board.all_white == 0:
+        return True, True
+    else:
+        return False, True
+
+
 def get_white_pawn_moves(
     board, position: int, allow_en_passant: bool = True
 ) -> list[int]:
@@ -64,28 +85,11 @@ def get_white_rook_moves(board, position: int) -> list[int]:
     """
     moves = []
 
-    def is_valid_position(pos: int) -> tuple[bool, bool]:
-        """
-        Returns a tuple(bool). The first value indicates whether
-        this position is valid, the second indicates whether the
-        loop should break now
-        """
-        if pos > HIGHEST_SQUARE:
-            return False, True
-        if pos <= 0:
-            return False, True
-        if pos & board.all_pieces == 0:
-            return True, False
-        elif pos & board.all_white == 0:
-            return True, True
-        else:
-            return False, True
-
     _ = position
     while True:
         # Move forward
         _ = _ << 8
-        valid, should_break = is_valid_position(_)
+        valid, should_break = is_valid_position(board, _)
         if valid:
             moves.append(_)
         if should_break:
@@ -95,7 +99,7 @@ def get_white_rook_moves(board, position: int) -> list[int]:
     while True:
         # Move backward
         _ = _ >> 8
-        valid, should_break = is_valid_position(_)
+        valid, should_break = is_valid_position(board, _)
         if valid:
             moves.append(_)
         if should_break:
@@ -107,7 +111,7 @@ def get_white_rook_moves(board, position: int) -> list[int]:
     for i in range(max_right):
         # Move right
         _ = _ << 1
-        valid, should_break = is_valid_position(_)
+        valid, should_break = is_valid_position(board, _)
         if valid:
             moves.append(_)
         if should_break:
@@ -118,12 +122,14 @@ def get_white_rook_moves(board, position: int) -> list[int]:
     for i in range(max_left):
         # Move left
         _ = _ >> 1
-        valid, should_break = is_valid_position(_)
+        valid, should_break = is_valid_position(board, _)
         if valid:
             moves.append(_)
         if should_break:
             break
-    
-    for move in moves:
-        print(log2(move))
+
     return moves
+
+
+def get_white_bishop_moves(board, position: int) -> list[int]:
+    pass
