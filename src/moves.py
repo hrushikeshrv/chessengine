@@ -1,5 +1,5 @@
 from math import log2
-from .lookup_tables import get_file
+from .lookup_tables import get_file, get_rank
 
 HIGHEST_SQUARE = 2**63
 
@@ -132,8 +132,11 @@ def get_white_rook_moves(board, position: int) -> list[int]:
 
 
 def get_white_bishop_moves(board, position: int) -> list[int]:
+    """
+    Returns a list of end positions a white bishop starting at position can reach
+    """
     moves = []
-    
+
     file = get_file(position)
     max_right = 8 - file
     _ = position
@@ -144,7 +147,7 @@ def get_white_bishop_moves(board, position: int) -> list[int]:
             moves.append(_)
         if should_break:
             break
-    
+
     _ = position
     for i in range(max_right):
         _ = _ >> 7
@@ -153,7 +156,7 @@ def get_white_bishop_moves(board, position: int) -> list[int]:
             moves.append(_)
         if should_break:
             break
-    
+
     max_left = file - 1
     _ = position
     for i in range(max_left):
@@ -163,7 +166,7 @@ def get_white_bishop_moves(board, position: int) -> list[int]:
             moves.append(_)
         if should_break:
             break
-    
+
     _ = position
     for i in range(max_left):
         _ = _ >> 9
@@ -172,5 +175,65 @@ def get_white_bishop_moves(board, position: int) -> list[int]:
             moves.append(_)
         if should_break:
             break
-    
+
+    return moves
+
+
+def get_white_knight_moves(board, position: int) -> list[int]:
+    """
+    Returns a list of end positions a white knight starting at position can reach
+    """
+    moves = []
+
+    rank = get_rank(position)
+    file = get_file(position)
+
+    if rank >= 3:
+        if file >= 2:
+            _ = position >> 17
+            valid, should_break = is_valid_position(board, _)
+            if valid:
+                moves.append(_)
+        if file <= 7:
+            _ = position >> 15
+            valid, should_break = is_valid_position(board, _)
+            if valid:
+                moves.append(_)
+
+    if rank >= 2:
+        if file >= 3:
+            _ = position >> 10
+            valid, should_break = is_valid_position(board, _)
+            if valid:
+                moves.append(_)
+        if file <= 6:
+            _ = position >> 6
+            valid, should_break = is_valid_position(board, _)
+            if valid:
+                moves.append(_)
+
+    if rank <= 6:
+        if file >= 2:
+            _ = position << 15
+            valid, should_break = is_valid_position(board, _)
+            if valid:
+                moves.append(_)
+        if file <= 7:
+            _ = position << 17
+            valid, should_break = is_valid_position(board, _)
+            if valid:
+                moves.append(_)
+
+    if rank <= 7:
+        if file >= 3:
+            _ = position << 6
+            valid, should_break = is_valid_position(board, _)
+            if valid:
+                moves.append(_)
+        if file <= 6:
+            _ = position << 10
+            valid, should_break = is_valid_position(board, _)
+            if valid:
+                moves.append(_)
+
     return moves
