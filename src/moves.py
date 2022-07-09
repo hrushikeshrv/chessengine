@@ -1,5 +1,5 @@
 from math import log2
-from .lookup_tables import get_rank, get_file, mask_file, mask_rank, lsb_pos
+from .lookup_tables import get_file
 
 HIGHEST_SQUARE = 2**63
 
@@ -173,6 +173,4 @@ def get_white_bishop_moves(board, position: int) -> list[int]:
         if should_break:
             break
     
-    for move in moves:
-        print(log2(move))
     return moves

@@ -1,6 +1,6 @@
 import unittest
 from src.bitboard import Board
-from src.moves import get_white_pawn_moves, get_white_rook_moves
+from src.moves import get_white_pawn_moves, get_white_rook_moves, get_white_bishop_moves
 
 
 class TestMoves(unittest.TestCase):
@@ -40,6 +40,15 @@ class TestMoves(unittest.TestCase):
                 2**24,
             ],
         )
+
+    def test_get_white_bishop_moves(self):
+        board = Board('white')
+        moves = get_white_bishop_moves(board, 4)
+        self.assertEqual(moves, [])
+        
+        board.move(4, 2**18)
+        moves = get_white_bishop_moves(board, 2**18)
+        self.assertEqual(moves, [2**27, 2**36, 2**45, 2**54, 2**25, 2**32])
 
 
 if __name__ == "__main__":
