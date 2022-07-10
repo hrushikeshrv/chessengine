@@ -5,7 +5,7 @@ HIGHEST_SQUARE = 2**63
 
 
 def check_valid_position(
-    board, pos: int, moves: list[int], auto_add: bool = True
+    board, side: str, pos: int, moves: list[int], auto_add: bool = True
 ) -> tuple[bool, bool]:
     """
     Returns a tuple(bool). The first value indicates whether
@@ -16,7 +16,7 @@ def check_valid_position(
     that is being explored)
 
     If auto_add is True, adds the position to the moves list
-    automatically if the move is valid
+    if the move is valid
     """
     if pos > HIGHEST_SQUARE:
         return False, True
@@ -26,7 +26,11 @@ def check_valid_position(
         if auto_add:
             moves.append(pos)
         return True, False
-    elif pos & board.all_white == 0:
+    elif side == "white" and pos & board.all_white == 0:
+        if auto_add:
+            moves.append(pos)
+        return True, True
+    elif side == "black" and pos & board.all_black == 0:
         if auto_add:
             moves.append(pos)
         return True, True
@@ -98,7 +102,7 @@ def get_white_rook_moves(board, position: int) -> list[int]:
     while True:
         # Move forward
         _ = _ << 8
-        valid, should_break = check_valid_position(board, _, moves)
+        valid, should_break = check_valid_position(board, "white", _, moves)
         if should_break:
             break
 
@@ -106,7 +110,7 @@ def get_white_rook_moves(board, position: int) -> list[int]:
     while True:
         # Move backward
         _ = _ >> 8
-        valid, should_break = check_valid_position(board, _, moves)
+        valid, should_break = check_valid_position(board, "white", _, moves)
         if should_break:
             break
 
@@ -116,7 +120,7 @@ def get_white_rook_moves(board, position: int) -> list[int]:
     for i in range(max_right):
         # Move right
         _ = _ << 1
-        valid, should_break = check_valid_position(board, _, moves)
+        valid, should_break = check_valid_position(board, "white", _, moves)
         if should_break:
             break
 
@@ -125,7 +129,7 @@ def get_white_rook_moves(board, position: int) -> list[int]:
     for i in range(max_left):
         # Move left
         _ = _ >> 1
-        valid, should_break = check_valid_position(board, _, moves)
+        valid, should_break = check_valid_position(board, "white", _, moves)
         if should_break:
             break
 
@@ -143,14 +147,14 @@ def get_white_bishop_moves(board, position: int) -> list[int]:
     _ = position
     for i in range(max_right):
         _ = _ << 9
-        valid, should_break = check_valid_position(board, _, moves)
+        valid, should_break = check_valid_position(board, "white", _, moves)
         if should_break:
             break
 
     _ = position
     for i in range(max_right):
         _ = _ >> 7
-        valid, should_break = check_valid_position(board, _, moves)
+        valid, should_break = check_valid_position(board, "white", _, moves)
         if should_break:
             break
 
@@ -158,14 +162,14 @@ def get_white_bishop_moves(board, position: int) -> list[int]:
     _ = position
     for i in range(max_left):
         _ = _ << 7
-        valid, should_break = check_valid_position(board, _, moves)
+        valid, should_break = check_valid_position(board, "white", _, moves)
         if should_break:
             break
 
     _ = position
     for i in range(max_left):
         _ = _ >> 9
-        valid, should_break = check_valid_position(board, _, moves)
+        valid, should_break = check_valid_position(board, "white", _, moves)
         if should_break:
             break
 
@@ -184,34 +188,34 @@ def get_white_knight_moves(board, position: int) -> list[int]:
     if rank >= 3:
         if file >= 2:
             _ = position >> 17
-            check_valid_position(board, _, moves)
+            check_valid_position(board, "white", _, moves)
         if file <= 7:
             _ = position >> 15
-            check_valid_position(board, _, moves)
+            check_valid_position(board, "white", _, moves)
 
     if rank >= 2:
         if file >= 3:
             _ = position >> 10
-            check_valid_position(board, _, moves)
+            check_valid_position(board, "white", _, moves)
         if file <= 6:
             _ = position >> 6
-            check_valid_position(board, _, moves)
+            check_valid_position(board, "white", _, moves)
 
     if rank <= 6:
         if file >= 2:
             _ = position << 15
-            check_valid_position(board, _, moves)
+            check_valid_position(board, "white", _, moves)
         if file <= 7:
             _ = position << 17
-            check_valid_position(board, _, moves)
+            check_valid_position(board, "white", _, moves)
 
     if rank <= 7:
         if file >= 3:
             _ = position << 6
-            check_valid_position(board, _, moves)
+            check_valid_position(board, "white", _, moves)
         if file <= 6:
             _ = position << 10
-            check_valid_position(board, _, moves)
+            check_valid_position(board, "white", _, moves)
 
     return moves
 
@@ -224,34 +228,34 @@ def get_white_king_moves(board, position: int) -> list[int]:
 
     if rank >= 2:
         _ = position >> 8
-        check_valid_position(board, _, moves)
+        check_valid_position(board, "white", _, moves)
 
         if file >= 2:
             _ = position >> 9
-            check_valid_position(board, _, moves)
+            check_valid_position(board, "white", _, moves)
 
         if file <= 7:
             _ = position >> 7
-            check_valid_position(board, _, moves)
+            check_valid_position(board, "white", _, moves)
 
     if rank <= 7:
         _ = position << 8
-        check_valid_position(board, _, moves)
+        check_valid_position(board, "white", _, moves)
 
         if file >= 2:
             _ = position << 7
-            check_valid_position(board, _, moves)
+            check_valid_position(board, "white", _, moves)
 
         if file <= 7:
             _ = position << 9
-            check_valid_position(board, _, moves)
+            check_valid_position(board, "white", _, moves)
 
     if file >= 2:
         _ = position >> 1
-        check_valid_position(board, _, moves)
+        check_valid_position(board, "white", _, moves)
 
     if file <= 7:
         _ = position << 1
-        check_valid_position(board, _, moves)
+        check_valid_position(board, "white", _, moves)
 
     return moves
