@@ -237,3 +237,60 @@ def get_white_knight_moves(board, position: int) -> list[int]:
                 moves.append(_)
 
     return moves
+
+
+def get_white_king_moves(board, position: int) -> list[int]:
+    moves = []
+    
+    rank = get_rank(position)
+    file = get_file(position)
+    
+    if rank >= 2:
+        _ = position >> 8
+        valid, should_break = is_valid_position(board, _)
+        if valid:
+            moves.append(_)
+        
+        if file >= 2:
+            _ = position >> 9
+            valid, should_break = is_valid_position(board, _)
+            if valid:
+                moves.append(_)
+        
+        if file <= 7:
+            _ = position >> 7
+            valid, should_break = is_valid_position(board, _)
+            if valid:
+                moves.append(_)
+    
+    if rank <= 7:
+        _ = position << 8
+        valid, should_break = is_valid_position(board, _)
+        if valid:
+            moves.append(_)
+        
+        if file >= 2:
+            _ = position << 7
+            valid, should_break = is_valid_position(board, _)
+            if valid:
+                moves.append(_)
+        
+        if file <= 7:
+            _ = position << 9
+            valid, should_break = is_valid_position(board, _)
+            if valid:
+                moves.append(_)
+    
+    if file >= 2:
+        _ = position >> 1
+        valid, should_break = is_valid_position(board, _)
+        if valid:
+            moves.append(_)
+    
+    if file <= 7:
+        _ = position << 1
+        valid, should_break = is_valid_position(board, _)
+        if valid:
+            moves.append(_)
+    
+    return moves
