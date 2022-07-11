@@ -258,4 +258,6 @@ def get_white_king_moves(board, position: int) -> list[int]:
         _ = position << 1
         check_valid_position(board, "white", _, moves)
 
+    for move in moves:
+        print(log2(move))
     return moves

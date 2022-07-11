@@ -227,6 +227,11 @@ class Board:
         """
         start_pos = log2(start)
         end_pos = log2(end)
+        if not isinstance(start_pos, int):
+            raise ValueError("The start position provided is not a power of 2")
+        if not isinstance(end_pos, int):
+            raise ValueError("The end position provided is not a power of 2")
+        
         start_side, start_piece, start_board = self.identify_piece_at(start)
         if start_side is None:
             raise ValueError(f"There is no piece at position {start_pos} to move")
