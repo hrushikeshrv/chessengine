@@ -257,7 +257,8 @@ def get_white_king_moves(board, position: int) -> list[int]:
     if file <= 7:
         _ = position << 1
         check_valid_position(board, "white", _, moves)
-
-    for move in moves:
-        print(log2(move))
     return moves
+
+
+def get_white_queen_moves(board, position: int) -> list[int]:
+    return get_white_rook_moves(board, position) + get_white_knight_moves(board, position)

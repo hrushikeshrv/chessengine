@@ -227,9 +227,9 @@ class Board:
         """
         start_pos = log2(start)
         end_pos = log2(end)
-        if not isinstance(start_pos, int):
+        if not start_pos.is_integer():
             raise ValueError("The start position provided is not a power of 2")
-        if not isinstance(end_pos, int):
+        if not end_pos.is_integer():
             raise ValueError("The end position provided is not a power of 2")
         
         start_side, start_piece, start_board = self.identify_piece_at(start)
