@@ -231,7 +231,7 @@ class Board:
             raise ValueError("The start position provided is not a power of 2")
         if not end_pos.is_integer():
             raise ValueError("The end position provided is not a power of 2")
-        
+
         start_side, start_piece, start_board = self.identify_piece_at(start)
         if start_side is None:
             raise ValueError(f"There is no piece at position {start_pos} to move")
