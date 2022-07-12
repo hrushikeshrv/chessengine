@@ -44,51 +44,26 @@ def get_white_pawn_moves(
     """
     Returns a list of end positions a white pawn starting at position can reach
     """
+    #
     moves = []
-    side = "white"
-    if position << 8 <= HIGHEST_SQUARE:
-        target_side, target_piece, target_board = board.identify_piece_at(position << 8)
-        if target_side != side:
-            moves.append(position << 8)
-    if position << 9 <= HIGHEST_SQUARE:
-        target_side, target_piece, target_board = board.identify_piece_at(position << 9)
-        if target_side != side and target_side is not None:
-            moves.append(position << 9)
-        if target_side is None:
-            (
-                en_passant_side,
-                en_passant_piece,
-                en_passant_board,
-            ) = board.identify_piece_at(position << 1)
-            if (
-                allow_en_passant
-                and en_passant_side is not None
-                and en_passant_side != side
-            ):
-                moves.append(position << 9)
-    if position << 7 <= HIGHEST_SQUARE:
-        target_side, target_piece, target_board = board.identify_piece_at(position << 7)
-        if target_side != side and target_side is not None:
-            moves.append(position << 7)
-        if target_side is None:
-            (
-                en_passant_side,
-                en_passant_piece,
-                en_passant_board,
-            ) = board.identify_piece_at(position >> 1)
-            if (
-                allow_en_passant
-                and en_passant_side is not None
-                and en_passant_side != side
-            ):
-                moves.append(position << 7)
-    if position <= 2**15:
-        double_side, double_piece, double_board = board.identify_piece_at(
-            position << 16
-        )
-        _, _, _ = board.identify_piece_at(position << 8)
-        if double_side != side and _ is None:
-            moves.append(position << 16)
+    _ = position << 8
+    valid, should_break = check_valid_position(board, 'white', _, moves)
+
+    rank = get_rank(position)
+    if rank == 2:
+        _ = position << 16
+        if not should_break:
+            check_valid_position(board, 'white', _, moves)
+
+    if allow_en_passant:
+        file = get_file(position)
+        if file >= 2:
+            _ = position << 7
+            check_valid_position(board, 'white', _, moves)
+        if file <= 7:
+            _ = position << 9
+            check_valid_position(board, 'white', _, moves)
+            
     return moves
 
 
@@ -221,6 +196,9 @@ def get_white_knight_moves(board, position: int) -> list[int]:
 
 
 def get_white_king_moves(board, position: int) -> list[int]:
+    """
+    Returns a list of end positions a white king starting at position can reach
+    """
     moves = []
 
     rank = get_rank(position)
@@ -261,4 +239,33 @@ def get_white_king_moves(board, position: int) -> list[int]:
 
 
 def get_white_queen_moves(board, position: int) -> list[int]:
+    """
+    Returns a list of end positions a white queen starting at position can reach
+    """
     return get_white_rook_moves(board, position) + get_white_knight_moves(board, position)
+
+
+def get_black_pawn_moves(board, position: int, allow_en_passant: bool = True) -> list[int]:
+    """
+    Returns a list of end positions a black pawn starting at position can reach
+    """
+    moves = []
+    _ = position >> 8
+    valid, should_break = check_valid_position(board, 'black', _, moves)
+    
+    rank = get_rank(position)
+    if rank == 7:
+        _ = position >> 16
+        if not should_break:
+            check_valid_position(board, 'black', _, moves)
+    
+    if allow_en_passant:
+        file = get_file(position)
+        if file >= 2:
+            _ = position >> 9
+            check_valid_position(board, 'black', _, moves)
+        if file <= 7:
+            _ = position >> 7
+            check_valid_position(board, 'black', _, moves)
+    
+    return moves
