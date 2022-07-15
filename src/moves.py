@@ -38,6 +38,50 @@ def check_valid_position(
         return False, True
 
 
+def get_rook_moves(board, side: str, position: int) -> list[int]:
+    """
+    Returns a list of end positions a rook of side=side can reach starting at position
+    """
+    moves = []
+
+    _ = position
+    while True:
+        # Move rank up
+        _ = _ << 8
+        valid, should_break = check_valid_position(board, side, _, moves)
+        if should_break:
+            break
+
+    _ = position
+    while True:
+        # Move rank down
+        _ = _ >> 8
+        valid, should_break = check_valid_position(board, side, _, moves)
+        if should_break:
+            break
+
+    file = get_file(position)
+    max_right = 8 - file
+    _ = position
+    for i in range(max_right):
+        # Move right
+        _ = _ << 1
+        valid, should_break = check_valid_position(board, side, _, moves)
+        if should_break:
+            break
+
+    max_left = file - 1
+    _ = position
+    for i in range(max_left):
+        # Move left
+        _ = _ >> 1
+        valid, should_break = check_valid_position(board, side, _, moves)
+        if should_break:
+            break
+
+    return moves
+
+
 def get_white_pawn_moves(
     board, position: int, allow_en_passant: bool = True
 ) -> list[int]:
@@ -71,44 +115,14 @@ def get_white_rook_moves(board, position: int) -> list[int]:
     """
     Returns a list of end positions a white rook starting at position can reach
     """
-    moves = []
+    return get_rook_moves(board, "white", position)
 
-    _ = position
-    while True:
-        # Move forward
-        _ = _ << 8
-        valid, should_break = check_valid_position(board, "white", _, moves)
-        if should_break:
-            break
 
-    _ = position
-    while True:
-        # Move backward
-        _ = _ >> 8
-        valid, should_break = check_valid_position(board, "white", _, moves)
-        if should_break:
-            break
-
-    file = get_file(position)
-    max_right = 8 - file
-    _ = position
-    for i in range(max_right):
-        # Move right
-        _ = _ << 1
-        valid, should_break = check_valid_position(board, "white", _, moves)
-        if should_break:
-            break
-
-    max_left = file - 1
-    _ = position
-    for i in range(max_left):
-        # Move left
-        _ = _ >> 1
-        valid, should_break = check_valid_position(board, "white", _, moves)
-        if should_break:
-            break
-
-    return moves
+def get_black_rook_moves(board, position: int) -> list[int]:
+    """
+    Returns a list of end positions a black rook starting at position can reach
+    """
+    return get_rook_moves(board, "black", position)
 
 
 def get_white_bishop_moves(board, position: int) -> list[int]:
