@@ -82,6 +82,59 @@ def get_rook_moves(board, side: str, position: int) -> list[int]:
     return moves
 
 
+def get_white_rook_moves(board, position: int) -> list[int]:
+    """
+    Returns a list of end positions a white rook starting at position can reach
+    """
+    return get_rook_moves(board, "white", position)
+
+
+def get_black_rook_moves(board, position: int) -> list[int]:
+    """
+    Returns a list of end positions a black rook starting at position can reach
+    """
+    return get_rook_moves(board, "black", position)
+
+
+def get_bishop_moves(board, side: str, position: int) -> list[int]:
+    """
+    Returns a list of end positions a bishop of side=side can reach starting at position
+    """
+    moves = []
+    file = get_file(position)
+    max_right = 8 - file
+    _ = position
+    for i in range(max_right):
+        _ = _ << 9
+        valid, should_break = check_valid_position(board, side, _, moves)
+        if should_break:
+            break
+
+    _ = position
+    for i in range(max_right):
+        _ = _ >> 7
+        valid, should_break = check_valid_position(board, side, _, moves)
+        if should_break:
+            break
+
+    max_left = file - 1
+    _ = position
+    for i in range(max_left):
+        _ = _ << 7
+        valid, should_break = check_valid_position(board, side, _, moves)
+        if should_break:
+            break
+
+    _ = position
+    for i in range(max_left):
+        _ = _ >> 9
+        valid, should_break = check_valid_position(board, side, _, moves)
+        if should_break:
+            break
+
+    return moves
+
+
 def get_white_pawn_moves(
     board, position: int, allow_en_passant: bool = True
 ) -> list[int]:
@@ -111,58 +164,18 @@ def get_white_pawn_moves(
     return moves
 
 
-def get_white_rook_moves(board, position: int) -> list[int]:
-    """
-    Returns a list of end positions a white rook starting at position can reach
-    """
-    return get_rook_moves(board, "white", position)
-
-
-def get_black_rook_moves(board, position: int) -> list[int]:
-    """
-    Returns a list of end positions a black rook starting at position can reach
-    """
-    return get_rook_moves(board, "black", position)
-
-
 def get_white_bishop_moves(board, position: int) -> list[int]:
     """
     Returns a list of end positions a white bishop starting at position can reach
     """
-    moves = []
+    return get_bishop_moves(board, "white", position)
 
-    file = get_file(position)
-    max_right = 8 - file
-    _ = position
-    for i in range(max_right):
-        _ = _ << 9
-        valid, should_break = check_valid_position(board, "white", _, moves)
-        if should_break:
-            break
 
-    _ = position
-    for i in range(max_right):
-        _ = _ >> 7
-        valid, should_break = check_valid_position(board, "white", _, moves)
-        if should_break:
-            break
-
-    max_left = file - 1
-    _ = position
-    for i in range(max_left):
-        _ = _ << 7
-        valid, should_break = check_valid_position(board, "white", _, moves)
-        if should_break:
-            break
-
-    _ = position
-    for i in range(max_left):
-        _ = _ >> 9
-        valid, should_break = check_valid_position(board, "white", _, moves)
-        if should_break:
-            break
-
-    return moves
+def get_black_bishop_moves(board, position: int) -> list[int]:
+    """
+    Returns a list of end positions a black bishop starting at position can reach
+    """
+    return get_bishop_moves(board, "black", position)
 
 
 def get_white_knight_moves(board, position: int) -> list[int]:
