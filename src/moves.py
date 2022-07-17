@@ -156,7 +156,7 @@ def get_knight_moves(board, side: str, position: int) -> list[int]:
     moves = []
     rank = get_rank(position)
     file = get_file(position)
-    
+
     if rank >= 3:
         if file >= 2:
             _ = position >> 17
@@ -164,7 +164,7 @@ def get_knight_moves(board, side: str, position: int) -> list[int]:
         if file <= 7:
             _ = position >> 15
             check_valid_position(board, side, _, moves)
-    
+
     if rank >= 2:
         if file >= 3:
             _ = position >> 10
@@ -172,7 +172,7 @@ def get_knight_moves(board, side: str, position: int) -> list[int]:
         if file <= 6:
             _ = position >> 6
             check_valid_position(board, side, _, moves)
-    
+
     if rank <= 6:
         if file >= 2:
             _ = position << 15
@@ -180,7 +180,7 @@ def get_knight_moves(board, side: str, position: int) -> list[int]:
         if file <= 7:
             _ = position << 17
             check_valid_position(board, side, _, moves)
-            
+
     if rank <= 7:
         if file >= 3:
             _ = position << 6
@@ -188,7 +188,7 @@ def get_knight_moves(board, side: str, position: int) -> list[int]:
         if file <= 6:
             _ = position << 10
             check_valid_position(board, side, _, moves)
-    
+
     return moves
 
 
@@ -196,14 +196,89 @@ def get_white_knight_moves(board, position: int) -> list[int]:
     """
     Returns a list of end positions a white knight starting at position can reach
     """
-    return get_knight_moves(board, 'white', position)
+    return get_knight_moves(board, "white", position)
 
 
 def get_black_knight_moves(board, position: int) -> list[int]:
     """
     Returns a list of end positions a black knight starting at position can reach
     """
-    return get_knight_moves(board, 'black', position)
+    return get_knight_moves(board, "black", position)
+
+
+def get_king_moves(board, side: str, position: int) -> list[int]:
+    """
+    Returns a list of end positions a king starting at position can reach
+    """
+    moves = []
+
+    rank = get_rank(position)
+    file = get_file(position)
+
+    if rank >= 2:
+        _ = position >> 8
+        check_valid_position(board, side, _, moves)
+
+        if file >= 2:
+            _ = position >> 9
+            check_valid_position(board, side, _, moves)
+
+        if file <= 7:
+            _ = position >> 7
+            check_valid_position(board, side, _, moves)
+
+    if rank <= 7:
+        _ = position << 8
+        check_valid_position(board, side, _, moves)
+
+        if file >= 2:
+            _ = position << 7
+            check_valid_position(board, side, _, moves)
+
+        if file <= 7:
+            _ = position << 9
+            check_valid_position(board, side, _, moves)
+
+    if file >= 2:
+        _ = position >> 1
+        check_valid_position(board, side, _, moves)
+
+    if file <= 7:
+        _ = position << 1
+        check_valid_position(board, side, _, moves)
+    return moves
+
+
+def get_white_king_moves(board, position: int) -> list[int]:
+    """
+    Returns a list of end positions a white king starting at position can reach
+    """
+    return get_king_moves(board, "white", position)
+
+
+def get_black_king_moves(board, position: int) -> list[int]:
+    """
+    Returns a list of end positions a black king starting at position can reach
+    """
+    return get_king_moves(board, "black", position)
+
+
+def get_white_queen_moves(board, position: int) -> list[int]:
+    """
+    Returns a list of end positions a white queen starting at position can reach
+    """
+    return get_white_rook_moves(board, position) + get_white_knight_moves(
+        board, position
+    )
+
+
+def get_black_queen_moves(board, position: int) -> list[int]:
+    """
+    Returns a list of end positions a black queen starting at position can reach
+    """
+    return get_black_rook_moves(board, position) + get_black_knight_moves(
+        board, position
+    )
 
 
 def get_white_pawn_moves(
@@ -233,58 +308,6 @@ def get_white_pawn_moves(
             check_valid_position(board, "white", _, moves)
 
     return moves
-
-
-def get_white_king_moves(board, position: int) -> list[int]:
-    """
-    Returns a list of end positions a white king starting at position can reach
-    """
-    moves = []
-
-    rank = get_rank(position)
-    file = get_file(position)
-
-    if rank >= 2:
-        _ = position >> 8
-        check_valid_position(board, "white", _, moves)
-
-        if file >= 2:
-            _ = position >> 9
-            check_valid_position(board, "white", _, moves)
-
-        if file <= 7:
-            _ = position >> 7
-            check_valid_position(board, "white", _, moves)
-
-    if rank <= 7:
-        _ = position << 8
-        check_valid_position(board, "white", _, moves)
-
-        if file >= 2:
-            _ = position << 7
-            check_valid_position(board, "white", _, moves)
-
-        if file <= 7:
-            _ = position << 9
-            check_valid_position(board, "white", _, moves)
-
-    if file >= 2:
-        _ = position >> 1
-        check_valid_position(board, "white", _, moves)
-
-    if file <= 7:
-        _ = position << 1
-        check_valid_position(board, "white", _, moves)
-    return moves
-
-
-def get_white_queen_moves(board, position: int) -> list[int]:
-    """
-    Returns a list of end positions a white queen starting at position can reach
-    """
-    return get_white_rook_moves(board, position) + get_white_knight_moves(
-        board, position
-    )
 
 
 def get_black_pawn_moves(
