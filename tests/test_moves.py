@@ -9,6 +9,7 @@ from src.moves import (
 )
 
 
+# TODO - Add tests for black pieces
 class TestMoves(unittest.TestCase):
     def test_get_white_pawn_moves(self):
         board = Board("white")

@@ -1,4 +1,6 @@
+from copy import copy
 from math import log2
+
 from .lookup_tables import mask_position, clear_position
 
 
@@ -98,6 +100,19 @@ class Board:
 
     def __str__(self):
         return self.__repr__()
+    
+    def __eq__(self, other):
+        if self.side != other.side:
+            return False
+        
+        for side, piece in self.boards_table:
+            if self.boards_table[(side, piece)] != other.boards_table[(side, piece)]:
+                return False
+            
+        return True
+        
+    def copy(self):
+        return copy(self)
 
     def get_side_bitboard(self, side: str) -> int:
         """
@@ -261,3 +276,15 @@ class Board:
         """
         for start, end in moves:
             self.move(start, end)
+            
+    def search_forward(self, depth: int = 5) -> list:
+        """
+        Recursively searches for all possible moves the board can make from this starting
+        condition breadth-first.
+        
+        Returns a list of board objects
+        """
+        if depth == 0:
+            return [self]
+        
+        end_states = []
