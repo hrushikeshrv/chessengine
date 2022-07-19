@@ -1,7 +1,22 @@
 from copy import copy
 from math import log2
 
+from .moves import (
+    get_white_pawn_moves,
+    get_white_rook_moves,
+    get_white_bishop_moves,
+    get_white_knight_moves,
+    get_white_king_moves,
+    get_white_queen_moves,
+    get_black_pawn_moves,
+    get_black_rook_moves,
+    get_black_bishop_moves,
+    get_black_knight_moves,
+    get_black_king_moves,
+    get_black_queen_moves
+)
 from .lookup_tables import mask_position, clear_position
+from .utils import get_bit_positions
 
 
 class Board:
@@ -122,7 +137,7 @@ class Board:
             return self.all_white
         return self.all_black
 
-    def get_piece_bitboard(self, side: str, piece: str) -> int:
+    def get_bitboard(self, side: str, piece: str) -> int:
         """
         Returns the bitboard of the passed side for the passed pieces.
         Calling with side="black" and piece="king" will return the black_kings bitboard, and so on.
@@ -136,12 +151,12 @@ class Board:
             "pawns",
         }:
             raise ValueError(
-                f"get_piece_bitboard got unknown piece.\nExpected one of {{'kings', 'queens', 'bishops', 'knights', "
+                f"get_bitboard got unknown piece.\nExpected one of {{'kings', 'queens', 'bishops', 'knights', "
                 f"'rooks', 'pawns'}}, got {piece} instead."
             )
         if side not in {"black", "white"}:
             raise ValueError(
-                f"get_piece_bitboard got unknown piece.\nExpected one of {{'white', 'black'}}, "
+                f"get_bitboard got unknown piece.\nExpected one of {{'white', 'black'}}, "
                 f"got {side} instead."
             )
         attrname = side + "_" + piece
@@ -154,7 +169,7 @@ class Board:
         white king, etc.
         piece can be one of - "kings", "queens", "bishops", "knights", "rooks", "pawns"
         """
-        return self.get_piece_bitboard(side=self.side, piece=piece)
+        return self.get_bitboard(side=self.side, piece=piece)
 
     def update_board_state(self) -> None:
         """
@@ -196,7 +211,7 @@ class Board:
             ("black", "pawns"): self.black_pawns,
         }
 
-    def set_piece_bitboard(self, side: str, piece: str, board: int) -> None:
+    def set_bitboard(self, side: str, piece: str, board: int) -> None:
         """
         Sets the bitboard for the passed arguments to the passed bitboard
         """
@@ -209,12 +224,12 @@ class Board:
             "pawns",
         }:
             raise ValueError(
-                f"get_piece_bitboard got unknown piece.\nExpected one of {{'kings', 'queens', 'bishops', 'knights', "
+                f"set_bitboard got unknown piece.\nExpected one of {{'kings', 'queens', 'bishops', 'knights', "
                 f"'rooks', 'pawns'}}, got {piece} instead."
             )
         if side not in {"black", "white"}:
             raise ValueError(
-                f"get_piece_bitboard got unknown piece.\nExpected one of {{'white', 'black'}}, "
+                f"set_bitboard got unknown piece.\nExpected one of {{'white', 'black'}}, "
                 f"got {side} instead."
             )
         attrname = side + "_" + piece
@@ -257,17 +272,17 @@ class Board:
             )
         if end_piece is not None:
             # Clear the captured piece's position (set "end" to 0)
-            opp_side_board = self.get_piece_bitboard(end_side, end_piece)
+            opp_side_board = self.get_bitboard(end_side, end_piece)
             opp_side_board &= clear_position[end_pos]
-            self.set_piece_bitboard(end_side, end_piece, opp_side_board)
+            self.set_bitboard(end_side, end_piece, opp_side_board)
 
         # Clear the moved piece's original position (set "start" to 0)
-        move_side_board = self.get_piece_bitboard(start_side, start_piece)
+        move_side_board = self.get_bitboard(start_side, start_piece)
         move_side_board &= clear_position[start_pos]
 
         # Set the moved piece's final position (set "end" to 1)
         move_side_board |= mask_position[end_pos]
-        self.set_piece_bitboard(start_side, start_piece, move_side_board)
+        self.set_bitboard(start_side, start_piece, move_side_board)
 
     def make_moves(self, *moves: tuple[int]) -> None:
         """
@@ -277,14 +292,42 @@ class Board:
         for start, end in moves:
             self.move(start, end)
             
-    def search_forward(self, depth: int = 5) -> list:
+    def get_moves(self, side: str, piece: str, position: int) -> list[int]:
+        """
+        Gets all end positions a piece of side can reach starting from position
+        """
+        move_gens = {
+            ("white", "kings"): get_white_king_moves,
+            ("white", "queens"): get_white_queen_moves,
+            ("white", "rooks"): get_white_rook_moves,
+            ("white", "bishops"): get_white_bishop_moves,
+            ("white", "knights"): get_white_knight_moves,
+            ("white", "pawns"): get_white_pawn_moves,
+            ("black", "kings"): get_black_king_moves,
+            ("black", "queens"): get_black_queen_moves,
+            ("black", "rooks"): get_black_rook_moves,
+            ("black", "bishops"): get_black_bishop_moves,
+            ("black", "knights"): get_black_knight_moves,
+            ("black", "pawns"): get_black_pawn_moves,
+        }
+        # TODO - Add support for en passant move detection
+        return move_gens[(side, piece)](self, position)
+            
+    def search_forward(self, depth: int = 5):
         """
         Recursively searches for all possible moves the board can make from this starting
-        condition breadth-first.
-        
-        Returns a list of board objects
+        condition depth-first. Returns the best move to make as a tuple (start, end)
         """
         if depth == 0:
-            return [self]
+            return self
         
-        end_states = []
+        best_state = self
+        for side, piece in self.boards_table:
+            bitboard = self.get_bitboard(side, piece)
+            positions = get_bit_positions(bitboard)
+            
+            for position in positions:
+                moves = self.get_moves(side, piece, position)
+                for move in moves:
+                    board_copy = self.copy()
+                    board_copy.move(start=position, end=move)
