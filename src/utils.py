@@ -9,5 +9,5 @@ def get_bit_positions(bitboard: int) -> list[int]:
         if bitboard & mask:
             positions.append(mask)
         mask = mask << 1
-        
+
     return positions

@@ -267,7 +267,7 @@ def get_white_queen_moves(board, position: int) -> list[int]:
     """
     Returns a list of end positions a white queen starting at position can reach
     """
-    return get_white_rook_moves(board, position) + get_white_knight_moves(
+    return get_white_rook_moves(board, position) + get_white_bishop_moves(
         board, position
     )
 
@@ -276,7 +276,7 @@ def get_black_queen_moves(board, position: int) -> list[int]:
     """
     Returns a list of end positions a black queen starting at position can reach
     """
-    return get_black_rook_moves(board, position) + get_black_knight_moves(
+    return get_black_rook_moves(board, position) + get_black_bishop_moves(
         board, position
     )
 

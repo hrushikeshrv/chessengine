@@ -13,7 +13,7 @@ from .moves import (
     get_black_bishop_moves,
     get_black_knight_moves,
     get_black_king_moves,
-    get_black_queen_moves
+    get_black_queen_moves,
 )
 from .lookup_tables import mask_position, clear_position
 from .utils import get_bit_positions
@@ -115,19 +115,23 @@ class Board:
 
     def __str__(self):
         return self.__repr__()
-    
+
     def __eq__(self, other):
         if self.side != other.side:
             return False
-        
+
         for side, piece in self.boards_table:
             if self.boards_table[(side, piece)] != other.boards_table[(side, piece)]:
                 return False
-            
+
         return True
-        
+
     def copy(self):
         return copy(self)
+    
+    @property
+    def score(self):
+        return 0
 
     def get_side_bitboard(self, side: str) -> int:
         """
@@ -161,6 +165,46 @@ class Board:
             )
         attrname = side + "_" + piece
         return getattr(self, attrname)
+    
+    @property
+    def board_pieces(self):
+        if self.side == 'white':
+            return [
+                ("white", "kings"),
+                ("white", "queens"),
+                ("white", "rooks"),
+                ("white", "bishops"),
+                ("white", "knights"),
+                ("white", "pawns"),
+            ]
+        return [
+            ("black", "kings"),
+            ("black", "queens"),
+            ("black", "rooks"),
+            ("black", "bishops"),
+            ("black", "knights"),
+            ("black", "pawns"),
+        ]
+    
+    @property
+    def opponent_pieces(self):
+        if self.side == 'black':
+            return [
+                ("white", "kings"),
+                ("white", "queens"),
+                ("white", "rooks"),
+                ("white", "bishops"),
+                ("white", "knights"),
+                ("white", "pawns"),
+            ]
+        return [
+            ("black", "kings"),
+            ("black", "queens"),
+            ("black", "rooks"),
+            ("black", "bishops"),
+            ("black", "knights"),
+            ("black", "pawns"),
+        ]
 
     def get_self_piece_bitboard(self, piece: str) -> int:
         """
@@ -242,6 +286,8 @@ class Board:
         the identified piece, its side, and its board if a piece is found
         at that position, None otherwise.
         """
+        print(bin(self.all_pieces))
+        print(bin(position), log2(position))
         if self.all_pieces & position == 0:
             # If we don't return here, the for loop will definitely return a non-null value
             return None, None, None
@@ -262,9 +308,12 @@ class Board:
         if not end_pos.is_integer():
             raise ValueError("The end position provided is not a power of 2")
 
+        print(f'Verifying start position {start_pos}')
         start_side, start_piece, start_board = self.identify_piece_at(start)
         if start_side is None:
             raise ValueError(f"There is no piece at position {start_pos} to move")
+        
+        print(f'Verifying end position {end_pos}')
         end_side, end_piece, end_board = self.identify_piece_at(end)
         if end_side == start_side:
             raise ValueError(
@@ -291,7 +340,7 @@ class Board:
         """
         for start, end in moves:
             self.move(start, end)
-            
+
     def get_moves(self, side: str, piece: str, position: int) -> list[int]:
         """
         Gets all end positions a piece of side can reach starting from position
@@ -312,22 +361,59 @@ class Board:
         }
         # TODO - Add support for en passant move detection
         return move_gens[(side, piece)](self, position)
-            
-    def search_forward(self, depth: int = 5):
+
+    def search_forward(self, depth: int = 5) -> list:
         """
         Recursively searches for all possible moves the board can make from this starting
         condition depth-first. Returns the best move to make as a tuple (start, end)
         """
         if depth == 0:
-            return self
+            return []
         
-        best_state = self
-        for side, piece in self.boards_table:
-            bitboard = self.get_bitboard(side, piece)
-            positions = get_bit_positions(bitboard)
-            
+        print('\nSearching from -')
+        print(self)
+        print('==============\n')
+        
+        optimal_score = 0
+        optimal_path = []
+        board_copy = self.copy()
+        for side, piece in board_copy.board_pieces:
+            current_path = []
+            positions = get_bit_positions(board_copy.get_bitboard(side, piece))
+            print(f'Looking for {side} {piece} on ')
+            print(board_copy)
+            print(f'Found positions - {list(map(log2, positions))}')
             for position in positions:
-                moves = self.get_moves(side, piece, position)
+                moves = board_copy.get_moves(side, piece, position)
+                print(f'Found possible moves for {side} {piece} - {list(map(log2, moves))}' if moves else f'Found no moves for {side} {piece}')
                 for move in moves:
-                    board_copy = self.copy()
                     board_copy.move(start=position, end=move)
+                    print(f'Moved from {log2(position)} to {log2(move)}')
+                    
+                    # print('-----------------------------\n')
+                    # print(board_copy)
+                    
+                    current_path.append((position, move))
+                    for opp_side, opp_piece in board_copy.opponent_pieces:
+                        print(f'Looking for {opp_side} {opp_piece} on ')
+                        print(board_copy)
+                        opp_positions = get_bit_positions(board_copy.get_bitboard(opp_side, opp_piece))
+                        print(f'Found positions - {list(map(log2, opp_positions))}')
+                        for opp_pos in opp_positions:
+                            opp_moves = board_copy.get_moves(opp_side, opp_piece, opp_pos)
+                            print(
+                                f'Found possible moves for {opp_side} {opp_piece} - {list(map(log2, opp_moves))}' if opp_moves else f'Found no moves for {opp_side} {opp_piece}')
+                            for opp_move in opp_moves:
+                                board_copy.move(opp_pos, opp_move)
+                                print(f'Moved from {log2(opp_pos)} to {log2(opp_move)}')
+                                
+                                # print('\n')
+                                # print(board_copy)
+                                
+                                current_path.extend(board_copy.search_forward(depth-1))
+                                board_copy.move(opp_move, opp_pos)
+            if board_copy.score > optimal_score:
+                optimal_score = board_copy.score
+                optimal_path = current_path
+            board_copy = self.copy()
+        return optimal_path
