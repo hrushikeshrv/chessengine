@@ -290,13 +290,13 @@ def get_white_pawn_moves(
     #
     moves = []
     _ = position << 8
-    valid, should_break = check_valid_position(board, "white", _, moves)
-
-    rank = get_rank(position)
-    if rank == 2:
-        _ = position << 16
-        if not should_break:
-            check_valid_position(board, "white", _, moves)
+    if board.all_pieces & _ == 0:
+        moves.append(_)
+        rank = get_rank(position)
+        if rank == 2:
+            _ = position << 16
+            if board.all_pieces & _ == 0:
+                moves.append(_)
 
     if allow_en_passant:
         file = get_file(position)
@@ -318,13 +318,13 @@ def get_black_pawn_moves(
     """
     moves = []
     _ = position >> 8
-    valid, should_break = check_valid_position(board, "black", _, moves)
-
-    rank = get_rank(position)
-    if rank == 7:
-        _ = position >> 16
-        if not should_break:
-            check_valid_position(board, "black", _, moves)
+    if board.all_pieces & _ == 0:
+        moves.append(_)
+        rank = get_rank(position)
+        if rank == 7:
+            _ = position >> 16
+            if board.all_pieces & _ == 0:
+                moves.append(_)
 
     if allow_en_passant:
         file = get_file(position)

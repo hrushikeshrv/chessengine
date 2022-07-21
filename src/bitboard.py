@@ -368,18 +368,14 @@ class Board:
         if depth == 0:
             return []
         
-        print('\nSearching from -')
-        print(self)
-        print('==============\n')
-        
         optimal_score = 0
         optimal_path = []
         board_copy = self.copy()
         for side, piece in board_copy.board_pieces:
             # current_path = []
             positions = get_bit_positions(board_copy.get_bitboard(side, piece))
-            print(f'Looking for {side} {piece} on ')
-            print(board_copy)
+            # print(f'Looking for {side} {piece} on ')
+            # print(board_copy)
             # print(f'-- Found positions - {list(map(log2, positions))}')
             for position in positions:
                 current_path = []
@@ -406,7 +402,7 @@ class Board:
                             #     f'\t\t\t\tFound possible moves for {opp_side} {opp_piece} at position {log2(opp_pos)} - {list(map(log2, opp_moves))}' if opp_moves else f'Found no moves for {opp_side} {opp_piece}')
                             for opp_move in opp_moves:
                                 board_copy.move(opp_pos, opp_move)
-                                # print(f'\t\t\t\t\t--- Moved from {log2(opp_pos)} to {log2(opp_move)}')
+                                print(f'\t\t\t\t\t--- Moved from {log2(opp_pos)} to {log2(opp_move)}')
                                 
                                 # print('\n')
                                 # print(board_copy)
@@ -414,6 +410,7 @@ class Board:
                                 current_path.extend(board_copy.search_forward(depth-1))
                                 print(f'\t\t--- Current path becomes - {current_path} ---')
                                 board_copy.move(start=opp_move, end=opp_pos)
+                    print(f'The board state is - \n{board_copy}')
                     board_copy.move(start=move, end=position)
             if board_copy.score >= optimal_score:
                 print(f'Found a new optimal path - {list(map(lambda x: (log2(x[0]), log2(x[1])), current_path))}')
