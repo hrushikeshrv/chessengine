@@ -79,6 +79,9 @@ class Board:
             ("black", "knights"): self.black_knights,
             ("black", "pawns"): self.black_pawns,
         }
+        
+        # Keep track of all moves made
+        self.moves = []
 
     def __repr__(self):
         piece_list = ["\u2001" for _ in range(64)]
@@ -296,7 +299,7 @@ class Board:
             if board & position > 0:
                 return side, piece, board
 
-    def move(self, start: int, end: int) -> None:
+    def move(self, start: int, end: int, track: bool = True) -> None:
         """
         Moves the piece at start to end. Doesn't check anything, just makes
         the move (unless the start or end positions are invalid).
@@ -317,6 +320,12 @@ class Board:
             raise ValueError(
                 f"Can't move from {start_pos} to {end_pos}, both positions have {end_side} pieces."
             )
+        
+        if track:
+            # Keep track of the board state before the move was made so we can undo
+            start_state = (start, end, end_side, end_piece, end_board)
+            self.moves.append(start_state)
+        
         if end_piece is not None:
             # Clear the captured piece's position (set "end" to 0)
             opp_side_board = self.get_bitboard(end_side, end_piece)
@@ -338,6 +347,13 @@ class Board:
         """
         for start, end in moves:
             self.move(start, end)
+            
+    def undo_move(self):
+        end, start, side, piece, board = self.moves.pop()
+        self.move(start=start, end=end, track=False)
+        
+        if side is not None:
+            self.set_bitboard(side, piece, board)
 
     def get_moves(self, side: str, piece: str, position: int) -> list[int]:
         """
@@ -365,6 +381,7 @@ class Board:
         Recursively searches for all possible moves the board can make from this starting
         condition depth-first. Returns the best move to make as a tuple (start, end)
         """
+        print(depth)
         if depth == 0:
             return []
         
@@ -390,10 +407,10 @@ class Board:
                     # print(board_copy)
                     
                     current_path.append((position, move))
-                    print(f'\t--- Current path becomes - {current_path} ---')
+                    # print(f'\t--- Current path becomes - {current_path} ---')
                     for opp_side, opp_piece in board_copy.opponent_pieces:
-                        print(f'\t\t\t\n-------------------\n\t\t\tLooking for {opp_side} {opp_piece} on ')
-                        print(board_copy)
+                        # print(f'\t\t\t\n-------------------\n\t\t\tLooking for {opp_side} {opp_piece} on ')
+                        # print(board_copy)
                         opp_positions = get_bit_positions(board_copy.get_bitboard(opp_side, opp_piece))
                         # print(f'\t\t\tFound positions - {list(map(log2, opp_positions))}')
                         for opp_pos in opp_positions:
@@ -402,18 +419,18 @@ class Board:
                             #     f'\t\t\t\tFound possible moves for {opp_side} {opp_piece} at position {log2(opp_pos)} - {list(map(log2, opp_moves))}' if opp_moves else f'Found no moves for {opp_side} {opp_piece}')
                             for opp_move in opp_moves:
                                 board_copy.move(opp_pos, opp_move)
-                                print(f'\t\t\t\t\t--- Moved from {log2(opp_pos)} to {log2(opp_move)}')
+                                # print(f'\t\t\t\t\t--- Moved from {log2(opp_pos)} to {log2(opp_move)}')
                                 
                                 # print('\n')
                                 # print(board_copy)
                                 
                                 current_path.extend(board_copy.search_forward(depth-1))
-                                print(f'\t\t--- Current path becomes - {current_path} ---')
-                                board_copy.move(start=opp_move, end=opp_pos)
-                    print(f'The board state is - \n{board_copy}')
-                    board_copy.move(start=move, end=position)
+                                # print(f'\t\t--- Current path becomes - {current_path} ---')
+                                board_copy.undo_move()
+                    # print(f'The board state is - \n{board_copy}')
+                    board_copy.undo_move()
             if board_copy.score >= optimal_score:
-                print(f'Found a new optimal path - {list(map(lambda x: (log2(x[0]), log2(x[1])), current_path))}')
+                print(current_path)
                 optimal_score = board_copy.score
                 optimal_path = current_path
             board_copy = self.copy()
