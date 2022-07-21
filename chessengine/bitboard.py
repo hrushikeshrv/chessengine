@@ -79,7 +79,7 @@ class Board:
             ("black", "knights"): self.black_knights,
             ("black", "pawns"): self.black_pawns,
         }
-        
+
         # Keep track of all moves made
         self.moves = []
 
@@ -131,7 +131,7 @@ class Board:
 
     def copy(self):
         return copy(self)
-    
+
     @property
     def score(self):
         return 0
@@ -168,10 +168,10 @@ class Board:
             )
         attrname = side + "_" + piece
         return getattr(self, attrname)
-    
+
     @property
     def board_pieces(self):
-        if self.side == 'white':
+        if self.side == "white":
             return [
                 ("white", "kings"),
                 ("white", "queens"),
@@ -188,10 +188,10 @@ class Board:
             ("black", "knights"),
             ("black", "pawns"),
         ]
-    
+
     @property
     def opponent_pieces(self):
-        if self.side == 'black':
+        if self.side == "black":
             return [
                 ("white", "kings"),
                 ("white", "queens"),
@@ -310,22 +310,22 @@ class Board:
             raise ValueError("The start position provided is not a power of 2")
         if not end_pos.is_integer():
             raise ValueError("The end position provided is not a power of 2")
-        
+
         start_side, start_piece, start_board = self.identify_piece_at(start)
         if start_side is None:
             raise ValueError(f"There is no piece at position {start_pos} to move")
-        
+
         end_side, end_piece, end_board = self.identify_piece_at(end)
         if end_side == start_side:
             raise ValueError(
                 f"Can't move from {start_pos} to {end_pos}, both positions have {end_side} pieces."
             )
-        
+
         if track:
             # Keep track of the board state before the move was made so we can undo
             start_state = (start, end, end_side, end_piece, end_board)
             self.moves.append(start_state)
-        
+
         if end_piece is not None:
             # Clear the captured piece's position (set "end" to 0)
             opp_side_board = self.get_bitboard(end_side, end_piece)
@@ -347,11 +347,11 @@ class Board:
         """
         for start, end in moves:
             self.move(start, end)
-            
+
     def undo_move(self):
         end, start, side, piece, board = self.moves.pop()
         self.move(start=start, end=end, track=False)
-        
+
         if side is not None:
             self.set_bitboard(side, piece, board)
 
@@ -384,53 +384,35 @@ class Board:
         print(depth)
         if depth == 0:
             return []
-        
+
         optimal_score = 0
         optimal_path = []
         board_copy = self.copy()
         for side, piece in board_copy.board_pieces:
-            # current_path = []
             positions = get_bit_positions(board_copy.get_bitboard(side, piece))
-            # print(f'Looking for {side} {piece} on ')
-            # print(board_copy)
-            # print(f'-- Found positions - {list(map(log2, positions))}')
             for position in positions:
                 current_path = []
                 moves = board_copy.get_moves(side, piece, position)
-                # print(f'\tFound possible moves for {side} {piece} - {list(map(log2, moves))}' if moves else f'Found no moves for {side} {piece}')
                 for move in moves:
                     current_path = []
                     board_copy.move(start=position, end=move)
-                    # print(f'\t\t--- Moved from {log2(position)} to {log2(move)}')
-                    
-                    # print('-----------------------------\n')
-                    # print(board_copy)
-                    
                     current_path.append((position, move))
-                    # print(f'\t--- Current path becomes - {current_path} ---')
                     for opp_side, opp_piece in board_copy.opponent_pieces:
-                        # print(f'\t\t\t\n-------------------\n\t\t\tLooking for {opp_side} {opp_piece} on ')
-                        # print(board_copy)
-                        opp_positions = get_bit_positions(board_copy.get_bitboard(opp_side, opp_piece))
-                        # print(f'\t\t\tFound positions - {list(map(log2, opp_positions))}')
+                        opp_positions = get_bit_positions(
+                            board_copy.get_bitboard(opp_side, opp_piece)
+                        )
                         for opp_pos in opp_positions:
-                            opp_moves = board_copy.get_moves(opp_side, opp_piece, opp_pos)
-                            # print(
-                            #     f'\t\t\t\tFound possible moves for {opp_side} {opp_piece} at position {log2(opp_pos)} - {list(map(log2, opp_moves))}' if opp_moves else f'Found no moves for {opp_side} {opp_piece}')
+                            opp_moves = board_copy.get_moves(
+                                opp_side, opp_piece, opp_pos
+                            )
                             for opp_move in opp_moves:
                                 board_copy.move(opp_pos, opp_move)
-                                # print(f'\t\t\t\t\t--- Moved from {log2(opp_pos)} to {log2(opp_move)}')
-                                
-                                # print('\n')
-                                # print(board_copy)
-                                
-                                current_path.extend(board_copy.search_forward(depth-1))
-                                # print(f'\t\t--- Current path becomes - {current_path} ---')
+                                current_path.extend(
+                                    board_copy.search_forward(depth - 1)
+                                )
                                 board_copy.undo_move()
-                    # print(f'The board state is - \n{board_copy}')
                     board_copy.undo_move()
             if board_copy.score >= optimal_score:
-                print(current_path)
                 optimal_score = board_copy.score
                 optimal_path = current_path
             board_copy = self.copy()

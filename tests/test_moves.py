@@ -1,6 +1,6 @@
 import unittest
-from src.bitboard import Board
-from src.moves import (
+from chessengine.bitboard import Board
+from chessengine.moves import (
     get_white_pawn_moves,
     get_white_rook_moves,
     get_white_bishop_moves,

@@ -1,4 +1,4 @@
-from src.utils import get_bit_positions
+from chessengine.utils import get_bit_positions
 
 import unittest
 

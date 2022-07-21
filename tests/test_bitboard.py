@@ -1,5 +1,5 @@
 import unittest
-from src.bitboard import Board
+from chessengine.bitboard import Board
 
 
 class TestBoard(unittest.TestCase):
