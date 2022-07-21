@@ -286,8 +286,8 @@ class Board:
         the identified piece, its side, and its board if a piece is found
         at that position, None otherwise.
         """
-        print(bin(self.all_pieces))
-        print(bin(position), log2(position))
+        # print(bin(self.all_pieces))
+        # print(bin(position), log2(position))
         if self.all_pieces & position == 0:
             # If we don't return here, the for loop will definitely return a non-null value
             return None, None, None
@@ -307,13 +307,11 @@ class Board:
             raise ValueError("The start position provided is not a power of 2")
         if not end_pos.is_integer():
             raise ValueError("The end position provided is not a power of 2")
-
-        print(f'Verifying start position {start_pos}')
+        
         start_side, start_piece, start_board = self.identify_piece_at(start)
         if start_side is None:
             raise ValueError(f"There is no piece at position {start_pos} to move")
         
-        print(f'Verifying end position {end_pos}')
         end_side, end_piece, end_board = self.identify_piece_at(end)
         if end_side == start_side:
             raise ValueError(
@@ -378,41 +376,47 @@ class Board:
         optimal_path = []
         board_copy = self.copy()
         for side, piece in board_copy.board_pieces:
-            current_path = []
+            # current_path = []
             positions = get_bit_positions(board_copy.get_bitboard(side, piece))
             print(f'Looking for {side} {piece} on ')
             print(board_copy)
-            print(f'Found positions - {list(map(log2, positions))}')
+            # print(f'-- Found positions - {list(map(log2, positions))}')
             for position in positions:
+                current_path = []
                 moves = board_copy.get_moves(side, piece, position)
-                print(f'Found possible moves for {side} {piece} - {list(map(log2, moves))}' if moves else f'Found no moves for {side} {piece}')
+                # print(f'\tFound possible moves for {side} {piece} - {list(map(log2, moves))}' if moves else f'Found no moves for {side} {piece}')
                 for move in moves:
+                    current_path = []
                     board_copy.move(start=position, end=move)
-                    print(f'Moved from {log2(position)} to {log2(move)}')
+                    # print(f'\t\t--- Moved from {log2(position)} to {log2(move)}')
                     
                     # print('-----------------------------\n')
                     # print(board_copy)
                     
                     current_path.append((position, move))
+                    print(f'\t--- Current path becomes - {current_path} ---')
                     for opp_side, opp_piece in board_copy.opponent_pieces:
-                        print(f'Looking for {opp_side} {opp_piece} on ')
+                        print(f'\t\t\t\n-------------------\n\t\t\tLooking for {opp_side} {opp_piece} on ')
                         print(board_copy)
                         opp_positions = get_bit_positions(board_copy.get_bitboard(opp_side, opp_piece))
-                        print(f'Found positions - {list(map(log2, opp_positions))}')
+                        # print(f'\t\t\tFound positions - {list(map(log2, opp_positions))}')
                         for opp_pos in opp_positions:
                             opp_moves = board_copy.get_moves(opp_side, opp_piece, opp_pos)
-                            print(
-                                f'Found possible moves for {opp_side} {opp_piece} - {list(map(log2, opp_moves))}' if opp_moves else f'Found no moves for {opp_side} {opp_piece}')
+                            # print(
+                            #     f'\t\t\t\tFound possible moves for {opp_side} {opp_piece} at position {log2(opp_pos)} - {list(map(log2, opp_moves))}' if opp_moves else f'Found no moves for {opp_side} {opp_piece}')
                             for opp_move in opp_moves:
                                 board_copy.move(opp_pos, opp_move)
-                                print(f'Moved from {log2(opp_pos)} to {log2(opp_move)}')
+                                # print(f'\t\t\t\t\t--- Moved from {log2(opp_pos)} to {log2(opp_move)}')
                                 
                                 # print('\n')
                                 # print(board_copy)
                                 
                                 current_path.extend(board_copy.search_forward(depth-1))
-                                board_copy.move(opp_move, opp_pos)
-            if board_copy.score > optimal_score:
+                                print(f'\t\t--- Current path becomes - {current_path} ---')
+                                board_copy.move(start=opp_move, end=opp_pos)
+                    board_copy.move(start=move, end=position)
+            if board_copy.score >= optimal_score:
+                print(f'Found a new optimal path - {list(map(lambda x: (log2(x[0]), log2(x[1])), current_path))}')
                 optimal_score = board_copy.score
                 optimal_path = current_path
             board_copy = self.copy()
