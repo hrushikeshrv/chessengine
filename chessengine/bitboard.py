@@ -376,26 +376,34 @@ class Board:
         # TODO - Add support for en passant move detection
         return move_gens[(side, piece)](self, position)
 
-    def search_forward(self, depth: int = 5) -> list:
+    def search_forward(self, depth: int = 5, followed_path: list = None) -> list:
         """
         Recursively searches for all possible moves the board can make from this starting
         condition depth-first. Returns the best move to make as a tuple (start, end)
         """
+        import logging
+        logging.basicConfig(filename='./log/forward_search.log', level=logging.DEBUG, filemode='w')
+        
         if depth == 0:
             return []
 
+        logging.debug(f'Running at depth {depth}')
         optimal_score = 0
         optimal_path = []
         board_copy = self.copy()
         for side, piece in board_copy.board_pieces:
             positions = get_bit_positions(board_copy.get_bitboard(side, piece))
             for position in positions:
-                current_path = []
+                current_path = followed_path or []
                 moves = board_copy.get_moves(side, piece, position)
+                if moves:
+                    logging.debug(f'\t\tFound {side} {piece} at position {log2(position)} that can move to {moves}')
                 for move in moves:
-                    current_path = []
+                    # current_path = []
                     board_copy.move(start=position, end=move)
+                    logging.debug(f'\t\t\tMoved {side} {piece} from {log2(position)} to {log2(move)}')
                     current_path.append((position, move))
+                    logging.debug(f'\t\t\tCurrent path followed is now {current_path}')
                     for opp_side, opp_piece in board_copy.opponent_pieces:
                         opp_positions = get_bit_positions(
                             board_copy.get_bitboard(opp_side, opp_piece)
@@ -406,13 +414,17 @@ class Board:
                             )
                             for opp_move in opp_moves:
                                 board_copy.move(opp_pos, opp_move)
-                                current_path.extend(
-                                    board_copy.search_forward(depth - 1)
-                                )
+                                next_path = board_copy.search_forward(depth - 1, current_path)
+                                if next_path:
+                                    logging.debug(f'Found next path {next_path}')
+                                    current_path.append(next_path[-1])
                                 board_copy.undo_move()
                     board_copy.undo_move()
+                    if current_path:
+                        current_path.pop()
                 if board_copy.score >= optimal_score:
                     optimal_score = board_copy.score
                     optimal_path = current_path
                 board_copy = self.copy()
+                
         return optimal_path
