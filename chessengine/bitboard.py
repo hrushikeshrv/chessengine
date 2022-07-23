@@ -1,7 +1,7 @@
 from copy import copy
 from math import log2
 
-from moves import (
+from .moves import (
     get_white_pawn_moves,
     get_white_rook_moves,
     get_white_bishop_moves,
@@ -15,8 +15,8 @@ from moves import (
     get_black_king_moves,
     get_black_queen_moves,
 )
-from lookup_tables import mask_position, clear_position
-from utils import get_bit_positions
+from .lookup_tables import mask_position, clear_position
+from .utils import get_bit_positions
 
 
 class Board:
