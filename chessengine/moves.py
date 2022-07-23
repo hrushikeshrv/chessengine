@@ -1,5 +1,5 @@
 from math import log2
-from .lookup_tables import get_file, get_rank
+from lookup_tables import get_file, get_rank
 
 HIGHEST_SQUARE = 2**63
 
