@@ -399,7 +399,6 @@ class Board:
                 if moves:
                     logging.debug(f'\t\tFound {side} {piece} at position {log2(position)} that can move to {moves}')
                 for move in moves:
-                    # current_path = []
                     board_copy.move(start=position, end=move)
                     logging.debug(f'\t\t\tMoved {side} {piece} from {log2(position)} to {log2(move)}')
                     current_path.append((position, move))
@@ -416,15 +415,17 @@ class Board:
                                 board_copy.move(opp_pos, opp_move)
                                 next_path = board_copy.search_forward(depth - 1, current_path)
                                 if next_path:
-                                    logging.debug(f'Found next path {next_path}')
-                                    current_path.append(next_path[-1])
+                                    logging.debug(f'\t\tFound next path {next_path}')
+                                    current_path = next_path
                                 board_copy.undo_move()
                     board_copy.undo_move()
                     if current_path:
                         current_path.pop()
+                
                 if board_copy.score >= optimal_score:
                     optimal_score = board_copy.score
                     optimal_path = current_path
+                    logging.debug(f'Setting optimal path to {optimal_path}')
                 board_copy = self.copy()
-                
+        # logging.debug(f'Returning optimal path - {optimal_path}')
         return optimal_path
