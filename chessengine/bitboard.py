@@ -1,5 +1,6 @@
 from copy import copy
 from math import log2
+import logging
 
 from .moves import (
     get_white_pawn_moves,
@@ -17,6 +18,8 @@ from .moves import (
 )
 from .lookup_tables import mask_position, clear_position
 from .utils import get_bit_positions
+
+logging.basicConfig(filename='./log/forward_search.log', level=logging.DEBUG, filemode='w')
 
 
 class Board:
@@ -381,20 +384,19 @@ class Board:
         Recursively searches for all possible moves the board can make from this starting
         condition depth-first. Returns the best move to make as a tuple (start, end)
         """
-        import logging
-        logging.basicConfig(filename='./log/forward_search.log', level=logging.DEBUG, filemode='w')
-        
+        if followed_path is None:
+            followed_path = []
         if depth == 0:
-            return []
+            return followed_path
 
-        logging.debug(f'Running at depth {depth}')
+        logging.debug(f'Running at depth {depth}. Followed path {followed_path}')
         optimal_score = 0
         optimal_path = []
         board_copy = self.copy()
         for side, piece in board_copy.board_pieces:
             positions = get_bit_positions(board_copy.get_bitboard(side, piece))
             for position in positions:
-                current_path = followed_path or []
+                current_path = followed_path
                 moves = board_copy.get_moves(side, piece, position)
                 if moves:
                     logging.debug(f'\t\tFound {side} {piece} at position {log2(position)} that can move to {moves}')
@@ -418,14 +420,13 @@ class Board:
                                     logging.debug(f'\t\tFound next path {next_path}')
                                     current_path = next_path
                                 board_copy.undo_move()
+                    if board_copy.score >= optimal_score and len(current_path) >= len(optimal_path):
+                        optimal_score = board_copy.score
+                        logging.debug(f'Optimal path was {optimal_path}, setting it to {current_path}')
+                        optimal_path = current_path
                     board_copy.undo_move()
                     if current_path:
                         current_path.pop()
-                
-                if board_copy.score >= optimal_score:
-                    optimal_score = board_copy.score
-                    optimal_path = current_path
-                    logging.debug(f'Setting optimal path to {optimal_path}')
                 board_copy = self.copy()
         # logging.debug(f'Returning optimal path - {optimal_path}')
         return optimal_path
