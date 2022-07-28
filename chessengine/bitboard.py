@@ -1,6 +1,5 @@
 from copy import copy
 from math import log2
-import logging
 
 from .moves import (
     get_white_pawn_moves,
@@ -18,10 +17,6 @@ from .moves import (
 )
 from .lookup_tables import mask_position, clear_position
 from .utils import get_bit_positions
-
-logging.basicConfig(
-    filename="./log/forward_search.log", level=logging.DEBUG, filemode="w"
-)
 
 
 class Board:
@@ -131,48 +126,27 @@ class Board:
         for side, piece in self.boards_table:
             if self.boards_table[(side, piece)] != other.boards_table[(side, piece)]:
                 return False
-
         return True
 
-    def copy(self):
-        return copy(self)
+    def __hash__(self):
+        hash_str = self.side
+        hash_str += str(self.boards_table[("white", "kings")])
+        hash_str += str(self.boards_table[("white", "queens")])
+        hash_str += str(self.boards_table[("white", "rooks")])
+        hash_str += str(self.boards_table[("white", "bishops")])
+        hash_str += str(self.boards_table[("white", "knights")])
+        hash_str += str(self.boards_table[("white", "pawns")])
+        hash_str += str(self.boards_table[("black", "kings")])
+        hash_str += str(self.boards_table[("black", "queens")])
+        hash_str += str(self.boards_table[("black", "rooks")])
+        hash_str += str(self.boards_table[("black", "bishops")])
+        hash_str += str(self.boards_table[("black", "knights")])
+        hash_str += str(self.boards_table[("black", "pawns")])
+        return hash(hash_str)
 
     @property
     def score(self):
         return 0
-
-    def get_side_bitboard(self, side: str) -> int:
-        """
-        Returns the bitboard containing all pieces for the given side
-        """
-        if side == "white":
-            return self.all_white
-        return self.all_black
-
-    def get_bitboard(self, side: str, piece: str) -> int:
-        """
-        Returns the bitboard of the passed side for the passed pieces.
-        Calling with side="black" and piece="king" will return the black_kings bitboard, and so on.
-        """
-        if piece not in {
-            "kings",
-            "queens",
-            "bishops",
-            "knights",
-            "rooks",
-            "pawns",
-        }:
-            raise ValueError(
-                f"get_bitboard got unknown piece.\nExpected one of {{'kings', 'queens', 'bishops', 'knights', "
-                f"'rooks', 'pawns'}}, got {piece} instead."
-            )
-        if side not in {"black", "white"}:
-            raise ValueError(
-                f"get_bitboard got unknown piece.\nExpected one of {{'white', 'black'}}, "
-                f"got {side} instead."
-            )
-        attrname = side + "_" + piece
-        return getattr(self, attrname)
 
     @property
     def board_pieces(self):
@@ -213,6 +187,42 @@ class Board:
             ("black", "knights"),
             ("black", "pawns"),
         ]
+
+    def copy(self):
+        return copy(self)
+
+    def get_side_bitboard(self, side: str) -> int:
+        """
+        Returns the bitboard containing all pieces for the given side
+        """
+        if side == "white":
+            return self.all_white
+        return self.all_black
+
+    def get_bitboard(self, side: str, piece: str) -> int:
+        """
+        Returns the bitboard of the passed side for the passed pieces.
+        Calling with side="black" and piece="king" will return the black_kings bitboard, and so on.
+        """
+        if piece not in {
+            "kings",
+            "queens",
+            "bishops",
+            "knights",
+            "rooks",
+            "pawns",
+        }:
+            raise ValueError(
+                f"get_bitboard got unknown piece.\nExpected one of {{'kings', 'queens', 'bishops', 'knights', "
+                f"'rooks', 'pawns'}}, got {piece} instead."
+            )
+        if side not in {"black", "white"}:
+            raise ValueError(
+                f"get_bitboard got unknown piece.\nExpected one of {{'white', 'black'}}, "
+                f"got {side} instead."
+            )
+        attrname = side + "_" + piece
+        return getattr(self, attrname)
 
     def get_self_piece_bitboard(self, piece: str) -> int:
         """
@@ -386,7 +396,7 @@ class Board:
     ) -> tuple[int, list]:
         """
         Recursively searches for all possible moves the board can make from this starting
-        condition depth-first. Returns the best move to make as a tuple (start, end)
+        condition depth-first. Returns the best score achieved and the optimal path to take
         """
         if followed_path is None:
             followed_path = []
