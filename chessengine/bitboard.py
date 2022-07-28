@@ -19,7 +19,9 @@ from .moves import (
 from .lookup_tables import mask_position, clear_position
 from .utils import get_bit_positions
 
-logging.basicConfig(filename='./log/forward_search.log', level=logging.DEBUG, filemode='w')
+logging.basicConfig(
+    filename="./log/forward_search.log", level=logging.DEBUG, filemode="w"
+)
 
 
 class Board:
@@ -379,7 +381,9 @@ class Board:
         # TODO - Add support for en passant move detection
         return move_gens[(side, piece)](self, position)
 
-    def search_forward(self, depth: int = 5, followed_path: list = None) -> list:
+    def search_forward(
+        self, depth: int = 5, followed_path: list = None
+    ) -> tuple[int, list]:
         """
         Recursively searches for all possible moves the board can make from this starting
         condition depth-first. Returns the best move to make as a tuple (start, end)
@@ -387,24 +391,17 @@ class Board:
         if followed_path is None:
             followed_path = []
         if depth == 0:
-            return followed_path
+            return self.score, followed_path
 
-        logging.debug(f'Running at depth {depth}. Followed path {followed_path}')
         optimal_score = 0
         optimal_path = []
         board_copy = self.copy()
         for side, piece in board_copy.board_pieces:
             positions = get_bit_positions(board_copy.get_bitboard(side, piece))
             for position in positions:
-                current_path = followed_path
                 moves = board_copy.get_moves(side, piece, position)
-                if moves:
-                    logging.debug(f'\t\tFound {side} {piece} at position {log2(position)} that can move to {moves}')
                 for move in moves:
                     board_copy.move(start=position, end=move)
-                    logging.debug(f'\t\t\tMoved {side} {piece} from {log2(position)} to {log2(move)}')
-                    current_path.append((position, move))
-                    logging.debug(f'\t\t\tCurrent path followed is now {current_path}')
                     for opp_side, opp_piece in board_copy.opponent_pieces:
                         opp_positions = get_bit_positions(
                             board_copy.get_bitboard(opp_side, opp_piece)
@@ -415,18 +412,13 @@ class Board:
                             )
                             for opp_move in opp_moves:
                                 board_copy.move(opp_pos, opp_move)
-                                next_path = board_copy.search_forward(depth - 1, current_path)
-                                if next_path:
-                                    logging.debug(f'\t\tFound next path {next_path}')
-                                    current_path = next_path
+                                next_score, next_path = board_copy.search_forward(
+                                    depth - 1, followed_path + [(position, move)]
+                                )
+                                if next_score >= optimal_score:
+                                    optimal_score = next_score
+                                    optimal_path = next_path
                                 board_copy.undo_move()
-                    if board_copy.score >= optimal_score and len(current_path) >= len(optimal_path):
-                        optimal_score = board_copy.score
-                        logging.debug(f'Optimal path was {optimal_path}, setting it to {current_path}')
-                        optimal_path = current_path
                     board_copy.undo_move()
-                    if current_path:
-                        current_path.pop()
                 board_copy = self.copy()
-        # logging.debug(f'Returning optimal path - {optimal_path}')
-        return optimal_path
+        return optimal_score, optimal_path
