@@ -344,6 +344,9 @@ class Board:
         # Set the moved piece's final position (set "end" to 1)
         move_side_board |= mask_position[end_pos]
         self.set_bitboard(start_side, start_piece, move_side_board)
+        self.update_fen_state(
+            start_side, start_piece, start_pos, end_side, end_piece, end_pos
+        )
 
     def make_moves(self, *moves: tuple[int]) -> None:
         """
@@ -354,11 +357,20 @@ class Board:
             self.move(start, end)
 
     def undo_move(self):
+        if not self.moves:
+            raise RuntimeError("No moves have been made yet to undo.")
         end, start, side, piece, board = self.moves.pop()
         self.move(start=start, end=end, track=False)
 
         if side is not None:
             self.set_bitboard(side, piece, board)
+
+    def update_fen_state(
+        self, start_side, start_piece, start_position, end_side, end_piece, end_position
+    ):
+        """
+        Updates the FEN representation of the Board
+        """
 
     def get_moves(self, side: str, piece: str, position: int) -> list[int]:
         """
