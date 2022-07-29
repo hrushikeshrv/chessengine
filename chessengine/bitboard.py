@@ -80,6 +80,9 @@ class Board:
             ("black", "pawns"): self.black_pawns,
         }
 
+        # FEN representation of the board (used to produce a hash string for the board)
+        self.FEN = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
+
         # Keep track of all moves made
         self.moves = []
 
@@ -129,20 +132,7 @@ class Board:
         return True
 
     def __hash__(self):
-        hash_str = self.side
-        hash_str += str(self.boards_table[("white", "kings")])
-        hash_str += str(self.boards_table[("white", "queens")])
-        hash_str += str(self.boards_table[("white", "rooks")])
-        hash_str += str(self.boards_table[("white", "bishops")])
-        hash_str += str(self.boards_table[("white", "knights")])
-        hash_str += str(self.boards_table[("white", "pawns")])
-        hash_str += str(self.boards_table[("black", "kings")])
-        hash_str += str(self.boards_table[("black", "queens")])
-        hash_str += str(self.boards_table[("black", "rooks")])
-        hash_str += str(self.boards_table[("black", "bishops")])
-        hash_str += str(self.boards_table[("black", "knights")])
-        hash_str += str(self.boards_table[("black", "pawns")])
-        return hash(hash_str)
+        return hash(self.FEN)
 
     @property
     def score(self):
