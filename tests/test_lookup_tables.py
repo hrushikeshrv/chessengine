@@ -1,5 +1,5 @@
 import unittest
-from chessengine.lookup_tables import lsb_pos
+from chessengine.utils import lsb_pos
 
 
 class TestLookupTables(unittest.TestCase):

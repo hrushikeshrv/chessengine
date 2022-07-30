@@ -1,4 +1,4 @@
-from .lookup_tables import get_file, get_rank
+from .utils import get_rank, get_file
 
 HIGHEST_SQUARE = 2**63
 

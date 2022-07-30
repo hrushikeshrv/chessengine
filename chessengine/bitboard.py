@@ -371,6 +371,7 @@ class Board:
         """
         Updates the FEN representation of the Board
         """
+        start_rank = get_rank(start_position)
 
     def get_moves(self, side: str, piece: str, position: int) -> list[int]:
         """
