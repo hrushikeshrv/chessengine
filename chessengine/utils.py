@@ -16,22 +16,26 @@ def get_bit_positions(bitboard: int) -> list[int]:
     return positions
 
 
-def get_rank(position: int) -> int:
+def get_rank(position: int, log: bool = False) -> int:
     """
-    Returns the rank of a position. position has to be a power of 2.
+    Returns the rank of a position. position either has to be a
+    power of 2, or log has to be True.
     Returns the rank which is in range [1, 8]
     """
-    pos = int(log2(position))
-    return int(pos / 8) + 1
+    if not log:
+        position = log2(position)
+    return int(position / 8) + 1
 
 
-def get_file(position: int) -> int:
+def get_file(position: int, log: bool = False) -> int:
     """
-    Returns the file of a position. position has to be a power of 2.
+    Returns the file of a position. position either has to be a
+    power of 2, or log has to be True.
     Returns the file which is in range [1, 8]
     """
-    pos = int(log2(position))
-    return (pos % 8) + 1
+    if not log:
+        position = log2(position)
+    return int((position % 8) + 1)
 
 
 def lsb_pos(board: int) -> int:

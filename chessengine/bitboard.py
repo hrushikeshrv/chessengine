@@ -16,7 +16,7 @@ from .moves import (
     get_black_queen_moves,
 )
 from .lookup_tables import mask_position, clear_position
-from .utils import get_bit_positions
+from .utils import get_bit_positions, get_rank, get_file
 
 
 class Board:
@@ -80,8 +80,8 @@ class Board:
             ("black", "pawns"): self.black_pawns,
         }
 
-        # FEN representation of the board (used to produce a hash string for the board)
-        self.FEN = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
+        # (modified) FEN representation of the board (used to produce a hash string for the board)
+        self.FEN = "rnbqkbnr/pppppppp/00000000/00000000/00000000/00000000/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
 
         # Keep track of all moves made
         self.moves = []
@@ -371,7 +371,27 @@ class Board:
         """
         Updates the FEN representation of the Board
         """
-        start_rank = get_rank(start_position)
+        ranks = self.FEN.split()[0].split('/')
+        
+        start_rank = get_rank(start_position, log=True)
+        start_file = get_file(start_position, log=True)
+        start_rank_str = ranks[8-start_rank]
+        end_rank = get_rank(end_position, log=True)
+        end_file = get_file(end_position, log=True)
+        end_rank_str = ranks[8 - end_rank]
+        print(start_file, start_rank, end_file, end_rank)
+        
+        moved_char = start_rank_str[start_file-1]
+        if moved_char.isnumeric():
+            raise ValueError(f"Board's FEN state is corrupted. - {self.FEN}")
+        
+        new_rank_str = start_rank_str[:start_file-1] + '0' + start_rank_str[start_file:]
+        ranks[8-start_rank] = new_rank_str
+        
+        new_rank_str = end_rank_str[:end_file-1] + moved_char + end_rank_str[end_file:]
+        ranks[8-end_rank] = new_rank_str
+        
+        self.FEN = '/'.join(ranks) + ' ' + ' '.join(self.FEN.split()[1:])
 
     def get_moves(self, side: str, piece: str, position: int) -> list[int]:
         """
