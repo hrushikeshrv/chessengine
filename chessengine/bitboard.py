@@ -344,9 +344,7 @@ class Board:
         # Set the moved piece's final position (set "end" to 1)
         move_side_board |= mask_position[end_pos]
         self.set_bitboard(start_side, start_piece, move_side_board)
-        self.update_fen_state(
-            start_side, start_piece, start_pos, end_side, end_piece, end_pos
-        )
+        self.update_fen_state(start_pos, end_pos)
 
     def make_moves(self, *moves: tuple[int]) -> None:
         """
@@ -365,11 +363,10 @@ class Board:
         if side is not None:
             self.set_bitboard(side, piece, board)
 
-    def update_fen_state(
-        self, start_side, start_piece, start_position, end_side, end_piece, end_position
-    ):
+    def update_fen_state(self, start_position, end_position):
         """
         Updates the FEN representation of the Board
+        TODO - Add support for castling
         """
         ranks = self.FEN.split()[0].split('/')
         
