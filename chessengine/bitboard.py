@@ -18,6 +18,9 @@ from .moves import (
 from .lookup_tables import mask_position, clear_position
 from .utils import get_bit_positions, get_rank, get_file
 
+import logging
+logging.basicConfig(filemode='w', filename='./log/forward_search.log')
+
 
 class Board:
     """
@@ -294,8 +297,6 @@ class Board:
         the identified piece, its side, and its board if a piece is found
         at that position, None otherwise.
         """
-        # print(bin(self.all_pieces))
-        # print(bin(position), log2(position))
         if self.all_pieces & position == 0:
             # If we don't return here, the for loop will definitely return a non-null value
             return None, None, None
@@ -372,14 +373,15 @@ class Board:
         
         start_rank = get_rank(start_position, log=True)
         start_file = get_file(start_position, log=True)
-        start_rank_str = ranks[8-start_rank]
+        start_rank_str = ranks[8 - start_rank]
         end_rank = get_rank(end_position, log=True)
         end_file = get_file(end_position, log=True)
         end_rank_str = ranks[8 - end_rank]
-        print(start_file, start_rank, end_file, end_rank)
         
+        logging.warning(f'Trying to represent move from {start_position} to {end_position}')
+        logging.warning(self.FEN)
         moved_char = start_rank_str[start_file-1]
-        if moved_char.isnumeric():
+        if moved_char == '0':
             raise ValueError(f"Board's FEN state is corrupted. - {self.FEN}")
         
         new_rank_str = start_rank_str[:start_file-1] + '0' + start_rank_str[start_file:]
@@ -422,7 +424,7 @@ class Board:
             followed_path = []
         if depth == 0:
             return self.score, followed_path
-
+        
         optimal_score = 0
         optimal_path = []
         board_copy = self.copy()
@@ -448,6 +450,7 @@ class Board:
                                 if next_score >= optimal_score:
                                     optimal_score = next_score
                                     optimal_path = next_path
+                                logging.error(board_copy.FEN)
                                 board_copy.undo_move()
                     board_copy.undo_move()
                 board_copy = self.copy()

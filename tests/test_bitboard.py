@@ -39,6 +39,16 @@ class TestBoard(unittest.TestCase):
         board = Board("white")
         with self.assertRaises(ValueError):
             board.move(1, 2**8)
+            
+    def test_fen_representation(self):
+        board = Board('white')
+        self.assertEqual(board.FEN, "rnbqkbnr/pppppppp/00000000/00000000/00000000/00000000/PPPPPPPP/RNBQKBNR w KQkq - 0 1")
+        
+        board.move(2**8, 2**16)
+        self.assertEqual(board.FEN, "rnbqkbnr/pppppppp/00000000/00000000/00000000/P0000000/0PPPPPPP/RNBQKBNR w KQkq - 0 1")
+        
+        board.move(2**16, 2**8)
+        self.assertEqual(board.FEN, "rnbqkbnr/pppppppp/00000000/00000000/00000000/00000000/PPPPPPPP/RNBQKBNR w KQkq - 0 1")
 
 
 if __name__ == "__main__":
