@@ -1,6 +1,22 @@
 from math import log2
 
 
+piece_characters = {
+    ("white", "kings"): "K",
+    ("white", "queens"): "Q",
+    ("white", "rooks"): "R",
+    ("white", "bishops"): "B",
+    ("white", "knights"): "N",
+    ("white", "pawns"): "P",
+    ("black", "kings"): "k",
+    ("black", "queens"): "q",
+    ("black", "rooks"): "r",
+    ("black", "bishops"): "b",
+    ("black", "knights"): "n",
+    ("black", "pawns"): "p",
+}
+
+
 def get_bit_positions(bitboard: int) -> list[int]:
     """
     Returns a list of positions in the bitboard which have a 1.

@@ -16,10 +16,11 @@ from .moves import (
     get_black_queen_moves,
 )
 from .lookup_tables import mask_position, clear_position
-from .utils import get_bit_positions, get_rank, get_file
+from .utils import get_bit_positions, get_rank, get_file, piece_characters
 
 import logging
-logging.basicConfig(filemode='w', filename='./log/forward_search.log')
+
+logging.basicConfig(filemode="w", filename="./log/forward_search.log")
 
 
 class Board:
@@ -363,34 +364,40 @@ class Board:
 
         if side is not None:
             self.set_bitboard(side, piece, board)
+            self.update_fen_state(-1, log2(start), piece_characters[(side, piece)])
 
-    def update_fen_state(self, start_position, end_position):
+    def update_fen_state(self, start_position, end_position, moved_char: str = "0"):
         """
-        Updates the FEN representation of the Board
+        Updates the FEN representation of the Board. To update
+        the FEN state after undoing a capture move, pass the
+        start_position as -1 and moved_char to the character of
+        the piece that was captured
         TODO - Add support for castling
         """
-        ranks = self.FEN.split()[0].split('/')
-        
-        start_rank = get_rank(start_position, log=True)
-        start_file = get_file(start_position, log=True)
-        start_rank_str = ranks[8 - start_rank]
+        ranks = self.FEN.split()[0].split("/")
+
+        if start_position > -1:
+            start_rank = get_rank(start_position, log=True)
+            start_file = get_file(start_position, log=True)
+            start_rank_str = ranks[8 - start_rank]
+            moved_char = start_rank_str[start_file - 1]
+            if moved_char == "0":
+                raise ValueError(f"Board's FEN state is corrupted. - {self.FEN}")
+
+            new_rank_str = (
+                start_rank_str[: start_file - 1] + "0" + start_rank_str[start_file:]
+            )
+            ranks[8 - start_rank] = new_rank_str
+
         end_rank = get_rank(end_position, log=True)
         end_file = get_file(end_position, log=True)
         end_rank_str = ranks[8 - end_rank]
-        
-        logging.warning(f'Trying to represent move from {start_position} to {end_position}')
-        logging.warning(self.FEN)
-        moved_char = start_rank_str[start_file-1]
-        if moved_char == '0':
-            raise ValueError(f"Board's FEN state is corrupted. - {self.FEN}")
-        
-        new_rank_str = start_rank_str[:start_file-1] + '0' + start_rank_str[start_file:]
-        ranks[8-start_rank] = new_rank_str
-        
-        new_rank_str = end_rank_str[:end_file-1] + moved_char + end_rank_str[end_file:]
-        ranks[8-end_rank] = new_rank_str
-        
-        self.FEN = '/'.join(ranks) + ' ' + ' '.join(self.FEN.split()[1:])
+        new_rank_str = (
+            end_rank_str[: end_file - 1] + moved_char + end_rank_str[end_file:]
+        )
+        ranks[8 - end_rank] = new_rank_str
+
+        self.FEN = "/".join(ranks) + " " + " ".join(self.FEN.split()[1:])
 
     def get_moves(self, side: str, piece: str, position: int) -> list[int]:
         """
@@ -424,7 +431,7 @@ class Board:
             followed_path = []
         if depth == 0:
             return self.score, followed_path
-        
+
         optimal_score = 0
         optimal_path = []
         board_copy = self.copy()
@@ -450,7 +457,6 @@ class Board:
                                 if next_score >= optimal_score:
                                     optimal_score = next_score
                                     optimal_path = next_path
-                                logging.error(board_copy.FEN)
                                 board_copy.undo_move()
                     board_copy.undo_move()
                 board_copy = self.copy()
