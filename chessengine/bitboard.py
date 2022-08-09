@@ -17,10 +17,9 @@ from .moves import (
 )
 from .lookup_tables import mask_position, clear_position
 from .utils import get_bit_positions, get_rank, get_file, piece_characters
-
 import logging
 
-logging.basicConfig(filemode="w", filename="./log/forward_search.log")
+logging.basicConfig(filemode='w', filename='./log/debug_forward_search.log', level=logging.DEBUG)
 
 
 class Board:
@@ -127,16 +126,7 @@ class Board:
         return self.__repr__()
 
     def __eq__(self, other):
-        if self.side != other.side:
-            return False
-
-        for side, piece in self.boards_table:
-            if self.boards_table[(side, piece)] != other.boards_table[(side, piece)]:
-                return False
-        return True
-
-    def __hash__(self):
-        return hash(self.FEN)
+        return self.FEN == other.FEN
 
     @property
     def score(self):
@@ -421,16 +411,21 @@ class Board:
         return move_gens[(side, piece)](self, position)
 
     def search_forward(
-        self, depth: int = 5, followed_path: list = None
+        self, depth: int = 5, followed_path: list = None, memo=None
     ) -> tuple[int, list]:
         """
         Recursively searches for all possible moves the board can make from this starting
         condition depth-first. Returns the best score achieved and the optimal path to take
         """
+        if memo is None:
+            memo = {}
         if followed_path is None:
             followed_path = []
         if depth == 0:
             return self.score, followed_path
+        if (self, depth) in memo:
+            logging.debug(f'Cache hit for {self.FEN} at depth {depth}')
+            return memo[(self.FEN, depth)]
 
         optimal_score = 0
         optimal_path = []
@@ -457,6 +452,8 @@ class Board:
                                 if next_score >= optimal_score:
                                     optimal_score = next_score
                                     optimal_path = next_path
+                                    logging.debug(f'Recording {board_copy.FEN} at depth {depth} with optimal score {optimal_score}')
+                                    memo[(board_copy.FEN, depth)] = (optimal_score, optimal_path)
                                 board_copy.undo_move()
                     board_copy.undo_move()
                 board_copy = self.copy()
