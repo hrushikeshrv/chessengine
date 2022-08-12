@@ -281,7 +281,7 @@ def get_black_queen_moves(board, position: int) -> list[int]:
 
 
 def get_white_pawn_moves(
-    board, position: int, allow_en_passant: bool = True
+    board, position: int, allow_en_passant: bool = False
 ) -> list[int]:
     """
     Returns a list of end positions a white pawn starting at position can reach
@@ -296,9 +296,17 @@ def get_white_pawn_moves(
             _ = position << 16
             if board.all_pieces & _ == 0:
                 moves.append(_)
+    file = get_file(position)
+    if file >= 2:
+        _ = position << 7
+        if board.all_black & _ > 0:
+            moves.append(_)
+    if file <= 7:
+        _ = position << 9
+        if board.all_black & _ > 0:
+            moves.append(_)
 
     if allow_en_passant:
-        file = get_file(position)
         if file >= 2:
             _ = position << 7
             check_valid_position(board, "white", _, moves)
@@ -310,7 +318,7 @@ def get_white_pawn_moves(
 
 
 def get_black_pawn_moves(
-    board, position: int, allow_en_passant: bool = True
+    board, position: int, allow_en_passant: bool = False
 ) -> list[int]:
     """
     Returns a list of end positions a black pawn starting at position can reach
@@ -324,9 +332,17 @@ def get_black_pawn_moves(
             _ = position >> 16
             if board.all_pieces & _ == 0:
                 moves.append(_)
+    file = get_file(position)
+    if file >= 2:
+        _ = position >> 9
+        if board.all_white & _ > 0:
+            moves.append(_)
+    if file <= 7:
+        _ = position >> 7
+        if board.all_white & _ > 0:
+            moves.append(_)
 
     if allow_en_passant:
-        file = get_file(position)
         if file >= 2:
             _ = position >> 9
             check_valid_position(board, "black", _, moves)
