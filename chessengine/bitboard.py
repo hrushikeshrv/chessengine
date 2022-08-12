@@ -62,6 +62,21 @@ class Board:
 
         self.all_pieces = self.all_black | self.all_white
 
+        self.piece_count = {
+            ("white", "kings"): 1,
+            ("white", "queens"): 1,
+            ("white", "rooks"): 2,
+            ("white", "bishops"): 2,
+            ("white", "knights"): 2,
+            ("white", "pawns"): 8,
+            ("black", "kings"): 1,
+            ("black", "queens"): 1,
+            ("black", "rooks"): 2,
+            ("black", "bishops"): 2,
+            ("black", "knights"): 2,
+            ("black", "pawns"): 8,
+        }
+
         if side.lower().strip() not in ["black", "white"]:
             raise ValueError(f'side must be one of "black" or "white". Got {side}')
         self.side = side.lower().strip()
@@ -130,7 +145,19 @@ class Board:
 
     @property
     def score(self):
-        return 0
+        K = self.piece_count[("white", "kings")]
+        Q = self.piece_count[("white", "queens")]
+        R = self.piece_count[("white", "rooks")]
+        B = self.piece_count[("white", "bishops")]
+        N = self.piece_count[("white", "knights")]
+        P = self.piece_count[("white", "pawns")]
+        k = self.piece_count[("black", "kings")]
+        q = self.piece_count[("black", "queens")]
+        r = self.piece_count[("black", "rooks")]
+        b = self.piece_count[("black", "bishops")]
+        n = self.piece_count[("black", "knights")]
+        p = self.piece_count[("black", "pawns")]
+        return 200 * (K - k) + 9 * (Q - q) + 5 * (R - r) + 3 * (B - b + N - n) + (P - p)
 
     @property
     def board_pieces(self):
@@ -326,6 +353,7 @@ class Board:
             opp_side_board = self.get_bitboard(end_side, end_piece)
             opp_side_board &= clear_position[end_pos]
             self.set_bitboard(end_side, end_piece, opp_side_board)
+            self.piece_count[(end_side, end_piece)] -= 1
 
         # Clear the moved piece's original position (set "start" to 0)
         move_side_board = self.get_bitboard(start_side, start_piece)
@@ -352,6 +380,7 @@ class Board:
 
         if side is not None:
             self.set_bitboard(side, piece, board)
+            self.piece_count[(side, piece)] += 1
             # self.update_fen_state(-1, log2(start), piece_characters[(side, piece)])
 
     def update_fen_state(self, start_position, end_position, moved_char: str = "0"):
@@ -420,7 +449,7 @@ class Board:
             followed_path = []
         if depth == 0:
             return self.score, followed_path
-        
+
         optimal_score = 0
         optimal_path = []
         for side, piece in self.board_pieces:
@@ -434,9 +463,7 @@ class Board:
                             self.get_bitboard(opp_side, opp_piece)
                         )
                         for opp_pos in opp_positions:
-                            opp_moves = self.get_moves(
-                                opp_side, opp_piece, opp_pos
-                            )
+                            opp_moves = self.get_moves(opp_side, opp_piece, opp_pos)
                             for opp_move in opp_moves:
                                 self.move(opp_pos, opp_move)
                                 next_score, next_path = self.search_forward(
