@@ -84,7 +84,7 @@ class Board:
         }
 
         # (modified) FEN representation of the board (used to produce a hash string for the board)
-        self.FEN = "rnbqkbnr/pppppppp/00000000/00000000/00000000/00000000/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
+        # self.FEN = "rnbqkbnr/pppppppp/00000000/00000000/00000000/00000000/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
 
         # Keep track of all moves made
         self.moves = []
@@ -261,23 +261,23 @@ class Board:
         """
         Sets the bitboard for the passed arguments to the passed bitboard
         """
-        if piece not in {
-            "kings",
-            "queens",
-            "bishops",
-            "knights",
-            "rooks",
-            "pawns",
-        }:
-            raise ValueError(
-                f"set_bitboard got unknown piece.\nExpected one of {{'kings', 'queens', 'bishops', 'knights', "
-                f"'rooks', 'pawns'}}, got {piece} instead."
-            )
-        if side not in {"black", "white"}:
-            raise ValueError(
-                f"set_bitboard got unknown piece.\nExpected one of {{'white', 'black'}}, "
-                f"got {side} instead."
-            )
+        # if piece not in {
+        #     "kings",
+        #     "queens",
+        #     "bishops",
+        #     "knights",
+        #     "rooks",
+        #     "pawns",
+        # }:
+        #     raise ValueError(
+        #         f"set_bitboard got unknown piece.\nExpected one of {{'kings', 'queens', 'bishops', 'knights', "
+        #         f"'rooks', 'pawns'}}, got {piece} instead."
+        #     )
+        # if side not in {"black", "white"}:
+        #     raise ValueError(
+        #         f"set_bitboard got unknown piece.\nExpected one of {{'white', 'black'}}, "
+        #         f"got {side} instead."
+        #     )
         attrname = side + "_" + piece
         setattr(self, attrname, board)
         self.update_board_state()
@@ -334,7 +334,7 @@ class Board:
         # Set the moved piece's final position (set "end" to 1)
         move_side_board |= mask_position[end_pos]
         self.set_bitboard(start_side, start_piece, move_side_board)
-        self.update_fen_state(start_pos, end_pos)
+        # self.update_fen_state(start_pos, end_pos)
 
     def make_moves(self, *moves: tuple[int]) -> None:
         """
@@ -352,7 +352,7 @@ class Board:
 
         if side is not None:
             self.set_bitboard(side, piece, board)
-            self.update_fen_state(-1, log2(start), piece_characters[(side, piece)])
+            # self.update_fen_state(-1, log2(start), piece_characters[(side, piece)])
 
     def update_fen_state(self, start_position, end_position, moved_char: str = "0"):
         """
@@ -362,30 +362,31 @@ class Board:
         the piece that was captured
         TODO - Add support for castling
         """
-        ranks = self.FEN.split()[0].split("/")
-
-        if start_position > -1:
-            start_rank = get_rank(start_position, log=True)
-            start_file = get_file(start_position, log=True)
-            start_rank_str = ranks[8 - start_rank]
-            moved_char = start_rank_str[start_file - 1]
-            if moved_char == "0":
-                raise ValueError(f"Board's FEN state is corrupted. - {self.FEN}")
-
-            new_rank_str = (
-                start_rank_str[: start_file - 1] + "0" + start_rank_str[start_file:]
-            )
-            ranks[8 - start_rank] = new_rank_str
-
-        end_rank = get_rank(end_position, log=True)
-        end_file = get_file(end_position, log=True)
-        end_rank_str = ranks[8 - end_rank]
-        new_rank_str = (
-            end_rank_str[: end_file - 1] + moved_char + end_rank_str[end_file:]
-        )
-        ranks[8 - end_rank] = new_rank_str
-
-        self.FEN = "/".join(ranks) + " " + " ".join(self.FEN.split()[1:])
+        return
+        # ranks = self.FEN.split()[0].split("/")
+        #
+        # if start_position > -1:
+        #     start_rank = get_rank(start_position, log=True)
+        #     start_file = get_file(start_position, log=True)
+        #     start_rank_str = ranks[8 - start_rank]
+        #     moved_char = start_rank_str[start_file - 1]
+        #     if moved_char == "0":
+        #         raise ValueError(f"Board's FEN state is corrupted. - {self.FEN}")
+        #
+        #     new_rank_str = (
+        #         start_rank_str[: start_file - 1] + "0" + start_rank_str[start_file:]
+        #     )
+        #     ranks[8 - start_rank] = new_rank_str
+        #
+        # end_rank = get_rank(end_position, log=True)
+        # end_file = get_file(end_position, log=True)
+        # end_rank_str = ranks[8 - end_rank]
+        # new_rank_str = (
+        #     end_rank_str[: end_file - 1] + moved_char + end_rank_str[end_file:]
+        # )
+        # ranks[8 - end_rank] = new_rank_str
+        #
+        # self.FEN = "/".join(ranks) + " " + " ".join(self.FEN.split()[1:])
 
     def get_moves(self, side: str, piece: str, position: int) -> list[int]:
         """
