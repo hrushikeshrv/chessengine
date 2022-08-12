@@ -17,9 +17,9 @@ from .moves import (
 )
 from .lookup_tables import mask_position, clear_position
 from .utils import get_bit_positions, get_rank, get_file, piece_characters
-import logging
 
-logging.basicConfig(filemode='w', filename='./log/debug_forward_search.log', level=logging.DEBUG)
+# import logging
+# logging.basicConfig(filemode='w', filename='./log/debug_forward_search.log', level=logging.DEBUG)
 
 
 class Board:
@@ -68,7 +68,7 @@ class Board:
 
         # A dictionary matching a side and piece to its corresponding bit board.
         # Useful when we want to iterate through all of the bitboards of the board.
-        self.boards_table = {
+        self.board_table = {
             ("white", "kings"): self.white_kings,
             ("white", "queens"): self.white_queens,
             ("white", "rooks"): self.white_rooks,
@@ -113,8 +113,8 @@ class Board:
                 if board_string[_] == "1":
                     piece_list[_] = unicode_piece[(s, p)]
 
-        for side, piece in self.boards_table:
-            add_bitboard_to_repr(self.boards_table[(side, piece)], side, piece)
+        for side, piece in self.board_table:
+            add_bitboard_to_repr(self.board_table[(side, piece)], side, piece)
 
         board_repr = ""
         for i in range(8):
@@ -188,23 +188,23 @@ class Board:
         Returns the bitboard of the passed side for the passed pieces.
         Calling with side="black" and piece="king" will return the black_kings bitboard, and so on.
         """
-        if piece not in {
-            "kings",
-            "queens",
-            "bishops",
-            "knights",
-            "rooks",
-            "pawns",
-        }:
-            raise ValueError(
-                f"get_bitboard got unknown piece.\nExpected one of {{'kings', 'queens', 'bishops', 'knights', "
-                f"'rooks', 'pawns'}}, got {piece} instead."
-            )
-        if side not in {"black", "white"}:
-            raise ValueError(
-                f"get_bitboard got unknown piece.\nExpected one of {{'white', 'black'}}, "
-                f"got {side} instead."
-            )
+        # if piece not in {
+        #     "kings",
+        #     "queens",
+        #     "bishops",
+        #     "knights",
+        #     "rooks",
+        #     "pawns",
+        # }:
+        #     raise ValueError(
+        #         f"get_bitboard got unknown piece.\nExpected one of {{'kings', 'queens', 'bishops', 'knights', "
+        #         f"'rooks', 'pawns'}}, got {piece} instead."
+        #     )
+        # if side not in {"black", "white"}:
+        #     raise ValueError(
+        #         f"get_bitboard got unknown piece.\nExpected one of {{'white', 'black'}}, "
+        #         f"got {side} instead."
+        #     )
         attrname = side + "_" + piece
         return getattr(self, attrname)
 
@@ -219,7 +219,7 @@ class Board:
 
     def update_board_state(self) -> None:
         """
-        Updates self.all_white, self.all_black, self.all_pieces, and self.boards_table
+        Updates self.all_white, self.all_black, self.all_pieces, and self.board_table
         every time a bitboard is updated
         """
         self.all_white = (
@@ -242,7 +242,7 @@ class Board:
 
         self.all_pieces = self.all_black | self.all_white
 
-        self.boards_table = {
+        self.board_table = {
             ("white", "kings"): self.white_kings,
             ("white", "queens"): self.white_queens,
             ("white", "rooks"): self.white_rooks,
@@ -288,13 +288,11 @@ class Board:
         the identified piece, its side, and its board if a piece is found
         at that position, None otherwise.
         """
-        if self.all_pieces & position == 0:
-            # If we don't return here, the for loop will definitely return a non-null value
-            return None, None, None
-        for side, piece in self.boards_table:
-            board = self.boards_table[(side, piece)]
+        for side, piece in self.board_table:
+            board = self.board_table[(side, piece)]
             if board & position > 0:
                 return side, piece, board
+        return None, None, None
 
     def move(self, start: int, end: int, track: bool = True) -> None:
         """
@@ -411,50 +409,41 @@ class Board:
         return move_gens[(side, piece)](self, position)
 
     def search_forward(
-        self, depth: int = 5, followed_path: list = None, memo=None
+        self, depth: int = 5, followed_path: list = None
     ) -> tuple[int, list]:
         """
         Recursively searches for all possible moves the board can make from this starting
         condition depth-first. Returns the best score achieved and the optimal path to take
         """
-        if memo is None:
-            memo = {}
         if followed_path is None:
             followed_path = []
         if depth == 0:
             return self.score, followed_path
-        if (self, depth) in memo:
-            logging.debug(f'Cache hit for {self.FEN} at depth {depth}')
-            return memo[(self.FEN, depth)]
-
+        
         optimal_score = 0
         optimal_path = []
-        board_copy = self.copy()
-        for side, piece in board_copy.board_pieces:
-            positions = get_bit_positions(board_copy.get_bitboard(side, piece))
+        for side, piece in self.board_pieces:
+            positions = get_bit_positions(self.get_bitboard(side, piece))
             for position in positions:
-                moves = board_copy.get_moves(side, piece, position)
+                moves = self.get_moves(side, piece, position)
                 for move in moves:
-                    board_copy.move(start=position, end=move)
-                    for opp_side, opp_piece in board_copy.opponent_pieces:
+                    self.move(start=position, end=move)
+                    for opp_side, opp_piece in self.opponent_pieces:
                         opp_positions = get_bit_positions(
-                            board_copy.get_bitboard(opp_side, opp_piece)
+                            self.get_bitboard(opp_side, opp_piece)
                         )
                         for opp_pos in opp_positions:
-                            opp_moves = board_copy.get_moves(
+                            opp_moves = self.get_moves(
                                 opp_side, opp_piece, opp_pos
                             )
                             for opp_move in opp_moves:
-                                board_copy.move(opp_pos, opp_move)
-                                next_score, next_path = board_copy.search_forward(
+                                self.move(opp_pos, opp_move)
+                                next_score, next_path = self.search_forward(
                                     depth - 1, followed_path + [(position, move)]
                                 )
                                 if next_score >= optimal_score:
                                     optimal_score = next_score
                                     optimal_path = next_path
-                                    logging.debug(f'Recording {board_copy.FEN} at depth {depth} with optimal score {optimal_score}')
-                                    memo[(board_copy.FEN, depth)] = (optimal_score, optimal_path)
-                                board_copy.undo_move()
-                    board_copy.undo_move()
-                board_copy = self.copy()
+                                self.undo_move()
+                    self.undo_move()
         return optimal_score, optimal_path

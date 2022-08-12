@@ -27,6 +27,9 @@ class TestBoard(unittest.TestCase):
         self.assertEqual(
             board.identify_piece_at(2**7), ("white", "rooks", board.white_rooks)
         )
+        self.assertEqual(
+            board.identify_piece_at(2**20), (None, None, None)
+        )
 
     def test_move(self):
         board = Board("white")
