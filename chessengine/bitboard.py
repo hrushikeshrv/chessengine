@@ -18,8 +18,8 @@ from .moves import (
 from .lookup_tables import mask_position, clear_position
 from .utils import get_bit_positions, get_rank, get_file, piece_characters
 
-# import logging
-# logging.basicConfig(filemode='w', filename='./log/debug_forward_search.log', level=logging.DEBUG)
+import logging
+logging.basicConfig(filemode='w', filename='./log/debug_forward_search.log', level=logging.DEBUG)
 
 
 class Board:
@@ -157,7 +157,10 @@ class Board:
         b = self.piece_count[("black", "bishops")]
         n = self.piece_count[("black", "knights")]
         p = self.piece_count[("black", "pawns")]
-        return 200 * (K - k) + 9 * (Q - q) + 5 * (R - r) + 3 * (B - b + N - n) + (P - p)
+        s = 200 * (K - k) + 9 * (Q - q) + 5 * (R - r) + 3 * (B - b + N - n) + (P - p)
+        if self.side == "white":
+            return s
+        return -s
 
     @property
     def board_pieces(self):
@@ -377,7 +380,7 @@ class Board:
             raise RuntimeError("No moves have been made yet to undo.")
         end, start, side, piece, board = self.moves.pop()
         self.move(start=start, end=end, track=False)
-
+        # logging.debug(f'Undoing move from {log2(end)} to {log2(start)}')
         if side is not None:
             self.set_bitboard(side, piece, board)
             self.piece_count[(side, piece)] += 1
@@ -475,3 +478,79 @@ class Board:
                                 self.undo_move()
                     self.undo_move()
         return optimal_score, optimal_path
+
+    def search_forward_ab(
+        self,
+        depth: int = 5,
+        followed_path: list = None,
+        alpha: int = -1000,
+        beta: int = 1000,
+        maximizing_player: bool = True,
+    ):
+        if followed_path is None:
+            followed_path = []
+        if depth == 0:
+            return self.score, followed_path
+        
+        if maximizing_player:
+            value = -1000
+            final_path = []
+            abort_subtree = False
+            for side, piece in self.board_pieces:
+                if abort_subtree:
+                    break
+                positions = get_bit_positions(self.get_bitboard(side, piece))
+                for position in positions:
+                    if abort_subtree:
+                        break
+                    moves = self.get_moves(side, piece, position)
+                    for move in moves:
+                        # logging.debug(f'DEPTH {depth}. Trying to move {side} {piece} from {log2(position)} to {log2(move)}')
+                        self.move(start=position, end=move)
+                        final_score, final_path = self.search_forward_ab(
+                            depth-1,
+                            followed_path+[(position, move)],
+                            alpha,
+                            beta,
+                            False
+                        )
+                        value = max(value, final_score)
+                        if value >= beta:
+                            # Beta cutoff
+                            abort_subtree = True
+                            self.undo_move()
+                            break
+                        alpha = max(alpha, value)
+                        self.undo_move()
+            return value, final_path
+        else:
+            value = 1000
+            final_path = []
+            abort_subtree = False
+            for side, piece in self.opponent_pieces:
+                if abort_subtree:
+                    break
+                positions = get_bit_positions(self.get_bitboard(side, piece))
+                for position in positions:
+                    if abort_subtree:
+                        break
+                    moves = self.get_moves(side, piece, position)
+                    for move in moves:
+                        # logging.debug(f'DEPTH {depth}. Trying to move {side} {piece} from {log2(position)} to {log2(move)}')
+                        self.move(start=position, end=move)
+                        final_score, final_path = self.search_forward_ab(
+                            depth - 1,
+                            followed_path + [(position, move)],
+                            alpha,
+                            beta,
+                            True
+                        )
+                        value = min(value, final_score)
+                        if value <= alpha:
+                            # alpha cutoff
+                            abort_subtree = True
+                            self.undo_move()
+                            break
+                        beta = min(beta, value)
+                        self.undo_move()
+            return value, final_path
