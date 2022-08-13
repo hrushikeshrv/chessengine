@@ -19,7 +19,10 @@ from .lookup_tables import mask_position, clear_position
 from .utils import get_bit_positions, get_rank, get_file, piece_characters
 
 import logging
-logging.basicConfig(filemode='w', filename='./log/debug_forward_search.log', level=logging.DEBUG)
+
+logging.basicConfig(
+    filemode="w", filename="./log/debug_forward_search.log", level=logging.DEBUG
+)
 
 
 class Board:
@@ -442,44 +445,6 @@ class Board:
         return move_gens[(side, piece)](self, position)
 
     def search_forward(
-        self, depth: int = 5, followed_path: list = None
-    ) -> tuple[int, list]:
-        """
-        Recursively searches for all possible moves the board can make from this starting
-        condition depth-first. Returns the best score achieved and the optimal path to take
-        """
-        if followed_path is None:
-            followed_path = []
-        if depth == 0:
-            return self.score, followed_path
-
-        optimal_score = 0
-        optimal_path = []
-        for side, piece in self.board_pieces:
-            positions = get_bit_positions(self.get_bitboard(side, piece))
-            for position in positions:
-                moves = self.get_moves(side, piece, position)
-                for move in moves:
-                    self.move(start=position, end=move)
-                    for opp_side, opp_piece in self.opponent_pieces:
-                        opp_positions = get_bit_positions(
-                            self.get_bitboard(opp_side, opp_piece)
-                        )
-                        for opp_pos in opp_positions:
-                            opp_moves = self.get_moves(opp_side, opp_piece, opp_pos)
-                            for opp_move in opp_moves:
-                                self.move(opp_pos, opp_move)
-                                next_score, next_path = self.search_forward(
-                                    depth - 1, followed_path + [(position, move)]
-                                )
-                                if next_score >= optimal_score:
-                                    optimal_score = next_score
-                                    optimal_path = next_path
-                                self.undo_move()
-                    self.undo_move()
-        return optimal_score, optimal_path
-
-    def search_forward_ab(
         self,
         depth: int = 5,
         followed_path: list = None,
@@ -491,7 +456,7 @@ class Board:
             followed_path = []
         if depth == 0:
             return self.score, followed_path
-        
+
         if maximizing_player:
             value = -1000
             final_path = []
@@ -508,11 +473,11 @@ class Board:
                         # logging.debug(f'DEPTH {depth}. Trying to move {side} {piece} from {log2(position)} to {log2(move)}')
                         self.move(start=position, end=move)
                         final_score, final_path = self.search_forward_ab(
-                            depth-1,
-                            followed_path+[(position, move)],
+                            depth - 1,
+                            followed_path + [(position, move)],
                             alpha,
                             beta,
-                            False
+                            False,
                         )
                         value = max(value, final_score)
                         if value >= beta:
@@ -543,7 +508,7 @@ class Board:
                             followed_path + [(position, move)],
                             alpha,
                             beta,
-                            True
+                            True,
                         )
                         value = min(value, final_score)
                         if value <= alpha:
