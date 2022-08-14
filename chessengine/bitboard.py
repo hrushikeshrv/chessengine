@@ -16,7 +16,7 @@ from .moves import (
     get_black_queen_moves,
 )
 from .lookup_tables import mask_position, clear_position
-from .utils import get_bit_positions, get_rank, get_file, piece_characters
+from .utils import get_bit_positions
 
 import logging
 
@@ -100,9 +100,6 @@ class Board:
             ("black", "knights"): self.black_knights,
             ("black", "pawns"): self.black_pawns,
         }
-
-        # (modified) FEN representation of the board (used to produce a hash string for the board)
-        # self.FEN = "rnbqkbnr/pppppppp/00000000/00000000/00000000/00000000/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
 
         # Keep track of all moves made
         self.moves = []
@@ -221,23 +218,6 @@ class Board:
         Returns the bitboard of the passed side for the passed pieces.
         Calling with side="black" and piece="king" will return the black_kings bitboard, and so on.
         """
-        # if piece not in {
-        #     "kings",
-        #     "queens",
-        #     "bishops",
-        #     "knights",
-        #     "rooks",
-        #     "pawns",
-        # }:
-        #     raise ValueError(
-        #         f"get_bitboard got unknown piece.\nExpected one of {{'kings', 'queens', 'bishops', 'knights', "
-        #         f"'rooks', 'pawns'}}, got {piece} instead."
-        #     )
-        # if side not in {"black", "white"}:
-        #     raise ValueError(
-        #         f"get_bitboard got unknown piece.\nExpected one of {{'white', 'black'}}, "
-        #         f"got {side} instead."
-        #     )
         attrname = side + "_" + piece
         return getattr(self, attrname)
 
@@ -294,23 +274,6 @@ class Board:
         """
         Sets the bitboard for the passed arguments to the passed bitboard
         """
-        # if piece not in {
-        #     "kings",
-        #     "queens",
-        #     "bishops",
-        #     "knights",
-        #     "rooks",
-        #     "pawns",
-        # }:
-        #     raise ValueError(
-        #         f"set_bitboard got unknown piece.\nExpected one of {{'kings', 'queens', 'bishops', 'knights', "
-        #         f"'rooks', 'pawns'}}, got {piece} instead."
-        #     )
-        # if side not in {"black", "white"}:
-        #     raise ValueError(
-        #         f"set_bitboard got unknown piece.\nExpected one of {{'white', 'black'}}, "
-        #         f"got {side} instead."
-        #     )
         attrname = side + "_" + piece
         setattr(self, attrname, board)
         self.update_board_state()
@@ -387,41 +350,6 @@ class Board:
         if side is not None:
             self.set_bitboard(side, piece, board)
             self.piece_count[(side, piece)] += 1
-            # self.update_fen_state(-1, log2(start), piece_characters[(side, piece)])
-
-    def update_fen_state(self, start_position, end_position, moved_char: str = "0"):
-        """
-        Updates the FEN representation of the Board. To update
-        the FEN state after undoing a capture move, pass the
-        start_position as -1 and moved_char to the character of
-        the piece that was captured
-        TODO - Add support for castling
-        """
-        return
-        # ranks = self.FEN.split()[0].split("/")
-        #
-        # if start_position > -1:
-        #     start_rank = get_rank(start_position, log=True)
-        #     start_file = get_file(start_position, log=True)
-        #     start_rank_str = ranks[8 - start_rank]
-        #     moved_char = start_rank_str[start_file - 1]
-        #     if moved_char == "0":
-        #         raise ValueError(f"Board's FEN state is corrupted. - {self.FEN}")
-        #
-        #     new_rank_str = (
-        #         start_rank_str[: start_file - 1] + "0" + start_rank_str[start_file:]
-        #     )
-        #     ranks[8 - start_rank] = new_rank_str
-        #
-        # end_rank = get_rank(end_position, log=True)
-        # end_file = get_file(end_position, log=True)
-        # end_rank_str = ranks[8 - end_rank]
-        # new_rank_str = (
-        #     end_rank_str[: end_file - 1] + moved_char + end_rank_str[end_file:]
-        # )
-        # ranks[8 - end_rank] = new_rank_str
-        #
-        # self.FEN = "/".join(ranks) + " " + " ".join(self.FEN.split()[1:])
 
     def get_moves(self, side: str, piece: str, position: int) -> list[int]:
         """
@@ -451,7 +379,7 @@ class Board:
         alpha: int = -1000,
         beta: int = 1000,
         maximizing_player: bool = True,
-    ):
+    ) -> tuple[int, list]:
         if followed_path is None:
             followed_path = []
         if depth == 0:
@@ -472,7 +400,7 @@ class Board:
                     for move in moves:
                         # logging.debug(f'DEPTH {depth}. Trying to move {side} {piece} from {log2(position)} to {log2(move)}')
                         self.move(start=position, end=move)
-                        final_score, final_path = self.search_forward_ab(
+                        final_score, final_path = self.search_forward(
                             depth - 1,
                             followed_path + [(position, move)],
                             alpha,
@@ -503,7 +431,7 @@ class Board:
                     for move in moves:
                         # logging.debug(f'DEPTH {depth}. Trying to move {side} {piece} from {log2(position)} to {log2(move)}')
                         self.move(start=position, end=move)
-                        final_score, final_path = self.search_forward_ab(
+                        final_score, final_path = self.search_forward(
                             depth - 1,
                             followed_path + [(position, move)],
                             alpha,
@@ -519,3 +447,8 @@ class Board:
                         beta = min(beta, value)
                         self.undo_move()
             return value, final_path
+    
+    def play(self, search_depth: int = 2) -> None:
+        """
+        The game loop.
+        """
