@@ -15,7 +15,7 @@ from .moves import (
     get_black_king_moves,
     get_black_queen_moves,
 )
-from .lookup_tables import mask_position, clear_position
+from .lookup_tables import mask_position, clear_position, coords_to_pos, pos_to_coords
 from .utils import get_bit_positions
 
 import logging
@@ -282,7 +282,7 @@ class Board:
         """
         Identifies if there is any piece on the position passed. Returns
         the identified piece, its side, and its board if a piece is found
-        at that position, None otherwise.
+        at that position, None otherwise. Position is a power of 2
         """
         for side, piece in self.board_table:
             board = self.board_table[(side, piece)]
@@ -374,12 +374,17 @@ class Board:
 
     def search_forward(
         self,
-        depth: int = 5,
+        depth: int = 6,
         followed_path: list = None,
         alpha: int = -1000,
         beta: int = 1000,
         maximizing_player: bool = True,
     ) -> tuple[int, list]:
+        """
+        Performs a depth first forward search for the optimal
+        move the board's side can make. Only required argument
+        is depth, which is the number of plies to search forward
+        """
         if followed_path is None:
             followed_path = []
         if depth == 0:
@@ -447,8 +452,66 @@ class Board:
                         beta = min(beta, value)
                         self.undo_move()
             return value, final_path
-    
-    def play(self, search_depth: int = 2) -> None:
+
+    def play(self, search_depth: int = 4) -> None:
         """
         The game loop.
         """
+        def clear_lines(n):
+            """
+            Clears the last n lines printed so we can print there again
+            """
+            LINE_UP = '\033[1A'
+            LINE_CLEAR = '\x1b[2K'
+            for i in range(n):
+                print(LINE_UP, end=LINE_CLEAR)
+        
+        print('\n'*10)
+        side_to_move = "white"
+        while True:
+            clear_lines(1)
+            if side_to_move == self.side:
+                value, optimal_path = self.search_forward(search_depth)
+                best_move = optimal_path[0]
+                self.move(best_move[0], best_move[1])
+                
+                clear_lines(10)
+                print(f'Board moves from {pos_to_coords[log2(best_move[0])]} to {pos_to_coords[log2(best_move[1])]}')
+                print(self)
+            else:
+                move_to_make = input(
+                    "Enter the move you want to make (e.g. A4-C5 moves a piece from A4 to C5) - "
+                ).strip()
+                if move_to_make.lower() == "q":
+                    print(f"Thanks for playing!")
+                    return
+                if move_to_make.lower() == "u":
+                    self.undo_move()
+                    self.undo_move()
+                    continue
+
+                move = move_to_make.upper().split("-")
+                start = 2 ** coords_to_pos[move[0]]
+                end = 2 ** coords_to_pos[move[1]]
+
+                moving_side, moving_piece, moving_board = self.identify_piece_at(start)
+                if moving_side == self.side:
+                    raise ValueError(f"You cannot move {moving_side} pieces.")
+                if moving_side is None:
+                    print(f'There is no piece at {move[0]} to move. Try again.')
+                    continue
+                    
+                valid_moves = self.get_moves(moving_side, moving_piece, start)
+                if end not in valid_moves:
+                    raise ValueError(
+                        f"{move[0]} to {move[1]} is not a valid move for your {moving_piece[:-1]}."
+                    )
+                self.move(start, end)
+                clear_lines(10)
+                print(f'Board moves from {move[0]} to {move[1]}')
+                print(self)
+
+            if side_to_move == "white":
+                side_to_move = "black"
+            else:
+                side_to_move = "white"
