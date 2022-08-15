@@ -18,11 +18,10 @@ from .moves import (
 from .lookup_tables import mask_position, clear_position, coords_to_pos, pos_to_coords
 from .utils import get_bit_positions
 
-import logging
-
-logging.basicConfig(
-    filemode="w", filename="./log/debug_forward_search.log", level=logging.DEBUG
-)
+# import logging
+# logging.basicConfig(
+#     filemode="w", filename="./log/debug_forward_search.log", level=logging.DEBUG
+# )
 
 
 class Board:
@@ -390,12 +389,11 @@ class Board:
         if followed_path is None:
             followed_path = []
         if depth == 0:
-            logging.debug(f"{self.piece_count[('white', 'rooks')]}, {self.piece_count[('black', 'rooks')]}")
             return self.score, followed_path
 
+        optimal_path = []
         if maximizing_player:
             value = -1000
-            optimal_path = followed_path
             abort_subtree = False
             for side, piece in self.board_pieces:
                 if abort_subtree:
@@ -414,16 +412,16 @@ class Board:
                             beta,
                             False,
                         )
-                        logging.debug(
-                            f'Maximized. score {final_score}, alpha {alpha}, beta {beta}, value {value}')
-                        if value >= final_score:
-                            logging.debug(f'Setting optimal path {optimal_path} -> {final_path}')
+                        # logging.debug(
+                        #     f'Maximized. score {final_score}, alpha {alpha}, beta {beta}, value {value}')
+                        if final_score >= value:
+                            # logging.debug(f'Setting optimal path {optimal_path} -> {final_path}')
                             optimal_path = final_path
-                        value = max(value, final_score)
+                            value = final_score
                         alpha = max(alpha, value)
                         if value >= beta:
                             # Beta cutoff
-                            logging.debug(f'Aborting this subtree. {value} >= {beta}')
+                            # logging.debug(f'Aborting this subtree. {value} >= {beta}')
                             abort_subtree = True
                             self.undo_move()
                             break
@@ -431,7 +429,6 @@ class Board:
             return value, optimal_path
         else:
             value = 1000
-            optimal_path = followed_path
             abort_subtree = False
             for side, piece in self.opponent_pieces:
                 if abort_subtree:
@@ -450,15 +447,16 @@ class Board:
                             beta,
                             True,
                         )
-                        logging.debug(f'Minimized. score {final_score}, alpha {alpha}, beta {beta}, value {value}')
-                        if value <= final_score:
-                            logging.debug(f'Setting optimal path {optimal_path} -> {final_path}')
+                        # logging.debug(f'Minimized. score {final_score}, alpha {alpha}, beta {beta}, value {value}')
+                        if value >= final_score:
+                            # logging.debug(f'Setting optimal path {optimal_path} -> {final_path}')
                             optimal_path = final_path
+                            value = final_score
                         value = min(value, final_score)
                         beta = min(beta, value)
                         if value <= alpha:
                             # alpha cutoff
-                            logging.debug(f'Aborting this subtree. {value} <= {alpha}')
+                            # logging.debug(f'Aborting this subtree. {value} <= {alpha}')
                             abort_subtree = True
                             self.undo_move()
                             break
