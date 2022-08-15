@@ -141,7 +141,9 @@ class Board:
         return self.__repr__()
 
     def __eq__(self, other):
-        return self.FEN == other.FEN
+        if self.side != other.side:
+            return False
+        return str(self) == str(other)
 
     @property
     def score(self):
@@ -388,11 +390,12 @@ class Board:
         if followed_path is None:
             followed_path = []
         if depth == 0:
+            logging.debug(f"{self.piece_count[('white', 'rooks')]}, {self.piece_count[('black', 'rooks')]}")
             return self.score, followed_path
 
         if maximizing_player:
             value = -1000
-            final_path = []
+            optimal_path = followed_path
             abort_subtree = False
             for side, piece in self.board_pieces:
                 if abort_subtree:
@@ -403,7 +406,6 @@ class Board:
                         break
                     moves = self.get_moves(side, piece, position)
                     for move in moves:
-                        # logging.debug(f'DEPTH {depth}. Trying to move {side} {piece} from {log2(position)} to {log2(move)}')
                         self.move(start=position, end=move)
                         final_score, final_path = self.search_forward(
                             depth - 1,
@@ -412,18 +414,24 @@ class Board:
                             beta,
                             False,
                         )
+                        logging.debug(
+                            f'Maximized. score {final_score}, alpha {alpha}, beta {beta}, value {value}')
+                        if value >= final_score:
+                            logging.debug(f'Setting optimal path {optimal_path} -> {final_path}')
+                            optimal_path = final_path
                         value = max(value, final_score)
+                        alpha = max(alpha, value)
                         if value >= beta:
                             # Beta cutoff
+                            logging.debug(f'Aborting this subtree. {value} >= {beta}')
                             abort_subtree = True
                             self.undo_move()
                             break
-                        alpha = max(alpha, value)
                         self.undo_move()
-            return value, final_path
+            return value, optimal_path
         else:
             value = 1000
-            final_path = []
+            optimal_path = followed_path
             abort_subtree = False
             for side, piece in self.opponent_pieces:
                 if abort_subtree:
@@ -434,7 +442,6 @@ class Board:
                         break
                     moves = self.get_moves(side, piece, position)
                     for move in moves:
-                        # logging.debug(f'DEPTH {depth}. Trying to move {side} {piece} from {log2(position)} to {log2(move)}')
                         self.move(start=position, end=move)
                         final_score, final_path = self.search_forward(
                             depth - 1,
@@ -443,15 +450,20 @@ class Board:
                             beta,
                             True,
                         )
+                        logging.debug(f'Minimized. score {final_score}, alpha {alpha}, beta {beta}, value {value}')
+                        if value <= final_score:
+                            logging.debug(f'Setting optimal path {optimal_path} -> {final_path}')
+                            optimal_path = final_path
                         value = min(value, final_score)
+                        beta = min(beta, value)
                         if value <= alpha:
                             # alpha cutoff
+                            logging.debug(f'Aborting this subtree. {value} <= {alpha}')
                             abort_subtree = True
                             self.undo_move()
                             break
-                        beta = min(beta, value)
                         self.undo_move()
-            return value, final_path
+            return value, optimal_path
 
     def play(self, search_depth: int = 4) -> None:
         """
