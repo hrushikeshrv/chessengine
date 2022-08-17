@@ -18,6 +18,9 @@ class TestMoves(unittest.TestCase):
 
         board.move(2**9, 2**16)
         self.assertEqual(get_white_pawn_moves(board, 2**8, False), [])
+        
+        board.move(2**8, 2**49)
+        self.assertEqual(get_white_pawn_moves(board, 2**49, False), [2**56, 2**58])
 
     def test_get_white_rook_moves(self):
         board = Board("white")

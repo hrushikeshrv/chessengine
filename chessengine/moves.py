@@ -286,12 +286,14 @@ def get_white_pawn_moves(
     """
     Returns a list of end positions a white pawn starting at position can reach
     """
-    #
+    rank = get_rank(position)
+    if rank == 8:
+        return []
+    
     moves = []
     _ = position << 8
     if board.all_pieces & _ == 0:
         moves.append(_)
-        rank = get_rank(position)
         if rank == 2:
             _ = position << 16
             if board.all_pieces & _ == 0:
@@ -323,11 +325,14 @@ def get_black_pawn_moves(
     """
     Returns a list of end positions a black pawn starting at position can reach
     """
+    rank = get_rank(position)
+    if rank == 1:
+        return []
+    
     moves = []
     _ = position >> 8
     if board.all_pieces & _ == 0:
         moves.append(_)
-        rank = get_rank(position)
         if rank == 7:
             _ = position >> 16
             if board.all_pieces & _ == 0:

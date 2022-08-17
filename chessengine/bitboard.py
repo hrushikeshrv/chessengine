@@ -302,6 +302,10 @@ class Board:
             raise ValueError("The start position provided is not a power of 2")
         if not end_pos.is_integer():
             raise ValueError("The end position provided is not a power of 2")
+        if not 0 <= start_pos <= 63:
+            raise ValueError(f"The start position is outside the board - moving from {start_pos} to {end_pos}")
+        if not 0 <= end_pos <= 63:
+            raise ValueError(f"The end position is outside the board - moving from {start_pos} to {end_pos}")
 
         start_side, start_piece, start_board = self.identify_piece_at(start)
         if start_side is None:
@@ -332,7 +336,6 @@ class Board:
         # Set the moved piece's final position (set "end" to 1)
         move_side_board |= mask_position[end_pos]
         self.set_bitboard(start_side, start_piece, move_side_board)
-        # self.update_fen_state(start_pos, end_pos)
 
     def make_moves(self, *moves: tuple[int]) -> None:
         """
@@ -412,16 +415,12 @@ class Board:
                             beta,
                             False,
                         )
-                        # logging.debug(
-                        #     f'Maximized. score {final_score}, alpha {alpha}, beta {beta}, value {value}')
                         if final_score >= value:
-                            # logging.debug(f'Setting optimal path {optimal_path} -> {final_path}')
                             optimal_path = final_path
                             value = final_score
                         alpha = max(alpha, value)
                         if value >= beta:
                             # Beta cutoff
-                            # logging.debug(f'Aborting this subtree. {value} >= {beta}')
                             abort_subtree = True
                             self.undo_move()
                             break
@@ -447,16 +446,13 @@ class Board:
                             beta,
                             True,
                         )
-                        # logging.debug(f'Minimized. score {final_score}, alpha {alpha}, beta {beta}, value {value}')
                         if value >= final_score:
-                            # logging.debug(f'Setting optimal path {optimal_path} -> {final_path}')
                             optimal_path = final_path
                             value = final_score
                         value = min(value, final_score)
                         beta = min(beta, value)
                         if value <= alpha:
                             # alpha cutoff
-                            # logging.debug(f'Aborting this subtree. {value} <= {alpha}')
                             abort_subtree = True
                             self.undo_move()
                             break
@@ -479,13 +475,14 @@ class Board:
         print('\n'*10)
         side_to_move = "white"
         while True:
-            clear_lines(1)
+            # clear_lines(1)
             if side_to_move == self.side:
                 value, optimal_path = self.search_forward(search_depth)
                 best_move = optimal_path[0]
+                print(f'Chose to move {log2(best_move[0])} to {log2(best_move[1])}')
                 self.move(best_move[0], best_move[1])
                 
-                clear_lines(10)
+                # clear_lines(10)
                 print(f'Board moves from {pos_to_coords[log2(best_move[0])]} to {pos_to_coords[log2(best_move[1])]}')
                 print(self)
             else:
@@ -513,12 +510,13 @@ class Board:
                     
                 valid_moves = self.get_moves(moving_side, moving_piece, start)
                 if end not in valid_moves:
-                    raise ValueError(
+                    print(
                         f"{move[0]} to {move[1]} is not a valid move for your {moving_piece[:-1]}."
                     )
+                    continue
                 self.move(start, end)
-                clear_lines(10)
-                print(f'Board moves from {move[0]} to {move[1]}')
+                # clear_lines(10)
+                print(f'You moved from {move[0]} to {move[1]}')
                 print(self)
 
             if side_to_move == "white":
