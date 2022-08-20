@@ -83,6 +83,7 @@ class Board:
         if side.lower().strip() not in ["black", "white"]:
             raise ValueError(f'side must be one of "black" or "white". Got {side}')
         self.side = side.lower().strip()
+        self.opponent_side = 'black' if self.side == 'white' else 'white'
 
         # A dictionary matching a side and piece to its corresponding bit board.
         # Useful when we want to iterate through all of the bitboards of the board.
@@ -362,7 +363,7 @@ class Board:
 
     def get_moves(
         self, side: str, piece: str = None, position: int = None
-    ) -> list[int]:
+    ) -> list[tuple[int, int]]:
         """
         Gets all end positions a piece of side can reach starting from position
         """
@@ -393,7 +394,65 @@ class Board:
                     moves.extend(self.get_moves(side, piece, position))
             return moves
 
-    def search_forward(
+    def search_forward(self, depth: int = 6) -> tuple[int, int]:
+        maximize = self.score == 'white'
+        best_score = -1000 if maximize else 1000
+
+        moves = self.get_moves(self.side)
+        best_move = moves[0]
+        
+        for move in moves:
+            self.move(start=move[0], end=move[1])
+            print(self)
+            value = self.alpha_beta_search(depth=depth-1, maximizing_player=not maximize)
+            self.undo_move()
+            
+            if maximize and value >= best_score:
+                best_move = move
+            elif not maximize and value <= best_score:
+                best_move = move
+        return best_move
+    
+    def alpha_beta_search(self, depth: int = 6, alpha: int = -1000, beta: int = 1000, maximizing_player: bool = True):
+        if depth == 0:
+            return self.score
+        
+        if maximizing_player:
+            value = -1000
+            moves = self.get_moves(self.side)
+            for move in moves:
+                self.move(start=move[0], end=move[1])
+                final_score = self.alpha_beta_search(
+                    depth-1,
+                    alpha,
+                    beta,
+                    False
+                )
+                value = max(value, final_score)
+                self.undo_move()
+                if value >= beta:
+                    break
+                alpha = max(alpha, value)
+            return value
+        else:
+            value = 1000
+            moves = self.get_moves(self.opponent_side)
+            logging.debug(list(map(lambda x: (log2(x[0]), log2(x[1])), moves)))
+            for move in moves:
+                self.move(start=move[0], end=move[1])
+                final_score = self.alpha_beta_search(
+                    depth-1,
+                    alpha,
+                    beta,
+                    True
+                )
+                value = min(value, final_score)
+                if value <= alpha:
+                    break
+                beta = min(beta, value)
+            return value
+
+    def _search_forward(
         self,
         depth: int = 6,
         followed_path: list = None,
@@ -425,7 +484,7 @@ class Board:
                     moves = self.get_moves(side, piece, position)
                     for move in moves:
                         self.move(start=position, end=move)
-                        final_score, final_path = self.search_forward(
+                        final_score, final_path = self._search_forward(
                             depth - 1,
                             followed_path + [(position, move)],
                             alpha,
@@ -456,7 +515,7 @@ class Board:
                     moves = self.get_moves(side, piece, position)
                     for move in moves:
                         self.move(start=position, end=move)
-                        final_score, final_path = self.search_forward(
+                        final_score, final_path = self._search_forward(
                             depth - 1,
                             followed_path + [(position, move)],
                             alpha,
@@ -494,8 +553,7 @@ class Board:
         while True:
             clear_lines(1)
             if side_to_move == self.side:
-                value, optimal_path = self.search_forward(search_depth)
-                best_move = optimal_path[0]
+                best_move = self.search_forward(search_depth)
                 print(f"Chose to move {log2(best_move[0])} to {log2(best_move[1])}")
                 self.move(best_move[0], best_move[1])
 
