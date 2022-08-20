@@ -18,10 +18,11 @@ from .moves import (
 from .lookup_tables import mask_position, clear_position, coords_to_pos, pos_to_coords
 from .utils import get_bit_positions
 
-# import logging
-# logging.basicConfig(
-#     filemode="w", filename="./log/debug_forward_search.log", level=logging.DEBUG
-# )
+import logging
+
+logging.basicConfig(
+    filemode="w", filename="./log/debug_forward_search.log", level=logging.DEBUG
+)
 
 
 class Board:
@@ -303,9 +304,13 @@ class Board:
         if not end_pos.is_integer():
             raise ValueError("The end position provided is not a power of 2")
         if not 0 <= start_pos <= 63:
-            raise ValueError(f"The start position is outside the board - moving from {start_pos} to {end_pos}")
+            raise ValueError(
+                f"The start position is outside the board - moving from {start_pos} to {end_pos}"
+            )
         if not 0 <= end_pos <= 63:
-            raise ValueError(f"The end position is outside the board - moving from {start_pos} to {end_pos}")
+            raise ValueError(
+                f"The end position is outside the board - moving from {start_pos} to {end_pos}"
+            )
 
         start_side, start_piece, start_board = self.identify_piece_at(start)
         if start_side is None:
@@ -355,26 +360,38 @@ class Board:
             self.set_bitboard(side, piece, board)
             self.piece_count[(side, piece)] += 1
 
-    def get_moves(self, side: str, piece: str, position: int) -> list[int]:
+    def get_moves(
+        self, side: str, piece: str = None, position: int = None
+    ) -> list[int]:
         """
         Gets all end positions a piece of side can reach starting from position
         """
-        move_gens = {
-            ("white", "kings"): get_white_king_moves,
-            ("white", "queens"): get_white_queen_moves,
-            ("white", "rooks"): get_white_rook_moves,
-            ("white", "bishops"): get_white_bishop_moves,
-            ("white", "knights"): get_white_knight_moves,
-            ("white", "pawns"): get_white_pawn_moves,
-            ("black", "kings"): get_black_king_moves,
-            ("black", "queens"): get_black_queen_moves,
-            ("black", "rooks"): get_black_rook_moves,
-            ("black", "bishops"): get_black_bishop_moves,
-            ("black", "knights"): get_black_knight_moves,
-            ("black", "pawns"): get_black_pawn_moves,
-        }
-        # TODO - Add support for en passant move detection
-        return move_gens[(side, piece)](self, position)
+        if piece is not None:
+            if position is None:
+                raise TypeError("'position' cannot be None if piece is provided.")
+            move_gens = {
+                ("white", "kings"): get_white_king_moves,
+                ("white", "queens"): get_white_queen_moves,
+                ("white", "rooks"): get_white_rook_moves,
+                ("white", "bishops"): get_white_bishop_moves,
+                ("white", "knights"): get_white_knight_moves,
+                ("white", "pawns"): get_white_pawn_moves,
+                ("black", "kings"): get_black_king_moves,
+                ("black", "queens"): get_black_queen_moves,
+                ("black", "rooks"): get_black_rook_moves,
+                ("black", "bishops"): get_black_bishop_moves,
+                ("black", "knights"): get_black_knight_moves,
+                ("black", "pawns"): get_black_pawn_moves,
+            }
+            # TODO - Add support for en passant move detection
+            return move_gens[(side, piece)](self, position)
+        else:
+            moves = []
+            for side, piece in self.board_pieces:
+                positions = get_bit_positions(self.get_bitboard(side, piece))
+                for position in positions:
+                    moves.extend(self.get_moves(side, piece, position))
+            return moves
 
     def search_forward(
         self,
@@ -415,15 +432,15 @@ class Board:
                             beta,
                             False,
                         )
-                        if final_score >= value:
-                            optimal_path = final_path
+                        if value <= final_score:
                             value = final_score
-                        alpha = max(alpha, value)
+                            optimal_path = final_path
                         if value >= beta:
                             # Beta cutoff
                             abort_subtree = True
                             self.undo_move()
                             break
+                        alpha = max(alpha, value)
                         self.undo_move()
             return value, optimal_path
         else:
@@ -447,15 +464,14 @@ class Board:
                             True,
                         )
                         if value >= final_score:
-                            optimal_path = final_path
                             value = final_score
-                        value = min(value, final_score)
-                        beta = min(beta, value)
+                            optimal_path = final_path
                         if value <= alpha:
                             # alpha cutoff
                             abort_subtree = True
                             self.undo_move()
                             break
+                        beta = min(beta, value)
                         self.undo_move()
             return value, optimal_path
 
@@ -463,27 +479,30 @@ class Board:
         """
         The game loop.
         """
+
         def clear_lines(n):
             """
             Clears the last n lines printed so we can print there again
             """
-            LINE_UP = '\033[1A'
-            LINE_CLEAR = '\x1b[2K'
+            LINE_UP = "\033[1A"
+            LINE_CLEAR = "\x1b[2K"
             for i in range(n):
                 print(LINE_UP, end=LINE_CLEAR)
-        
-        print('\n'*10)
+
+        print("\n" * 10)
         side_to_move = "white"
         while True:
-            # clear_lines(1)
+            clear_lines(1)
             if side_to_move == self.side:
                 value, optimal_path = self.search_forward(search_depth)
                 best_move = optimal_path[0]
-                print(f'Chose to move {log2(best_move[0])} to {log2(best_move[1])}')
+                print(f"Chose to move {log2(best_move[0])} to {log2(best_move[1])}")
                 self.move(best_move[0], best_move[1])
-                
-                # clear_lines(10)
-                print(f'Board moves from {pos_to_coords[log2(best_move[0])]} to {pos_to_coords[log2(best_move[1])]}')
+
+                clear_lines(10)
+                print(
+                    f"Board moves from {pos_to_coords[log2(best_move[0])]} to {pos_to_coords[log2(best_move[1])]}"
+                )
                 print(self)
             else:
                 move_to_make = input(
@@ -505,9 +524,9 @@ class Board:
                 if moving_side == self.side:
                     raise ValueError(f"You cannot move {moving_side} pieces.")
                 if moving_side is None:
-                    print(f'There is no piece at {move[0]} to move. Try again.')
+                    print(f"There is no piece at {move[0]} to move. Try again.")
                     continue
-                    
+
                 valid_moves = self.get_moves(moving_side, moving_piece, start)
                 if end not in valid_moves:
                     print(
@@ -515,8 +534,8 @@ class Board:
                     )
                     continue
                 self.move(start, end)
-                # clear_lines(10)
-                print(f'You moved from {move[0]} to {move[1]}')
+                clear_lines(10)
+                print(f"You moved from {move[0]} to {move[1]}")
                 print(self)
 
             if side_to_move == "white":
