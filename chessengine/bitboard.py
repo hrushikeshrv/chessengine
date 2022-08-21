@@ -83,7 +83,7 @@ class Board:
         if side.lower().strip() not in ["black", "white"]:
             raise ValueError(f'side must be one of "black" or "white". Got {side}')
         self.side = side.lower().strip()
-        self.opponent_side = 'black' if self.side == 'white' else 'white'
+        self.opponent_side = "black" if self.side == "white" else "white"
 
         # A dictionary matching a side and piece to its corresponding bit board.
         # Useful when we want to iterate through all of the bitboards of the board.
@@ -356,7 +356,6 @@ class Board:
             raise RuntimeError("No moves have been made yet to undo.")
         end, start, side, piece, board = self.moves.pop()
         self.move(start=start, end=end, track=False)
-        # logging.debug(f'Undoing move from {log2(end)} to {log2(start)}')
         if side is not None:
             self.set_bitboard(side, piece, board)
             self.piece_count[(side, piece)] += 1
@@ -394,40 +393,44 @@ class Board:
                     moves.extend(self.get_moves(side, piece, position))
             return moves
 
-    def search_forward(self, depth: int = 6) -> tuple[int, int]:
-        maximize = self.score == 'white'
+    def search_forward(self, depth: int = 4) -> tuple[int, tuple]:
+        maximize = self.side == "white"
         best_score = -1000 if maximize else 1000
 
         moves = self.get_moves(self.side)
         best_move = moves[0]
-        
+
         for move in moves:
             self.move(start=move[0], end=move[1])
-            print(self)
-            value = self.alpha_beta_search(depth=depth-1, maximizing_player=not maximize)
+            value = self.alpha_beta_search(
+                depth=depth - 1, maximizing_player=not maximize
+            )
             self.undo_move()
-            
+
             if maximize and value >= best_score:
+                best_score = value
                 best_move = move
             elif not maximize and value <= best_score:
+                best_score = value
                 best_move = move
-        return best_move
-    
-    def alpha_beta_search(self, depth: int = 6, alpha: int = -1000, beta: int = 1000, maximizing_player: bool = True):
+        return best_score, best_move
+
+    def alpha_beta_search(
+        self,
+        depth: int = 4,
+        alpha: int = -1000,
+        beta: int = 1000,
+        maximizing_player: bool = True,
+    ) -> int:
         if depth == 0:
             return self.score
-        
+
         if maximizing_player:
             value = -1000
             moves = self.get_moves(self.side)
             for move in moves:
                 self.move(start=move[0], end=move[1])
-                final_score = self.alpha_beta_search(
-                    depth-1,
-                    alpha,
-                    beta,
-                    False
-                )
+                final_score = self.alpha_beta_search(depth - 1, alpha, beta, False)
                 value = max(value, final_score)
                 self.undo_move()
                 if value >= beta:
@@ -437,102 +440,15 @@ class Board:
         else:
             value = 1000
             moves = self.get_moves(self.opponent_side)
-            logging.debug(list(map(lambda x: (log2(x[0]), log2(x[1])), moves)))
             for move in moves:
                 self.move(start=move[0], end=move[1])
-                final_score = self.alpha_beta_search(
-                    depth-1,
-                    alpha,
-                    beta,
-                    True
-                )
+                final_score = self.alpha_beta_search(depth - 1, alpha, beta, True)
                 value = min(value, final_score)
+                self.undo_move()
                 if value <= alpha:
                     break
                 beta = min(beta, value)
             return value
-
-    def _search_forward(
-        self,
-        depth: int = 6,
-        followed_path: list = None,
-        alpha: int = -1000,
-        beta: int = 1000,
-        maximizing_player: bool = True,
-    ) -> tuple[int, list]:
-        """
-        Performs a depth first forward search for the optimal
-        move the board's side can make. Only required argument
-        is depth, which is the number of plies to search forward
-        """
-        if followed_path is None:
-            followed_path = []
-        if depth == 0:
-            return self.score, followed_path
-
-        optimal_path = []
-        if maximizing_player:
-            value = -1000
-            abort_subtree = False
-            for side, piece in self.board_pieces:
-                if abort_subtree:
-                    break
-                positions = get_bit_positions(self.get_bitboard(side, piece))
-                for position in positions:
-                    if abort_subtree:
-                        break
-                    moves = self.get_moves(side, piece, position)
-                    for move in moves:
-                        self.move(start=position, end=move)
-                        final_score, final_path = self._search_forward(
-                            depth - 1,
-                            followed_path + [(position, move)],
-                            alpha,
-                            beta,
-                            False,
-                        )
-                        if value <= final_score:
-                            value = final_score
-                            optimal_path = final_path
-                        if value >= beta:
-                            # Beta cutoff
-                            abort_subtree = True
-                            self.undo_move()
-                            break
-                        alpha = max(alpha, value)
-                        self.undo_move()
-            return value, optimal_path
-        else:
-            value = 1000
-            abort_subtree = False
-            for side, piece in self.opponent_pieces:
-                if abort_subtree:
-                    break
-                positions = get_bit_positions(self.get_bitboard(side, piece))
-                for position in positions:
-                    if abort_subtree:
-                        break
-                    moves = self.get_moves(side, piece, position)
-                    for move in moves:
-                        self.move(start=position, end=move)
-                        final_score, final_path = self._search_forward(
-                            depth - 1,
-                            followed_path + [(position, move)],
-                            alpha,
-                            beta,
-                            True,
-                        )
-                        if value >= final_score:
-                            value = final_score
-                            optimal_path = final_path
-                        if value <= alpha:
-                            # alpha cutoff
-                            abort_subtree = True
-                            self.undo_move()
-                            break
-                        beta = min(beta, value)
-                        self.undo_move()
-            return value, optimal_path
 
     def play(self, search_depth: int = 4) -> None:
         """
@@ -553,7 +469,7 @@ class Board:
         while True:
             clear_lines(1)
             if side_to_move == self.side:
-                best_move = self.search_forward(search_depth)
+                best_score, best_move = self.search_forward(search_depth)
                 print(f"Chose to move {log2(best_move[0])} to {log2(best_move[1])}")
                 self.move(best_move[0], best_move[1])
 
