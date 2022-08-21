@@ -18,11 +18,11 @@ from .moves import (
 from .lookup_tables import mask_position, clear_position, coords_to_pos, pos_to_coords
 from .utils import get_bit_positions
 
-import logging
+# import logging
 
-logging.basicConfig(
-    filemode="w", filename="./log/debug_forward_search.log", level=logging.DEBUG
-)
+# logging.basicConfig(
+#     filemode="w", filename="./log/debug_forward_search.log", level=logging.DEBUG
+# )
 
 
 class Board:
@@ -486,25 +486,32 @@ class Board:
                     print(f"Thanks for playing!")
                     return
                 if move_to_make.lower() == "u":
-                    self.undo_move()
-                    self.undo_move()
+                    try:
+                        self.undo_move()
+                        self.undo_move()
+                    except RuntimeError:
+                        print("No moves have been made yet to undo!\n")
                     continue
 
                 move = move_to_make.upper().split("-")
-                start = 2 ** coords_to_pos[move[0]]
-                end = 2 ** coords_to_pos[move[1]]
+                try:
+                    start = 2 ** coords_to_pos[move[0]]
+                    end = 2 ** coords_to_pos[move[1]]
+                except KeyError:
+                    print('The move you entered was in an incorrect format. Try again\n')
+                    continue
 
                 moving_side, moving_piece, moving_board = self.identify_piece_at(start)
                 if moving_side == self.side:
                     raise ValueError(f"You cannot move {moving_side} pieces.")
                 if moving_side is None:
-                    print(f"There is no piece at {move[0]} to move. Try again.")
+                    print(f"There is no piece at {move[0]} to move. Try again.\n")
                     continue
 
                 valid_moves = self.get_moves(moving_side, moving_piece, start)
-                if end not in valid_moves:
+                if (start, end) not in valid_moves:
                     print(
-                        f"{move[0]} to {move[1]} is not a valid move for your {moving_piece[:-1]}."
+                        f"{move[0]} to {move[1]} is not a valid move for your {moving_piece[:-1]}.\n"
                     )
                     continue
                 self.move(start, end)
