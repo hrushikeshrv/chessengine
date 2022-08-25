@@ -298,29 +298,23 @@ class Board:
         Moves the piece at start to end. Doesn't check anything, just makes
         the move (unless the start or end positions are invalid).
         """
-        start_pos = log2(start)
-        end_pos = log2(end)
-        if not start_pos.is_integer():
-            raise ValueError("The start position provided is not a power of 2")
-        if not end_pos.is_integer():
-            raise ValueError("The end position provided is not a power of 2")
-        if not 0 <= start_pos <= 63:
+        if not 1 <= start <= 2**63:
             raise ValueError(
-                f"The start position is outside the board - moving from {start_pos} to {end_pos}"
+                f"The start position is outside the board - moving from {log2(start)} to {log2(end)}"
             )
-        if not 0 <= end_pos <= 63:
+        if not 1 <= end <= 2**63:
             raise ValueError(
-                f"The end position is outside the board - moving from {start_pos} to {end_pos}"
+                f"The end position is outside the board - moving from {log2(start)} to {log2(end)}"
             )
 
         start_side, start_piece, start_board = self.identify_piece_at(start)
         if start_side is None:
-            raise ValueError(f"There is no piece at position {start_pos} to move")
+            raise ValueError(f"There is no piece at position {log2(start)} to move")
 
         end_side, end_piece, end_board = self.identify_piece_at(end)
         if end_side == start_side:
             raise ValueError(
-                f"Can't move from {start_pos} to {end_pos}, both positions have {end_side} pieces."
+                f"Can't move from {log2(start)} to {log2(end)}, both positions have {end_side} pieces."
             )
 
         if track:
@@ -331,16 +325,16 @@ class Board:
         if end_piece is not None:
             # Clear the captured piece's position (set "end" to 0)
             opp_side_board = self.get_bitboard(end_side, end_piece)
-            opp_side_board &= clear_position[end_pos]
+            opp_side_board &= clear_position[end]
             self.set_bitboard(end_side, end_piece, opp_side_board)
             self.piece_count[(end_side, end_piece)] -= 1
 
         # Clear the moved piece's original position (set "start" to 0)
         move_side_board = self.get_bitboard(start_side, start_piece)
-        move_side_board &= clear_position[start_pos]
+        move_side_board &= clear_position[start]
 
         # Set the moved piece's final position (set "end" to 1)
-        move_side_board |= mask_position[end_pos]
+        move_side_board |= mask_position[end]
         self.set_bitboard(start_side, start_piece, move_side_board)
 
     def make_moves(self, *moves: tuple[int]) -> None:
