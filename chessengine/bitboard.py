@@ -87,7 +87,7 @@ class Board:
 
         # A dictionary matching a side and piece to its corresponding bit board.
         # Useful when we want to iterate through all of the bitboards of the board.
-        self.board_table = {
+        self.board = {
             ("white", "kings"): self.white_kings,
             ("white", "queens"): self.white_queens,
             ("white", "rooks"): self.white_rooks,
@@ -129,8 +129,8 @@ class Board:
                 if board_string[_] == "1":
                     piece_list[_] = unicode_piece[(s, p)]
 
-        for side, piece in self.board_table:
-            add_bitboard_to_repr(self.board_table[(side, piece)], side, piece)
+        for side, piece in self.board:
+            add_bitboard_to_repr(self.board[(side, piece)], side, piece)
 
         board_repr = ""
         for i in range(8):
@@ -235,7 +235,7 @@ class Board:
 
     def update_board_state(self) -> None:
         """
-        Updates self.all_white, self.all_black, self.all_pieces, and self.board_table
+        Updates self.all_white, self.all_black, self.all_pieces, and self.board
         every time a bitboard is updated
         """
         self.all_white = (
@@ -258,7 +258,7 @@ class Board:
 
         self.all_pieces = self.all_black | self.all_white
 
-        self.board_table = {
+        self.board = {
             ("white", "kings"): self.white_kings,
             ("white", "queens"): self.white_queens,
             ("white", "rooks"): self.white_rooks,
@@ -287,8 +287,8 @@ class Board:
         the identified piece, its side, and its board if a piece is found
         at that position, None otherwise. Position is a power of 2
         """
-        for side, piece in self.board_table:
-            board = self.board_table[(side, piece)]
+        for side, piece in self.board:
+            board = self.board[(side, piece)]
             if board & position > 0:
                 return side, piece, board
         return None, None, None
