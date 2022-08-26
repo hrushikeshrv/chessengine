@@ -492,7 +492,9 @@ class Board:
                     start = 2 ** coords_to_pos[move[0]]
                     end = 2 ** coords_to_pos[move[1]]
                 except KeyError:
-                    print('The move you entered was in an incorrect format. Try again\n')
+                    print(
+                        "The move you entered was in an incorrect format. Try again\n"
+                    )
                     continue
 
                 moving_side, moving_piece, moving_board = self.identify_piece_at(start)
