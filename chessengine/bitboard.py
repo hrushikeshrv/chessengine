@@ -18,6 +18,7 @@ from .moves import (
 from .lookup_tables import mask_position, clear_position, coords_to_pos, pos_to_coords
 from .utils import get_bit_positions
 
+
 # import logging
 
 # logging.basicConfig(
@@ -145,6 +146,27 @@ class Board:
         if self.side != other.side:
             return False
         return str(self) == str(other)
+
+    def __hash__(self):
+        """I chose to just hash the bitboards instead of the FEN
+         because it is faster and easier to maintain than the FEN state"""
+        hash_str = f"{self.side[0]} "
+        for side, piece in [
+            ("white", "kings"),
+            ("white", "queens"),
+            ("white", "rooks"),
+            ("white", "bishops"),
+            ("white", "knights"),
+            ("white", "pawns"),
+            ("black", "kings"),
+            ("black", "queens"),
+            ("black", "rooks"),
+            ("black", "bishops"),
+            ("black", "knights"),
+            ("black", "pawns"),
+        ]:
+            hash_str += str(self.board[(side, piece)]) + " "
+        return hash(hash_str)
 
     @property
     def score(self):
