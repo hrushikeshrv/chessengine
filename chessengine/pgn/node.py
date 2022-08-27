@@ -27,4 +27,13 @@ class GameNode:
     def __init__(self, turn: str, board: Board) -> None:
         self.turn: str = turn
         self.board: Board = board
-        self.children: dict[str:Board] = {}
+        self.children: dict[str:GameNode] = {}  # Maps SAN move strings to GameNode
+    
+    def add_child(self, move: str) -> None:
+        if move not in self.children:
+            new_board = self.board.copy()
+            new_board.move_san(move)
+            
+            turn = 'white' if self.turn == 'black' else 'black'
+            new_node = GameNode(turn, new_board)
+            self.children[move] = new_node

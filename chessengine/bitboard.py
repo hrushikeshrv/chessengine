@@ -358,6 +358,12 @@ class Board:
         # Set the moved piece's final position (set "end" to 1)
         move_side_board |= mask_position[end]
         self.set_bitboard(start_side, start_piece, move_side_board)
+    
+    def move_san(self, move: str) -> None:
+        """
+        Make a move given in standard algebraic notation
+        """
+        pass
 
     def make_moves(self, *moves: tuple[int]) -> None:
         """
