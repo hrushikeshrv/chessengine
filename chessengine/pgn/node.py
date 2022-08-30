@@ -8,13 +8,18 @@ class Game:
     Used to record a game and replay it.
     """
 
-    def __init__(self, board: Board) -> None:
-        self.board: Board = board
+    def __init__(self, root_node) -> None:
         self.moves: list[str] = []
         self.nodes: dict[
             str:GameNode
         ] = {}  # A dictionary mapping board hashes to the board objects
         self.headers: dict[str:str] = {}
+        self.root_node: GameNode = root_node
+        
+    def add_header(self, key, value):
+        if key in self.headers:
+            raise ValueError(f"{key} header has already been set on this game - {self.headers[key]}.")
+        self.headers[key] = value
 
 
 class GameNode:

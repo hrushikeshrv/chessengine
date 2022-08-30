@@ -1,5 +1,5 @@
 from ..bitboard import Board
-from .node import GameNode
+from .node import GameNode, Game
 
 
 class PGNParser:
@@ -8,12 +8,13 @@ class PGNParser:
     """
     def __init__(self, pgn_file: str = None) -> None:
         self.pgn_file = pgn_file    # Path to the pgn_file to parse OR file object
-        self.headers: dict[str: str] = {}
         self.move_text = ''
         self.moves: list[str] = []
         self.nodes: dict[str: GameNode] = {}
         self.root_node = GameNode('white', Board('white'))
         self.current_node = self.root_node
+        self.current_game = Game(self.root_node)
+        self.games: list[Game] = [self.current_game]
     
     def parse(self):
         try:
@@ -28,16 +29,40 @@ class PGNParser:
         """
         lines = pgn_file.readlines()
         new_game = False
+        move_text = ''
         for line in lines:
             if not line:
                 continue
             if line.startswith('['):
-                new_game = True
-                # New game starts here. Reset current node.
-                self.current_node = self.root_node
+                if move_text:
+                    # Completely parses the move text of a game. Ends that game.
+                    self._parse_move_text(move_text)
+                    new_game = True
+                if new_game:
+                    # New game starts here. Reset current node.
+                    self.current_game = Game(self.root_node)
+                    self.games.append(self.current_game)
+                    
+                    self.current_node = self.root_node
+                    move_text = ''
                 self._parse_header(line)
-            elif line[0].isnumeric():
+            else:
+                # This is the move text
                 new_game = False
+                move_text += ' ' + line.strip()
                 
-    def _parse_header(self, header_string):
+    def _parse_header(self, header_string: str):
+        """
+        Parses a header string in a PGN file and sets the
+        header on the current game
+        """
+        header_string = header_string[1:][:-1]
+        _ = header_string.split()
+        key = _[0]
+        value = _[1]
+        if value.startswith("\"") and value.endswith("\""):
+            value = value[1:][:-1]
+        self.current_game.add_header(key, value)
+    
+    def _parse_move_text(self, move_tex: str):
         pass
