@@ -149,7 +149,7 @@ class Board:
 
     def __hash__(self):
         """I chose to just hash the bitboards instead of the FEN
-         because it is faster and easier to maintain than the FEN state"""
+        because it is faster and easier to maintain than the FEN state"""
         hash_str = f"{self.side[0]} "
         for side, piece in [
             ("white", "kings"),
@@ -358,7 +358,7 @@ class Board:
         # Set the moved piece's final position (set "end" to 1)
         move_side_board |= mask_position[end]
         self.set_bitboard(start_side, start_piece, move_side_board)
-    
+
     def move_san(self, move: str) -> None:
         """
         Make a move given in standard algebraic notation
