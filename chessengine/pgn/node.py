@@ -15,6 +15,7 @@ class Game:
         ] = {}  # A dictionary mapping board hashes to the board objects
         self.headers: dict[str:str] = {}
         self.root_node: GameNode = root_node
+        self.result = ''
         
     def add_header(self, key, value):
         if key in self.headers:
@@ -43,4 +44,9 @@ class GameNode:
             new_node = GameNode(turn, new_board)
             self.children[move] = new_node
 
+        return self.children[move]
+    
+    def get_child(self, move: str):
+        if move not in self.children:
+            raise ValueError(f"{move} is not a child of the current Game Node.")
         return self.children[move]

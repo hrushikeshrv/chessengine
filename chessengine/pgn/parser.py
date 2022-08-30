@@ -45,6 +45,7 @@ class PGNParser:
                     
                     self.current_node = self.root_node
                     move_text = ''
+                    new_game = False
                 self._parse_header(line)
             else:
                 # This is the move text
@@ -64,5 +65,16 @@ class PGNParser:
             value = value[1:][:-1]
         self.current_game.add_header(key, value)
     
-    def _parse_move_text(self, move_tex: str):
-        pass
+    def _parse_move_text(self, move_text: str):
+        move_list = move_text.strip().split('.')
+        last_move = move_list.pop()
+        for m in move_list[1:]:
+            move = m.split()
+            self.current_node = self.current_node.add_child(move[0])
+            self.current_node = self.current_node.add_child(move[1])
+        
+        # Make the last move separately
+        self.current_node = self.current_node.add_child(last_move[0])
+        if last_move[1] not in {'1-0', '0-1', '1/2-1/2'}:
+            self.current_node = self.current_node.add_child(last_move[1])
+        self.current_game.result = last_move[-1]
