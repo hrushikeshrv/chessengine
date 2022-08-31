@@ -32,9 +32,8 @@ class GameNode:
     for the opening book.
     """
 
-    def __init__(self, turn: str, board: Board) -> None:
+    def __init__(self, turn: str) -> None:
         self.turn: str = turn
-        self.board: Board = board
         self.children: dict[str:GameNode] = {}  # Maps SAN move strings to GameNode
 
     def __repr__(self):
@@ -45,11 +44,8 @@ class GameNode:
 
     def add_child(self, move: str):
         if move not in self.children:
-            new_board = self.board.copy()
-            new_board.move_san(move, self.turn)
-
             turn = "white" if self.turn == "black" else "black"
-            new_node = GameNode(turn, new_board)
+            new_node = GameNode(turn)
             self.children[move] = new_node
 
         return self.children[move]

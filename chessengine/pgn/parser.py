@@ -9,7 +9,7 @@ class PGNParser:
 
     def __init__(self, pgn_files: list[str] = None) -> None:
         self.pgn_files = pgn_files  # Path to the pgn_file to parse OR file object
-        self.root_node = GameNode("white", Board("white"))
+        self.root_node = GameNode("white")
         self.current_node = self.root_node
         self.current_game = None
         self.games: list[Game] = []

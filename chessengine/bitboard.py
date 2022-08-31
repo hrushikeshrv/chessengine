@@ -369,6 +369,9 @@ class Board:
         elif '0-0' in move:
             # king side castle
             pass
+        elif move[0] in {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'}:
+            # pawn move
+            pass
 
     def make_moves(self, *moves: tuple[int]) -> None:
         """
