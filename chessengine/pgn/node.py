@@ -9,13 +9,10 @@ class Game:
     """
 
     def __init__(self, root_node) -> None:
-        self.moves: list[str] = []
-        self.nodes: dict[
-            str:GameNode
-        ] = {}  # A dictionary mapping board hashes to the board objects
         self.headers: dict[str:str] = {}
         self.root_node: GameNode = root_node
         self.result = ""
+        self.move_text = ''
 
     def add_header(self, key, value):
         if key in self.headers:
