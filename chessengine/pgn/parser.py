@@ -57,6 +57,7 @@ class PGNParser:
                 # This is the move text
                 new_game = False
                 move_text += " " + line.strip()
+        self._parse_move_text(move_text)
 
     def _parse_header(self, header_string: str):
         """
@@ -72,6 +73,7 @@ class PGNParser:
         self.current_game.add_header(key, value)
 
     def _parse_move_text(self, move_text: str):
+        self.current_game.move_text = move_text
         move_list = move_text.strip().split(".")
         last_move = move_list.pop()
         for m in move_list[1:]:
