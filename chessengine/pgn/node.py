@@ -37,10 +37,16 @@ class GameNode:
         self.board: Board = board
         self.children: dict[str:GameNode] = {}  # Maps SAN move strings to GameNode
 
+    def __repr__(self):
+        children = ''
+        for c in self.children:
+            children += ' ' + c
+        return f'<chessengine.GameNode: {self.turn[0]} - {{{children.strip()}}}>'
+
     def add_child(self, move: str):
         if move not in self.children:
             new_board = self.board.copy()
-            new_board.move_san(move)
+            new_board.move_san(move, self.turn)
 
             turn = "white" if self.turn == "black" else "black"
             new_node = GameNode(turn, new_board)

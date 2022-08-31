@@ -359,11 +359,16 @@ class Board:
         move_side_board |= mask_position[end]
         self.set_bitboard(start_side, start_piece, move_side_board)
 
-    def move_san(self, move: str) -> None:
+    def move_san(self, move: str, side: str) -> None:
         """
         Make a move given in standard algebraic notation
         """
-        pass
+        if '0-0-0' in move:
+            # queen side castle
+            pass
+        elif '0-0' in move:
+            # king side castle
+            pass
 
     def make_moves(self, *moves: tuple[int]) -> None:
         """

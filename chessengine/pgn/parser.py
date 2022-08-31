@@ -7,29 +7,34 @@ class PGNParser:
     A parser for parsing PGN files and constructing a tree of GameNodes
     """
 
-    def __init__(self, pgn_file: str = None) -> None:
-        self.pgn_file = pgn_file  # Path to the pgn_file to parse OR file object
-        self.move_text = ""
-        self.moves: list[str] = []
-        self.nodes: dict[str:GameNode] = {}
+    def __init__(self, pgn_files: list[str] = None) -> None:
+        self.pgn_files = pgn_files  # Path to the pgn_file to parse OR file object
         self.root_node = GameNode("white", Board("white"))
         self.current_node = self.root_node
-        self.current_game = Game(self.root_node)
-        self.games: list[Game] = [self.current_game]
+        self.current_game = None
+        self.games: list[Game] = []
 
-    def parse(self):
-        try:
-            self._parse(self.pgn_file)
-        except (TypeError, AttributeError):
-            with open(self.pgn_file, mode="r") as pgn_file:
+    def parse(self, pgn_file=None):
+        if pgn_file is not None:
+            try:
                 self._parse(pgn_file)
+            except (TypeError, AttributeError):
+                with open(pgn_file, mode="r") as pgn_file:
+                    self._parse(pgn_file)
+        else:
+            for file in self.pgn_files:
+                try:
+                    self._parse(file)
+                except (TypeError, AttributeError):
+                    with open(file, mode='r') as pgn_file:
+                        self._parse(pgn_file)
 
     def _parse(self, pgn_file):
         """
         Parses a PGN file and builds a tree of GameNodes
         """
         lines = pgn_file.readlines()
-        new_game = False
+        new_game = True
         move_text = ""
         for line in lines:
             if not line:
