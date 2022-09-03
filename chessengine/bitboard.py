@@ -1,5 +1,6 @@
 from copy import copy
 from math import log2
+import re
 
 from .moves import (
     get_white_pawn_moves,
@@ -24,6 +25,13 @@ from .utils import get_bit_positions
 # logging.basicConfig(
 #     filemode="w", filename="./log/debug_forward_search.log", level=logging.DEBUG
 # )
+
+# groups()[0] = The piece moved, one of {K, Q, N, R, B}, None if a pawn was moved
+# groups()[1] = The file the piece was moved from. Present to resolve ambiguity, if any
+# groups()[2] = The rank the piece was moved from. Present to resolve ambiguity, if any
+# groups()[3] = The square the piece was moved to. Always non-null
+# groups()[4] = The piece a pawn was promoted to, if a pawn reached the last rank
+SAN_MOVE_REGEX = re.compile('([KQNRB])?([a-h])?([1-8])?x?([a-h][1-8])=?([QNRB])?')
 
 
 class Board:
@@ -369,9 +377,18 @@ class Board:
         elif '0-0' in move:
             # king side castle
             pass
-        elif move[0] in {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'}:
-            # pawn move
-            pass
+        else:
+            # regular move
+            match = SAN_MOVE_REGEX.match(move)
+            if match is None:
+                raise ValueError(f"Couldn't parse move {move}.")
+            
+            groups = match.groups()
+            if groups[0] is None:
+                # pawn move
+                pass
+            else:
+                piece_moved = groups[0]
 
     def make_moves(self, *moves: tuple[int]) -> None:
         """
