@@ -1,5 +1,14 @@
-from ..bitboard import Board
+import re
 from .node import GameNode, Game
+
+# groups()[0] = The piece moved, one of {K, Q, N, R, B}, None if a pawn was moved
+# groups()[1] = The file the piece was moved from. Present to resolve ambiguity, if any
+# groups()[2] = The rank the piece was moved from. Present to resolve ambiguity, if any
+# groups()[3] = The square the piece was moved to. Always non-null
+# groups()[4] = The piece a pawn was promoted to, if a pawn reached the last rank
+SAN_MOVE_REGEX = re.compile('([KQNRB])?([a-h])?([1-8])?x?([a-h][1-8])=?([QNRB])?')
+MOVE_TEXT_COMMENT_REGEX = re.compile(r'\s*{.*?}\s*')    # TODO - add support for removing line comments
+MOVE_TEXT_MOVE_REGEX = re.compile(r"(\d+)\.\s*([A-Za-z0-9\-+=]+)\s+([A-Za-z0-9\-+=]+)\s*(1-0|0-1|1/2-1/2)?\s*")
 
 
 class PGNParser:
@@ -73,16 +82,19 @@ class PGNParser:
         self.current_game.add_header(key, value)
 
     def _parse_move_text(self, move_text: str):
+        if '{' in move_text:
+            # Remove all comments from the move text
+            move_text = MOVE_TEXT_COMMENT_REGEX.sub(' ', move_text).strip()
         self.current_game.move_text = move_text
-        move_list = move_text.strip().split(".")
+        move_list = MOVE_TEXT_MOVE_REGEX.findall(move_text.strip())
         last_move = move_list.pop()
-        for m in move_list[1:]:
-            move = m.split()
-            self.current_node = self.current_node.add_child(move[0])
-            self.current_node = self.current_node.add_child(move[1])
+        for _, white_move, black_move, _ in move_list:
+            self.current_node = self.current_node.add_child(white_move)
+            self.current_node = self.current_node.add_child(black_move)
 
-        # Make the last move separately
-        self.current_node = self.current_node.add_child(last_move[0])
-        if last_move[1] not in {"1-0", "0-1", "1/2-1/2"}:
-            self.current_node = self.current_node.add_child(last_move[1])
-        self.current_game.result = last_move[-1]
+        if last_move[2] in {'1-0', '0-1', '1/2-1/2'}:
+            self.current_game.result = last_move[2]
+        else:
+            self.current_node = self.current_node.add_child(last_move[2])
+        if last_move[3] in {'1-0', '0-1', '1/2-1/2'}:
+            self.current_game.result = last_move[3]

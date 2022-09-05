@@ -1,4 +1,3 @@
-from ..bitboard import Board
 
 
 class Game:
