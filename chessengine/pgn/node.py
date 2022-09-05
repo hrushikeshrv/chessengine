@@ -1,5 +1,3 @@
-
-
 class Game:
     """
     A class representing a game, keeping track of the moves made
@@ -11,7 +9,7 @@ class Game:
         self.headers: dict[str:str] = {}
         self.root_node: GameNode = root_node
         self.result = ""
-        self.move_text = ''
+        self.move_text = ""
 
     def add_header(self, key, value):
         if key in self.headers:
@@ -33,10 +31,10 @@ class GameNode:
         self.children: dict[str:GameNode] = {}  # Maps SAN move strings to GameNode
 
     def __repr__(self):
-        children = ''
+        children = ""
         for c in self.children:
-            children += ' ' + c
-        return f'<chessengine.GameNode: {self.turn[0]} - {{{children.strip()}}}>'
+            children += " " + c
+        return f"<chessengine.GameNode: {self.turn[0]} - {{{children.strip()}}}>"
 
     def add_child(self, move: str):
         if move not in self.children:

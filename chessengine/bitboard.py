@@ -364,22 +364,21 @@ class Board:
         """
         Make a move given in standard algebraic notation
         """
-        if '0-0-0' in move:
+        if "0-0-0" in move:
             # queen side castle
             pass
-        elif '0-0' in move:
+        elif "0-0" in move:
             # king side castle
             pass
         else:
             # regular move
             match = SAN_MOVE_REGEX.match(move)
             if match is None:
-                raise ValueError(f"Couldn't parse move {move}.")
-            
+                raise ValueError(f'Couldn\'t parse move "{move}".')
+
             groups = match.groups()
             if groups[0] is None:
-                # pawn move
-                pass
+                piece_moved = "P"
             else:
                 piece_moved = groups[0]
 
