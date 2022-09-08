@@ -372,10 +372,20 @@ class Board:
         """
         if "0-0-0" in move:
             # queen side castle
-            pass
+            if side == 'white':
+                self.move(1, 2**3, track=False)
+                self.move(2**4, 2**2)
+            else:
+                self.move(2 ** 56, 2 ** 59, track=False)
+                self.move(2 ** 60, 2 ** 58)
         elif "0-0" in move:
             # king side castle
-            pass
+            if side == 'white':
+                self.move(2 ** 7, 2 ** 5, track=False)
+                self.move(2 ** 4, 2 ** 6)
+            else:
+                self.move(2 ** 63, 2 ** 61, track=False)
+                self.move(2 ** 60, 2 ** 62)
         else:
             # regular move
             match = SAN_MOVE_REGEX.match(move)
@@ -414,6 +424,8 @@ class Board:
                 else:
                     # File and rank both present in the SAN
                     start_pos = 2 ** coords_to_pos[groups[1].upper() + groups[2]]
+                    if (start_pos, end_pos) not in moves:
+                        raise ValueError(f"{move} is not a valid move for {side}.")
                     self.move(start=start_pos, end=end_pos)
 
     def make_moves(self, *moves: tuple[int, int]) -> None:
