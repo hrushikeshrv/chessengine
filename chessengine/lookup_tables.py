@@ -317,3 +317,12 @@ clear_position = {
     2**62: 32281802128991715327,
     2**63: 27670116110564327423,
 }
+
+san_piece_map = {
+    'P': 'pawns',
+    'K': 'kings',
+    'Q': 'queens',
+    'B': 'bishops',
+    'N': 'knights',
+    'R': 'rooks',
+}
