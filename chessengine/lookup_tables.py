@@ -319,10 +319,10 @@ clear_position = {
 }
 
 san_piece_map = {
-    'P': 'pawns',
-    'K': 'kings',
-    'Q': 'queens',
-    'B': 'bishops',
-    'N': 'knights',
-    'R': 'rooks',
+    "P": "pawns",
+    "K": "kings",
+    "Q": "queens",
+    "B": "bishops",
+    "N": "knights",
+    "R": "rooks",
 }

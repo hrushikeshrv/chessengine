@@ -15,7 +15,13 @@ from .moves import (
     get_black_king_moves,
     get_black_queen_moves,
 )
-from .lookup_tables import mask_position, clear_position, coords_to_pos, pos_to_coords, san_piece_map
+from .lookup_tables import (
+    mask_position,
+    clear_position,
+    coords_to_pos,
+    pos_to_coords,
+    san_piece_map,
+)
 from .utils import get_bit_positions, get_file, get_rank
 from .pgn.parser import SAN_MOVE_REGEX
 
@@ -381,7 +387,7 @@ class Board:
                 piece_moved = san_piece_map["P"]
             else:
                 piece_moved = san_piece_map[groups[0].upper()]
-            
+
             end_pos = 2 ** coords_to_pos[groups[3].upper()]
             moves = self.get_moves(side, piece_moved)
             if groups[1] is None:
@@ -389,21 +395,28 @@ class Board:
                 for move in moves:
                     if move[1] == end_pos:
                         self.move(start=move[0], end=move[1])
-                        return
+                        break
+                else:
+                    raise ValueError(f"{move} is not a valid move for {side}.")
             else:
                 if groups[2] is None:
                     # No rank provided in the SAN
                     for move in moves:
                         file = get_file(move[0])
-                        if groups[1].upper() == 'ABCDEFGH'[file-1] and move[1] == end_pos:
+                        if (
+                            groups[1].upper() == "ABCDEFGH"[file - 1]
+                            and move[1] == end_pos
+                        ):
                             self.move(start=move[0], end=move[1])
-                            return
+                            break
+                    else:
+                        raise ValueError(f"{move} is not a valid move for {side}.")
                 else:
                     # File and rank both present in the SAN
                     start_pos = 2 ** coords_to_pos[groups[1].upper() + groups[2]]
                     self.move(start=start_pos, end=end_pos)
 
-    def make_moves(self, *moves: tuple[int]) -> None:
+    def make_moves(self, *moves: tuple[int, int]) -> None:
         """
         Given a number of moves as tuples (start, end), call
         Board.move on all

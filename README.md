@@ -1,5 +1,5 @@
 # Chess Engine
-My attempt at trying to figure how to write a chess engine from scratch.
+A chess engine written in Python with no dependencies.
 
 ## Features
 - Internal bitboard representation
