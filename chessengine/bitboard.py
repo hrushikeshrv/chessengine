@@ -1,5 +1,6 @@
 from copy import copy
 from math import log2
+from pathlib import Path
 
 from .moves import (
     get_white_pawn_moves,
@@ -23,7 +24,7 @@ from .lookup_tables import (
     san_piece_map,
 )
 from .utils import get_bit_positions, get_file, get_rank
-from .pgn.parser import SAN_MOVE_REGEX
+from .pgn.parser import PGNParser, SAN_MOVE_REGEX
 
 
 # import logging
@@ -370,6 +371,7 @@ class Board:
         """
         Make a move given in standard algebraic notation
         """
+        # TODO - Add support for undoing castling
         if "0-0-0" in move:
             # queen side castle
             if side == 'white':
@@ -544,7 +546,6 @@ class Board:
         """
         The game loop.
         """
-
         def clear_lines(n):
             """
             Clears the last n lines printed so we can print there again
@@ -553,9 +554,17 @@ class Board:
             LINE_CLEAR = "\x1b[2K"
             for i in range(n):
                 print(LINE_UP, end=LINE_CLEAR)
+        
+        parser = PGNParser()
+        print(f'Searching for opening moves')
+        opening_files = Path('./chessengine/openings')
+        for child in opening_files.rglob('*.pgn'):
+            parser.parse(child)
+            print(f'Read {len(parser.games)} games...')
 
         print("\n" * 10)
         side_to_move = "white"
+        ply_number = 0
         while True:
             clear_lines(1)
             if side_to_move == self.side:
@@ -569,44 +578,22 @@ class Board:
                 )
                 print(self)
             else:
-                move_to_make = input(
-                    "Enter the move you want to make (e.g. A4-C5 moves a piece from A4 to C5) - "
+                move = input(
+                    "Enter the move you want to make in standard algebraic notation - "
                 ).strip()
-                if move_to_make.lower() == "q":
+                if move.lower() == "q":
                     print(f"Thanks for playing!")
                     return
-                if move_to_make.lower() == "u":
+                if move.lower() == "u":
                     try:
                         self.undo_move()
                         self.undo_move()
                     except RuntimeError:
                         print("No moves have been made yet to undo!\n")
                     continue
-
-                move = move_to_make.upper().split("-")
-                try:
-                    start = 2 ** coords_to_pos[move[0]]
-                    end = 2 ** coords_to_pos[move[1]]
-                except KeyError:
-                    print(
-                        "The move you entered was in an incorrect format. Try again\n"
-                    )
-                    continue
-
-                moving_side, moving_piece, moving_board = self.identify_piece_at(start)
-                if moving_side == self.side:
-                    raise ValueError(f"You cannot move {moving_side} pieces.")
-                if moving_side is None:
-                    print(f"There is no piece at {move[0]} to move. Try again.\n")
-                    continue
-
-                valid_moves = self.get_moves(moving_side, moving_piece, start)
-                if (start, end) not in valid_moves:
-                    print(
-                        f"{move[0]} to {move[1]} is not a valid move for your {moving_piece[:-1]}.\n"
-                    )
-                    continue
-                self.move(start, end)
+                
+                self.move_san(move=move, side=side_to_move)
+                
                 clear_lines(10)
                 print(f"You moved from {move[0]} to {move[1]}")
                 print(self)
@@ -615,3 +602,4 @@ class Board:
                 side_to_move = "black"
             else:
                 side_to_move = "white"
+            ply_number += 1
