@@ -114,6 +114,6 @@ class PGNParser:
             self.current_game.result = last_move[3]
     
     def record_move(self, ply_number, move):
-        _ = self.moves.get(ply_number, [])
-        _.append(move)
+        _ = self.moves.get(ply_number, set())
+        _.add(move)
         self.moves[ply_number] = _

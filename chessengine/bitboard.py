@@ -24,15 +24,15 @@ from .lookup_tables import (
     pos_to_coords,
     san_piece_map,
 )
-from .utils import get_bit_positions, get_file, get_rank
+from .utils import get_bit_positions, get_file
 from .pgn.parser import PGNParser, SAN_MOVE_REGEX
 
 
-# import logging
+import logging
 
-# logging.basicConfig(
-#     filemode="w", filename="./log/debug_forward_search.log", level=logging.DEBUG
-# )
+logging.basicConfig(
+    filemode="w", filename="./log/debug_opening_book.log", level=logging.DEBUG
+)
 
 
 class Board:
@@ -569,29 +569,37 @@ class Board:
         current_node = parser.root_node
         in_game_tree = True
         while True:
-            clear_lines(10)
-            print(self)
             if side_to_move == self.side:
+                clear_lines(10)
                 if in_game_tree:
                     # Choosing a random move from the game tree is okay because
                     # all the games parsed are high-elo games, so the chance of a
                     # random move being a blunder is small, and also because
                     # this chess engine is not supposed to be super high elo
                     move, node = random.choice(list(current_node.children.items()))
+                    logging.debug(f'Chose to make move {move} out of {current_node.children.keys()}')
                     self.move_san(move=move, side=side_to_move)
                     current_node = node
                     print(f'Board moves {move}')
                 else:
                     if ply_number < opening_book_length:
-                        move = random.choice(parser.moves[ply_number])
-                        self.move_san(move=move, side=side_to_move)
-                        print(f'Board moves {move}')
+                        valid_move = False
+                        while not valid_move:
+                            try:
+                                move = random.choice(list(parser.moves[ply_number]))
+                                logging.debug(f'Chose to make move {move} out of {parser.moves[ply_number]}')
+                                self.move_san(move=move, side=side_to_move)
+                                print(f'Board moves {move}')
+                                valid_move = True
+                            except ValueError:
+                                valid_move = False
                     else:
                         best_score, best_move = self.search_forward(search_depth)
                         self.move(best_move[0], best_move[1])
                         print(
                             f"Board moves from {pos_to_coords[log2(best_move[0])]} to {pos_to_coords[log2(best_move[1])]}"
                         )
+                print(self)
             else:
                 move = input(
                     "Enter the move you want to make in standard algebraic notation - "
@@ -607,12 +615,17 @@ class Board:
                         print("No moves have been made yet to undo!\n")
                     continue
                 
+                logging.debug(f'Player made move {move}')
                 self.move_san(move=move, side=side_to_move)
                 try:
                     current_node = current_node.get_child(move)
+                    logging.debug(f'Still in game tree')
                 except ValueError:
+                    logging.debug('Moved out of game tree')
                     in_game_tree = False
+                clear_lines(10)
                 print(f"You moved from {move[0]} to {move[1]}")
+                print(self)
 
             if side_to_move == "white":
                 side_to_move = "black"
