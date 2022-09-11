@@ -99,16 +99,21 @@ class PGNParser:
         last_move = move_list.pop()
         for _, white_move, black_move, _ in move_list:
             self.current_node = self.current_node.add_child(white_move)
-            self.moves[ply_number] = self.moves.get(ply_number, []).append(white_move)
+            self.record_move(ply_number, white_move)
             ply_number += 1
             self.current_node = self.current_node.add_child(black_move)
-            self.moves[ply_number] = self.moves.get(ply_number, []).append(black_move)
+            self.record_move(ply_number, black_move)
             ply_number += 1
 
         if last_move[2] in {"1-0", "0-1", "1/2-1/2"}:
             self.current_game.result = last_move[2]
         else:
             self.current_node = self.current_node.add_child(last_move[2])
-            self.moves[ply_number] = self.moves.get(ply_number, []).append(last_move[2])
+            self.record_move(ply_number, last_move[2])
         if last_move[3] in {"1-0", "0-1", "1/2-1/2"}:
             self.current_game.result = last_move[3]
+    
+    def record_move(self, ply_number, move):
+        _ = self.moves.get(ply_number, [])
+        _.append(move)
+        self.moves[ply_number] = _

@@ -1,6 +1,7 @@
 from copy import copy
 from math import log2
 from pathlib import Path
+import random
 
 from .moves import (
     get_white_pawn_moves,
@@ -404,22 +405,22 @@ class Board:
             moves = self.get_moves(side, piece_moved)
             if groups[1] is None:
                 # No file provided in the SAN
-                for move in moves:
-                    if move[1] == end_pos:
-                        self.move(start=move[0], end=move[1])
+                for m in moves:
+                    if m[1] == end_pos:
+                        self.move(start=m[0], end=m[1])
                         break
                 else:
                     raise ValueError(f"{move} is not a valid move for {side}.")
             else:
                 if groups[2] is None:
                     # No rank provided in the SAN
-                    for move in moves:
-                        file = get_file(move[0])
+                    for m in moves:
+                        file = get_file(m[0])
                         if (
                             groups[1].upper() == "ABCDEFGH"[file - 1]
-                            and move[1] == end_pos
+                            and m[1] == end_pos
                         ):
-                            self.move(start=move[0], end=move[1])
+                            self.move(start=m[0], end=m[1])
                             break
                     else:
                         raise ValueError(f"{move} is not a valid move for {side}.")
@@ -542,7 +543,7 @@ class Board:
                 beta = min(beta, value)
             return value
 
-    def play(self, search_depth: int = 4) -> None:
+    def play(self, search_depth: int = 4, opening_book_length: int = 12) -> None:
         """
         The game loop.
         """
@@ -565,18 +566,32 @@ class Board:
         print("\n" * 10)
         side_to_move = "white"
         ply_number = 0
+        current_node = parser.root_node
+        in_game_tree = True
         while True:
-            clear_lines(1)
+            clear_lines(10)
+            print(self)
             if side_to_move == self.side:
-                best_score, best_move = self.search_forward(search_depth)
-                print(f"Chose to move {log2(best_move[0])} to {log2(best_move[1])}")
-                self.move(best_move[0], best_move[1])
-
-                clear_lines(10)
-                print(
-                    f"Board moves from {pos_to_coords[log2(best_move[0])]} to {pos_to_coords[log2(best_move[1])]}"
-                )
-                print(self)
+                if in_game_tree:
+                    # Choosing a random move from the game tree is okay because
+                    # all the games parsed are high-elo games, so the chance of a
+                    # random move being a blunder is small, and also because
+                    # this chess engine is not supposed to be super high elo
+                    move, node = random.choice(list(current_node.children.items()))
+                    self.move_san(move=move, side=side_to_move)
+                    current_node = node
+                    print(f'Board moves {move}')
+                else:
+                    if ply_number < opening_book_length:
+                        move = random.choice(parser.moves[ply_number])
+                        self.move_san(move=move, side=side_to_move)
+                        print(f'Board moves {move}')
+                    else:
+                        best_score, best_move = self.search_forward(search_depth)
+                        self.move(best_move[0], best_move[1])
+                        print(
+                            f"Board moves from {pos_to_coords[log2(best_move[0])]} to {pos_to_coords[log2(best_move[1])]}"
+                        )
             else:
                 move = input(
                     "Enter the move you want to make in standard algebraic notation - "
@@ -593,13 +608,14 @@ class Board:
                     continue
                 
                 self.move_san(move=move, side=side_to_move)
-                
-                clear_lines(10)
+                try:
+                    current_node = current_node.get_child(move)
+                except ValueError:
+                    in_game_tree = False
                 print(f"You moved from {move[0]} to {move[1]}")
-                print(self)
 
             if side_to_move == "white":
                 side_to_move = "black"
             else:
                 side_to_move = "white"
-            ply_number += 1
+            ply_number += 2
