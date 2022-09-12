@@ -543,7 +543,7 @@ class Board:
                 beta = min(beta, value)
             return value
 
-    def play(self, search_depth: int = 4, opening_book_length: int = 12) -> None:
+    def play(self, search_depth: int = 4, opening_book_length: int = 8) -> None:
         """
         The game loop.
         """
@@ -585,6 +585,9 @@ class Board:
                     if ply_number < opening_book_length:
                         valid_move = False
                         while not valid_move:
+                            # TODO - Instead of randomly making a move at this depth,
+                            #       filter valid moves at this depth and add them to the
+                            #       alpha beta search to be searched first
                             try:
                                 move = random.choice(list(parser.moves[ply_number]))
                                 logging.debug(f'Chose to make move {move} out of {parser.moves[ply_number]}')
@@ -617,12 +620,13 @@ class Board:
                 
                 logging.debug(f'Player made move {move}')
                 self.move_san(move=move, side=side_to_move)
-                try:
-                    current_node = current_node.get_child(move)
-                    logging.debug(f'Still in game tree')
-                except ValueError:
-                    logging.debug('Moved out of game tree')
-                    in_game_tree = False
+                if in_game_tree:
+                    try:
+                        current_node = current_node.get_child(move)
+                        logging.debug(f'Still in game tree')
+                    except ValueError:
+                        logging.debug('Moved out of game tree')
+                        in_game_tree = False
                 clear_lines(10)
                 print(f"You moved from {move[0]} to {move[1]}")
                 print(self)
