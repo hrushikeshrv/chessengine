@@ -565,43 +565,23 @@ class Board:
 
         print("\n" * 10)
         side_to_move = "white"
-        ply_number = 0
         current_node = parser.root_node
         in_game_tree = True
         while True:
             if side_to_move == self.side:
                 clear_lines(10)
                 if in_game_tree:
-                    # Choosing a random move from the game tree is okay because
-                    # all the games parsed are high-elo games, so the chance of a
-                    # random move being a blunder is small, and also because
-                    # this chess engine is not supposed to be super high elo
                     move, node = random.choice(list(current_node.children.items()))
                     logging.debug(f'Chose to make move {move} out of {current_node.children.keys()}')
                     self.move_san(move=move, side=side_to_move)
                     current_node = node
                     print(f'Board moves {move}')
                 else:
-                    if ply_number < opening_book_length:
-                        valid_move = False
-                        while not valid_move:
-                            # TODO - Instead of randomly making a move at this depth,
-                            #       filter valid moves at this depth and add them to the
-                            #       alpha beta search to be searched first
-                            try:
-                                move = random.choice(list(parser.moves[ply_number]))
-                                logging.debug(f'Chose to make move {move} out of {parser.moves[ply_number]}')
-                                self.move_san(move=move, side=side_to_move)
-                                print(f'Board moves {move}')
-                                valid_move = True
-                            except ValueError:
-                                valid_move = False
-                    else:
-                        best_score, best_move = self.search_forward(search_depth)
-                        self.move(best_move[0], best_move[1])
-                        print(
-                            f"Board moves from {pos_to_coords[log2(best_move[0])]} to {pos_to_coords[log2(best_move[1])]}"
-                        )
+                    best_score, best_move = self.search_forward(search_depth)
+                    self.move(best_move[0], best_move[1])
+                    print(
+                        f"Board moves from {pos_to_coords[log2(best_move[0])]} to {pos_to_coords[log2(best_move[1])]}"
+                    )
                 print(self)
             else:
                 move = input(
@@ -635,4 +615,3 @@ class Board:
                 side_to_move = "black"
             else:
                 side_to_move = "white"
-            ply_number += 2
