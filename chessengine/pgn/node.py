@@ -35,7 +35,7 @@ class GameNode:
         for c in self.children:
             children += " " + c
         return f"<chessengine.GameNode: {self.turn[0]} - {{{children.strip()}}}>"
-    
+
     def __contains__(self, move: str) -> bool:
         return move in self.children
 

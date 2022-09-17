@@ -92,7 +92,7 @@ class PGNParser:
             # Remove all comments from the move text
             move_text = MOVE_TEXT_COMMENT_REGEX.sub(" ", move_text).strip()
         self.current_game.move_text = move_text
-        
+
         ply_number = 0
         move_list = MOVE_TEXT_MOVE_REGEX.findall(move_text.strip())
         last_move = move_list.pop()

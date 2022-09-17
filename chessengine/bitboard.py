@@ -375,20 +375,20 @@ class Board:
         # TODO - Add support for undoing castling
         if "0-0-0" in move:
             # queen side castle
-            if side == 'white':
+            if side == "white":
                 self.move(1, 2**3, track=False)
                 self.move(2**4, 2**2)
             else:
-                self.move(2 ** 56, 2 ** 59, track=False)
-                self.move(2 ** 60, 2 ** 58)
+                self.move(2**56, 2**59, track=False)
+                self.move(2**60, 2**58)
         elif "0-0" in move:
             # king side castle
-            if side == 'white':
-                self.move(2 ** 7, 2 ** 5, track=False)
-                self.move(2 ** 4, 2 ** 6)
+            if side == "white":
+                self.move(2**7, 2**5, track=False)
+                self.move(2**4, 2**6)
             else:
-                self.move(2 ** 63, 2 ** 61, track=False)
-                self.move(2 ** 60, 2 ** 62)
+                self.move(2**63, 2**61, track=False)
+                self.move(2**60, 2**62)
         else:
             # regular move
             match = SAN_MOVE_REGEX.match(move)
@@ -543,10 +543,11 @@ class Board:
                 beta = min(beta, value)
             return value
 
-    def play(self, search_depth: int = 4, opening_book_length: int = 8) -> None:
+    def play(self, search_depth: int = 4) -> None:
         """
         The game loop.
         """
+
         def clear_lines(n):
             """
             Clears the last n lines printed so we can print there again
@@ -555,29 +556,43 @@ class Board:
             LINE_CLEAR = "\x1b[2K"
             for i in range(n):
                 print(LINE_UP, end=LINE_CLEAR)
-        
-        parser = PGNParser()
-        print(f'Searching for opening moves')
-        opening_files = Path('./chessengine/openings')
-        for child in opening_files.rglob('*.pgn'):
-            parser.parse(child)
-            print(f'Read {len(parser.games)} games...')
 
-        print("\n" * 10)
+        loading_messages = [
+            "Searching for opening moves.",
+            "Reading an opening book.",
+            "Waking up.",
+            "Reading thousands of past games."
+        ]
+
+        parser = PGNParser()
+        print(random.choice(loading_messages))
+        opening_files = Path("./chessengine/openings")
+        for child in opening_files.rglob("*.pgn"):
+            print('.')
+            parser.parse(child)
+        print(f"\nRead through {len(parser.games)} games.")
+        print(f'Set search depth to {search_depth}')
+
+        print("\n" * 11)
         side_to_move = "white"
         current_node = parser.root_node
         in_game_tree = True
         while True:
             if side_to_move == self.side:
-                clear_lines(10)
+                clear_lines(11)
                 if in_game_tree:
                     move, node = random.choice(list(current_node.children.items()))
-                    logging.debug(f'Chose to make move {move} out of {current_node.children.keys()}')
+                    logging.debug(
+                        f"Chose to make move {move} out of {current_node.children.keys()}"
+                    )
                     self.move_san(move=move, side=side_to_move)
                     current_node = node
-                    print(f'Board moves {move}')
+                    print(f"Board moves {move}")
                 else:
                     best_score, best_move = self.search_forward(search_depth)
+                    logging.debug(
+                        f"Chose to make move {pos_to_coords[log2(best_move[0])]} to {pos_to_coords[log2(best_move[1])]}"
+                    )
                     self.move(best_move[0], best_move[1])
                     print(
                         f"Board moves from {pos_to_coords[log2(best_move[0])]} to {pos_to_coords[log2(best_move[1])]}"
@@ -597,17 +612,17 @@ class Board:
                     except RuntimeError:
                         print("No moves have been made yet to undo!\n")
                     continue
-                
-                logging.debug(f'Player made move {move}')
+
+                logging.debug(f"Player made move {move}")
                 self.move_san(move=move, side=side_to_move)
                 if in_game_tree:
                     try:
                         current_node = current_node.get_child(move)
-                        logging.debug(f'Still in game tree')
+                        logging.debug(f"Still in game tree")
                     except ValueError:
-                        logging.debug('Moved out of game tree')
+                        logging.debug("Moved out of game tree")
                         in_game_tree = False
-                clear_lines(10)
+                clear_lines(11)
                 print(f"You moved from {move[0]} to {move[1]}")
                 print(self)
 
