@@ -2,5 +2,7 @@
 .idea/
 __pycache__/
 log/
-chessengine/debug/
+debug/
 venv/
+dist/
+chessengine.egg-info/
