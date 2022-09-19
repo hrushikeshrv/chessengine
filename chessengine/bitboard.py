@@ -28,13 +28,6 @@ from chessengine.utils import get_bit_positions, get_file
 from chessengine.pgn.parser import PGNParser, SAN_MOVE_REGEX
 
 
-import logging
-
-logging.basicConfig(
-    filemode="w", filename="./log/debug_opening_book.log", level=logging.DEBUG
-)
-
-
 class Board:
     """
     A class implementing a bitboard representation of a chess board
@@ -582,17 +575,11 @@ class Board:
                 clear_lines(11)
                 if in_game_tree:
                     move, node = random.choice(list(current_node.children.items()))
-                    logging.debug(
-                        f"Chose to make move {move} out of {current_node.children.keys()}"
-                    )
                     self.move_san(move=move, side=side_to_move)
                     current_node = node
                     print(f"Board moves {move}")
                 else:
                     best_score, best_move = self.search_forward(search_depth)
-                    logging.debug(
-                        f"Chose to make move {pos_to_coords[log2(best_move[0])]} to {pos_to_coords[log2(best_move[1])]}"
-                    )
                     self.move(best_move[0], best_move[1])
                     print(
                         f"Board moves from {pos_to_coords[log2(best_move[0])]} to {pos_to_coords[log2(best_move[1])]}"
@@ -613,14 +600,11 @@ class Board:
                         print("No moves have been made yet to undo!\n")
                     continue
 
-                logging.debug(f"Player made move {move}")
                 self.move_san(move=move, side=side_to_move)
                 if in_game_tree:
                     try:
                         current_node = current_node.get_child(move)
-                        logging.debug(f"Still in game tree")
                     except ValueError:
-                        logging.debug("Moved out of game tree")
                         in_game_tree = False
                 clear_lines(11)
                 print(f"You moved from {move[0]} to {move[1]}")
