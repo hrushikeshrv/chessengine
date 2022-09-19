@@ -1,4 +1,4 @@
-from .utils import get_rank, get_file
+from chessengine.utils import get_rank, get_file
 
 HIGHEST_SQUARE = 2**63
 

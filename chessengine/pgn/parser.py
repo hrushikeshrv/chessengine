@@ -1,5 +1,5 @@
 import re
-from .node import GameNode, Game
+from chessengine.pgn.node import GameNode, Game
 
 # groups()[0] = The piece moved, one of {K, Q, N, R, B}, None if a pawn was moved
 # groups()[1] = The file the piece was moved from. Present to resolve ambiguity, if any

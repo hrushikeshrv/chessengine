@@ -3,7 +3,7 @@ from math import log2
 from pathlib import Path
 import random
 
-from .moves import (
+from chessengine.moves import (
     get_white_pawn_moves,
     get_white_rook_moves,
     get_white_bishop_moves,
@@ -17,15 +17,15 @@ from .moves import (
     get_black_king_moves,
     get_black_queen_moves,
 )
-from .lookup_tables import (
+from chessengine.lookup_tables import (
     mask_position,
     clear_position,
     coords_to_pos,
     pos_to_coords,
     san_piece_map,
 )
-from .utils import get_bit_positions, get_file
-from .pgn.parser import PGNParser, SAN_MOVE_REGEX
+from chessengine.utils import get_bit_positions, get_file
+from chessengine.pgn.parser import PGNParser, SAN_MOVE_REGEX
 
 
 import logging
