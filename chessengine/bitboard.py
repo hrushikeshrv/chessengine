@@ -1,6 +1,9 @@
-import importlib.resources
+try:
+    import importlib.resources as pkg_resources
+except ImportError:
+    # Python < 3.7
+    pkg_resources = None
 import random
-
 from copy import copy
 from math import log2
 
@@ -151,7 +154,7 @@ class Board:
         return str(self) == str(other)
 
     def __hash__(self):
-        """I chose to just hash the bitboards instead of the FEN
+        """Just hash the bitboards instead of the FEN
         because it is faster and easier to maintain than the FEN state"""
         hash_str = f"{self.side[0]} "
         for side, piece in [
@@ -551,29 +554,31 @@ class Board:
             for i in range(n):
                 print(LINE_UP, end=LINE_CLEAR)
 
-        loading_messages = [
-            "Searching for opening moves.",
-            "Reading an opening book.",
-            "Waking up.",
-            "Reading thousands of past games."
-        ]
+        parser = None
+        if pkg_resources is not None:
+            loading_messages = [
+                "Searching for opening moves.",
+                "Reading an opening book.",
+                "Waking up.",
+                "Reading thousands of past games.",
+            ]
 
-        parser = PGNParser()
-        print(random.choice(loading_messages))
-        opening_files = importlib.resources.contents('chessengine.openings')
-        for child in opening_files:
-            print('.')
-            file_path = importlib.resources.path('chessengine.openings', child)
-            with file_path as f:
-                if f.suffix == '.pgn':
-                    parser.parse(f)
-        print(f"\nRead through {len(parser.games)} games.")
-        print(f'Set search depth to {search_depth}')
+            parser = PGNParser()
+            print(random.choice(loading_messages))
+            opening_files = pkg_resources.contents("chessengine.openings")
+            for child in opening_files:
+                file_path = pkg_resources.path("chessengine.openings", child)
+                with file_path as f:
+                    if f.suffix == ".pgn":
+                        print(".")
+                        parser.parse(f)
+            print(f"\nRead through {len(parser.games)} games.")
+        print(f"Set search depth to {search_depth}")
 
         print("\n" * 11)
         side_to_move = "white"
-        current_node = parser.root_node
-        in_game_tree = True
+        in_game_tree = parser is not None
+        current_node = parser.root_node if in_game_tree else None
         while True:
             if side_to_move == self.side:
                 clear_lines(11)
