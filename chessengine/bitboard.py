@@ -1,7 +1,8 @@
+import importlib.resources
+import random
+
 from copy import copy
 from math import log2
-from pathlib import Path
-import random
 
 from chessengine.moves import (
     get_white_pawn_moves,
@@ -559,10 +560,13 @@ class Board:
 
         parser = PGNParser()
         print(random.choice(loading_messages))
-        opening_files = Path("./chessengine/openings")
-        for child in opening_files.rglob("*.pgn"):
+        opening_files = importlib.resources.contents('chessengine.openings')
+        for child in opening_files:
             print('.')
-            parser.parse(child)
+            file_path = importlib.resources.path('chessengine.openings', child)
+            with file_path as f:
+                if f.suffix == '.pgn':
+                    parser.parse(f)
         print(f"\nRead through {len(parser.games)} games.")
         print(f'Set search depth to {search_depth}')
 
