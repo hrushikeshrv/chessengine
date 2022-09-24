@@ -34,7 +34,14 @@ from chessengine.pgn.parser import PGNParser, SAN_MOVE_REGEX
 
 class Board:
     """
-    A class implementing a bitboard representation of a chess board
+    A class implementing a bitboard representation of a chess board.
+    A particular bitboard can be accessed via the get_bitboard method or
+    as an attribute with the name <side>_<piece>s. For example -
+        
+        - white_pawns
+        - white_queens
+        - black_kings
+        - black_rooks
     """
 
     def __init__(self, side: str):
@@ -234,6 +241,9 @@ class Board:
         ]
 
     def copy(self):
+        """
+        Create and return a copy of self.
+        """
         return copy(self)
 
     def get_side_bitboard(self, side: str) -> int:
@@ -247,15 +257,18 @@ class Board:
     def get_bitboard(self, side: str, piece: str) -> int:
         """
         Returns the bitboard of the passed side for the passed pieces.
-        Calling with side="black" and piece="king" will return the black_kings bitboard, and so on.
+        For example, calling with side="black" and piece="king" will return the black_kings bitboard, and so on.
+        
+        Raises AttributeError if a bitboard with an invalid name is requested. See above for the bitboard naming
+        convention.
         """
         attrname = side + "_" + piece
         return getattr(self, attrname)
 
     def get_self_piece_bitboard(self, piece: str) -> int:
         """
-        Returns the attribute corresponding to the passed piece, considering the board's
-        own side. i.e. - If the board is white, calling with piece='king' will return
+        Returns the bitboard corresponding to the passed piece, considering the board's
+        own side. i.e. - If the board is white, calling with piece="king" will return
         white king, etc.
         piece can be one of - "kings", "queens", "bishops", "knights", "rooks", "pawns"
         """
@@ -263,8 +276,9 @@ class Board:
 
     def update_board_state(self) -> None:
         """
-        Updates self.all_white, self.all_black, self.all_pieces, and self.board
-        every time a bitboard is updated
+        Updates all Board attributes when a move is made or the state of the Board
+        changes in any way. You should call this if you manually make any changes to
+        Board attributes, otherwise it is called automatically.
         """
         self.all_white = (
             self.white_pawns
@@ -311,9 +325,13 @@ class Board:
 
     def identify_piece_at(self, position: int) -> tuple:
         """
-        Identifies if there is any piece on the position passed. Returns
-        the identified piece, its side, and its board if a piece is found
-        at that position, None otherwise. Position is a power of 2
+        Identifies if there is any piece on the position passed. Position is a power of 2
+        
+        Returns a 3-tuple of the format (side, piece, bitboard) where side is the side of
+        the piece identified at position (e.g, "black"), piece is the type of piece identified
+        at position (e.g, "bishops"), and bitboard is the bitboard of the piece (e.g, Board.black_bishops).
+        
+        If no piece is present at position, returns (None, None, None).
         """
         for side, piece in self.board:
             board = self.board[(side, piece)]
@@ -325,6 +343,9 @@ class Board:
         """
         Moves the piece at start to end. Doesn't check anything, just makes
         the move (unless the start or end positions are invalid).
+        
+        start and end are both powers of 2.
+        If track is True, stores the move in Board.moves so you can undo it later.
         """
         if not 1 <= start <= 2**63:
             raise ValueError(
@@ -367,7 +388,8 @@ class Board:
 
     def move_san(self, move: str, side: str) -> None:
         """
-        Make a move given in standard algebraic notation
+        Make a move given in standard algebraic notation.
+        move is the SAN move, side is the side to move.
         """
         # TODO - Add support for undoing castling
         if "0-0-0" in move:
@@ -437,6 +459,9 @@ class Board:
             self.move(start, end)
 
     def undo_move(self):
+        """
+        Undo the last move tracked move.
+        """
         if not self.moves:
             raise RuntimeError("No moves have been made yet to undo.")
         end, start, side, piece, board = self.moves.pop()
@@ -449,7 +474,13 @@ class Board:
         self, side: str, piece: str = None, position: int = None
     ) -> list[tuple[int, int]]:
         """
-        Gets all end positions a piece of side can reach starting from position
+        Get all end positions a piece of side can reach starting from position.
+        side is always required, piece and position are optional.
+        If piece is not specified, get all moves for all pieces of the passed side, i.e. get all valid moves for white or black.
+        If side and piece are specified and position is not, get all valid moves for the specified side and piece on
+        the board, i.e. if side is "white" and piece is "rooks", get all valid moves for all white rooks on the board.
+        
+        Returns a list of moves as a list of tuples (start, end), where start and end are positions on the board.
         """
         if piece is not None:
             if position is None:
@@ -477,13 +508,24 @@ class Board:
                 return move_gens[(side, piece)](self, position)
         else:
             moves = []
-            for side, piece in self.board_pieces:
+            if side == self.side:
+                pieces = self.board_pieces
+            else:
+                pieces = self.opponent_pieces
+            for side, piece in pieces:
                 positions = get_bit_positions(self.get_bitboard(side, piece))
                 for position in positions:
                     moves.extend(self.get_moves(side, piece, position))
             return moves
 
     def search_forward(self, depth: int = 4) -> tuple[int, tuple]:
+        """
+        Execute an alpha-beta pruned depth-first search to find the optimal move from
+        the current board state.
+        
+        Arguments -
+        depth: int - The number of plies to search (1 move is 2 plies). Default = 4 plies.
+        """
         maximize = self.side == "white"
         best_score = -1000 if maximize else 1000
 
@@ -512,6 +554,20 @@ class Board:
         beta: int = 1000,
         maximizing_player: bool = True,
     ) -> int:
+        """
+        Execute an alpha-beta pruned search. You probably won't need to
+        call this function yourself, use Board.search_forward instead.
+
+        Arguments -
+        depth: int - The number of plies to search forward (default=4)
+        alpha: int - The minimum score that the maximizing player is guaranteed (default=-1000). You probably won't need
+            to specify this argument.
+        beta: int - The maximum score that the minimizing player is guaranteed (default=1000). You probably won't need
+            to specify this argument.
+        maximizing_player: bool - True if white is searching for a move, False if black is searching for a move.
+
+        Returns the value of the best board position found.
+        """
         if depth == 0:
             return self.score
 
