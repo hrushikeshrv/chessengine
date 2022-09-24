@@ -39,6 +39,7 @@ Start a game -
    $ python -m chessengine.play
 
 .. toctree::
+   api
    :maxdepth: 2
    :caption: Contents:
 
