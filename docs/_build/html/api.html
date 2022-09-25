@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>API &#8212; chessengine 0.1.1 documentation</title>
+    <title>API Reference &#8212; chessengine 0.1.1 documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
@@ -16,7 +16,7 @@
     <script src="_static/doctools.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="chessengine.bitboard" href="generated/chessengine.bitboard.html" />
+    <link rel="next" title="chessengine.bitboard" href="ref/chessengine.bitboard.html" />
     <link rel="prev" title="Welcome to chessengine’s documentation!" href="index.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
@@ -34,27 +34,40 @@
 
           <div class="body" role="main">
             
-  <section id="api">
-<h1>API<a class="headerlink" href="#api" title="Permalink to this heading">¶</a></h1>
+  <section id="api-reference">
+<h1>API Reference<a class="headerlink" href="#api-reference" title="Permalink to this heading">¶</a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="ref/chessengine.bitboard.html">chessengine.bitboard</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ref/chessengine.lookup_tables.html">chessengine.lookup_tables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ref/chessengine.moves.html">chessengine.moves</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ref/chessengine.utils.html">chessengine.utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ref/chessengine.pgn.node.html">chessengine.pgn.node</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ref/chessengine.pgn.parser.html">chessengine.pgn.parser</a></li>
+</ul>
+</div>
+</section>
+<section id="summary">
+<h1>Summary<a class="headerlink" href="#summary" title="Permalink to this heading">¶</a></h1>
 <table class="autosummary longtable docutils align-default">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="generated/chessengine.bitboard.html#module-chessengine.bitboard" title="chessengine.bitboard"><code class="xref py py-obj docutils literal notranslate"><span class="pre">chessengine.bitboard</span></code></a></p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="ref/chessengine.bitboard.html#module-chessengine.bitboard" title="chessengine.bitboard"><code class="xref py py-obj docutils literal notranslate"><span class="pre">chessengine.bitboard</span></code></a></p></td>
+<td><p>A complete bitboard representation of a chessboard, with all the methods needed to play a game of chess.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="generated/chessengine.lookup_tables.html#module-chessengine.lookup_tables" title="chessengine.lookup_tables"><code class="xref py py-obj docutils literal notranslate"><span class="pre">chessengine.lookup_tables</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="ref/chessengine.lookup_tables.html#module-chessengine.lookup_tables" title="chessengine.lookup_tables"><code class="xref py py-obj docutils literal notranslate"><span class="pre">chessengine.lookup_tables</span></code></a></p></td>
 <td><p>Lookup tables are bitboards that allow us to mask or clear specific ranks, files, or positions of the chessboard</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="generated/chessengine.moves.html#module-chessengine.moves" title="chessengine.moves"><code class="xref py py-obj docutils literal notranslate"><span class="pre">chessengine.moves</span></code></a></p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">chessengine.moves</span></code></p></td>
+<td><p>Functions for generating moves for all supported pieces in all supported scenarios</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="generated/chessengine.utils.html#module-chessengine.utils" title="chessengine.utils"><code class="xref py py-obj docutils literal notranslate"><span class="pre">chessengine.utils</span></code></a></p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">chessengine.utils</span></code></p></td>
+<td><p>Utility functions for common bitboard operations.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="generated/chessengine.pgn.node.html#module-chessengine.pgn.node" title="chessengine.pgn.node"><code class="xref py py-obj docutils literal notranslate"><span class="pre">chessengine.pgn.node</span></code></a></p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">chessengine.pgn.node</span></code></p></td>
+<td><p>Defines the Game and GameNode class, used to parse PGN files and create the opening book.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="generated/chessengine.pgn.parser.html#module-chessengine.pgn.parser" title="chessengine.pgn.parser"><code class="xref py py-obj docutils literal notranslate"><span class="pre">chessengine.pgn.parser</span></code></a></p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">chessengine.pgn.parser</span></code></p></td>
+<td><p>The PGN parser class</p></td>
 </tr>
 </tbody>
 </table>
@@ -77,17 +90,18 @@
 
 
 <h3>Navigation</h3>
-<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">API</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="generated/chessengine.bitboard.html">chessengine.bitboard</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/chessengine.lookup_tables.html">chessengine.lookup_tables</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/chessengine.moves.html">chessengine.moves</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/chessengine.utils.html">chessengine.utils</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/chessengine.pgn.node.html">chessengine.pgn.node</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/chessengine.pgn.parser.html">chessengine.pgn.parser</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ref/chessengine.bitboard.html">chessengine.bitboard</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ref/chessengine.lookup_tables.html">chessengine.lookup_tables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ref/chessengine.moves.html">chessengine.moves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ref/chessengine.utils.html">chessengine.utils</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ref/chessengine.pgn.node.html">chessengine.pgn.node</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ref/chessengine.pgn.parser.html">chessengine.pgn.parser</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="#summary">Summary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chessboard.html">Internal Board Representation</a></li>
 </ul>
 
 <div class="relations">
@@ -95,7 +109,7 @@
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
       <li>Previous: <a href="index.html" title="previous chapter">Welcome to chessengine’s documentation!</a></li>
-      <li>Next: <a href="generated/chessengine.bitboard.html" title="next chapter">chessengine.bitboard</a></li>
+      <li>Next: <a href="ref/chessengine.bitboard.html" title="next chapter">chessengine.bitboard</a></li>
   </ul></li>
 </ul>
 </div>

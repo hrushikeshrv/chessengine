@@ -566,10 +566,8 @@ class Board:
 
         Arguments -
         depth: int - The number of plies to search forward (default=4)
-        alpha: int - The minimum score that the maximizing player is guaranteed (default=-1000). You probably won't need
-            to specify this argument.
-        beta: int - The maximum score that the minimizing player is guaranteed (default=1000). You probably won't need
-            to specify this argument.
+        alpha: int - The minimum score that the maximizing player is guaranteed (default=-1000). You probably won't need to specify this argument.
+        beta: int - The maximum score that the minimizing player is guaranteed (default=1000). You probably won't need to specify this argument.
         maximizing_player: bool - True if white is searching for a move, False if black is searching for a move.
 
         Returns the value of the best board position found.

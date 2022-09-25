@@ -16,6 +16,7 @@
     <script src="../_static/doctools.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Internal Board Representation" href="../chessboard.html" />
     <link rel="prev" title="chessengine.pgn.node" href="chessengine.pgn.node.html" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
@@ -33,17 +34,31 @@
 
           <div class="body" role="main">
             
-  <section id="module-chessengine.pgn.parser">
-<span id="chessengine-pgn-parser"></span><h1>chessengine.pgn.parser<a class="headerlink" href="#module-chessengine.pgn.parser" title="Permalink to this heading">¶</a></h1>
-<p>The PGN parser class</p>
-<p class="rubric">Classes</p>
-<table class="autosummary longtable docutils align-default">
-<tbody>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">PGNParser</span></code>([pgn_files])</p></td>
-<td><p>A parser for parsing PGN files and constructing a tree of GameNodes</p></td>
-</tr>
-</tbody>
-</table>
+  <section id="chessengine-pgn-parser">
+<h1>chessengine.pgn.parser<a class="headerlink" href="#chessengine-pgn-parser" title="Permalink to this heading">¶</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="chessengine.pgn.parser.PGNParser">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">chessengine.pgn.parser.</span></span><span class="sig-name descname"><span class="pre">PGNParser</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pgn_files</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chessengine.pgn.parser.PGNParser" title="Permalink to this definition">¶</a></dt>
+<dd><p>A parser for parsing PGN files and constructing a tree of GameNodes</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>pgn_files</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>) – </p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="chessengine.pgn.parser.PGNParser.parse">
+<span class="sig-name descname"><span class="pre">parse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pgn_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chessengine.pgn.parser.PGNParser.parse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parse the given pgn file if pgn_file is not None.
+Otherwise, parse all the pgn files in self.pgn_files.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>pgn_file</strong> – a path to a PGN file as a string, path-like object, or file-like object</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 
 
@@ -63,9 +78,8 @@
 
 
 <h3>Navigation</h3>
-<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="reference internal" href="../api.html">API</a><ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../api.html">API Reference</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="chessengine.bitboard.html">chessengine.bitboard</a></li>
 <li class="toctree-l2"><a class="reference internal" href="chessengine.lookup_tables.html">chessengine.lookup_tables</a></li>
 <li class="toctree-l2"><a class="reference internal" href="chessengine.moves.html">chessengine.moves</a></li>
@@ -74,14 +88,17 @@
 <li class="toctree-l2 current"><a class="current reference internal" href="#">chessengine.pgn.parser</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../api.html#summary">Summary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chessboard.html">Internal Board Representation</a></li>
 </ul>
 
 <div class="relations">
 <h3>Related Topics</h3>
 <ul>
   <li><a href="../index.html">Documentation overview</a><ul>
-  <li><a href="../api.html">API</a><ul>
+  <li><a href="../api.html">API Reference</a><ul>
       <li>Previous: <a href="chessengine.pgn.node.html" title="previous chapter">chessengine.pgn.node</a></li>
+      <li>Next: <a href="../chessboard.html" title="next chapter">Internal Board Representation</a></li>
   </ul></li>
   </ul></li>
 </ul>
@@ -116,7 +133,7 @@
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |
-      <a href="../_sources/generated/chessengine.pgn.parser.rst.txt"
+      <a href="../_sources/ref/chessengine.pgn.parser.rst.txt"
           rel="nofollow">Page source</a>
     </div>
 

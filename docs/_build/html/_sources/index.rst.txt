@@ -40,8 +40,8 @@ Start a game -
 
 .. toctree::
    api
+   chessboard
    :maxdepth: 2
-   :caption: Contents:
 
 
 

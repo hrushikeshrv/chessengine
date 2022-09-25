@@ -1,8 +1,19 @@
-API
-===
+API Reference
+=============
 
+
+.. toctree::
+
+    ref/chessengine.bitboard
+    ref/chessengine.lookup_tables
+    ref/chessengine.moves
+    ref/chessengine.utils
+    ref/chessengine.pgn.node
+    ref/chessengine.pgn.parser
+
+Summary
+=======
 .. autosummary::
-   :toctree: generated
 
     chessengine.bitboard
     chessengine.lookup_tables
