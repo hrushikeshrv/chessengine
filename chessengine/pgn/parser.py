@@ -1,3 +1,8 @@
+"""
+The PGN parser class
+"""
+
+
 import re
 from chessengine.pgn.node import GameNode, Game
 

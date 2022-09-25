@@ -1,3 +1,8 @@
+"""
+Utility functions for common bitboard operations.
+"""
+
+
 from math import log2
 
 

@@ -1,3 +1,9 @@
+"""
+A complete bitboard representation of a chessboard, with all the methods needed
+to play a game of chess.
+"""
+
+
 try:
     import importlib.resources as pkg_resources
 except ImportError:

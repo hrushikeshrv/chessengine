@@ -1,3 +1,9 @@
+"""
+Defines the Game and GameNode class, used to parse PGN files and
+create the opening book.
+"""
+
+
 class Game:
     """
     A class representing a game, keeping track of the moves made
