@@ -38,6 +38,9 @@ Start a game -
 
    $ python -m chessengine.play
 
+Table Of Contents
+=================
+
 .. toctree::
    api
    chessboard

@@ -12,7 +12,7 @@ API Reference
     ref/chessengine.pgn.parser
 
 Summary
-=======
+-------
 .. autosummary::
 
     chessengine.bitboard
