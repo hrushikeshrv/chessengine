@@ -164,7 +164,6 @@
 <li class="toctree-l2"><a class="reference internal" href="ref/chessengine.pgn.parser.html">chessengine.pgn.parser</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="api.html#summary">Summary</a></li>
 <li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Internal Board Representation</a></li>
 </ul>
 
@@ -200,8 +199,15 @@
         </div>
         <article role="main">
           <section id="internal-board-representation">
-<h1>Internal Board Representation<a class="headerlink" href="#internal-board-representation" title="Permalink to this heading">#</a></h1>
-<p><strong>chessengine</strong> uses bitboards to represent a chess board internally.</p>
+<span id="board-representation"></span><h1>Internal Board Representation<a class="headerlink" href="#internal-board-representation" title="Permalink to this heading">#</a></h1>
+<p><strong>chessengine</strong> uses bitboards to represent a chess board internally. A bitboard
+is just a 64-bit integer in which each bit corresponds to one square on the chess
+board (since a chess board also has 64 squares). A one at a certain position means
+that a piece is present on that square, and a 0 means that no piece is present
+on that square.</p>
+<p>The board is defined in the <a class="reference internal" href="ref/chessengine.bitboard.html#board"><span class="std std-ref">chessengine.bitboard.Board</span></a> class. It
+stores the bitboards of all pieces for each side as attributes with the naming
+convention <code class="docutils literal notranslate"><span class="pre">&lt;side&gt;_&lt;piece&gt;s</span></code>.</p>
 </section>
 
         </article>

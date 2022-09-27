@@ -164,7 +164,6 @@
 <li class="toctree-l2"><a class="reference internal" href="chessengine.pgn.parser.html">chessengine.pgn.parser</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../api.html#summary">Summary</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../chessboard.html">Internal Board Representation</a></li>
 </ul>
 
@@ -201,33 +200,6 @@
         <article role="main">
           <section id="chessengine-moves">
 <h1>chessengine.moves<a class="headerlink" href="#chessengine-moves" title="Permalink to this heading">#</a></h1>
-<dl class="py function">
-<dt class="sig sig-object py" id="chessengine.moves.check_valid_position">
-<span class="sig-prename descclassname"><span class="pre">chessengine.moves.</span></span><span class="sig-name descname"><span class="pre">check_valid_position</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">board</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">side</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">moves</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auto_add</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#chessengine.moves.check_valid_position" title="Permalink to this definition">#</a></dt>
-<dd><p>Returns a tuple(bool). The first value indicates whether
-this position is valid to move to, the second indicates
-whether this is the last valid position in the direction
-that the piece is currently moving (whether the piece
-should try to explore the next position in the direction
-that is being explored)</p>
-<p>If auto_add is True, adds the position to the moves list
-if the move is valid</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>side</strong> (<em>str</em>) – </p></li>
-<li><p><strong>start</strong> (<em>int</em>) – </p></li>
-<li><p><strong>end</strong> (<em>int</em>) – </p></li>
-<li><p><strong>moves</strong> (<em>list</em><em>[</em><em>tuple</em><em>[</em><em>int</em><em>, </em><em>int</em><em>]</em><em>]</em>) – </p></li>
-<li><p><strong>auto_add</strong> (<em>bool</em>) – </p></li>
-</ul>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>tuple[bool, bool]</p>
-</dd>
-</dl>
-</dd></dl>
-
 <dl class="py function">
 <dt class="sig sig-object py" id="chessengine.moves.get_bishop_moves">
 <span class="sig-prename descclassname"><span class="pre">chessengine.moves.</span></span><span class="sig-name descname"><span class="pre">get_bishop_moves</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">board</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">side</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">position</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#chessengine.moves.get_bishop_moves" title="Permalink to this definition">#</a></dt>

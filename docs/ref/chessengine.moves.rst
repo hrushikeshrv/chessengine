@@ -3,8 +3,6 @@
 
 .. py:currentmodule:: chessengine.moves
 
-.. autofunction:: check_valid_position
-
 .. autofunction:: get_bishop_moves
 
 .. autofunction:: get_black_bishop_moves
