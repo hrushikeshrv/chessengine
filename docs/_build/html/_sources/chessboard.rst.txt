@@ -5,7 +5,7 @@ Internal Board Representation
 
 **chessengine** uses bitboards to represent a chess board internally. A bitboard
 is just a 64-bit integer in which each bit corresponds to one square on the chess
-board (since a chess board also has 64 squares). A one at a certain position means
+board (since a chess board also has 64 squares). A 1 at a certain position means
 that a piece is present on that square, and a 0 means that no piece is present
 on that square.
 
