@@ -38,7 +38,7 @@ class PGNParser:
         """
         Parse the given pgn file if pgn_file is not None.
         Otherwise, parse all the pgn files in self.pgn_files.
-        
+
         :param pgn_file: a path to a PGN file as a string, path-like object, or file-like object
         """
         if pgn_file is not None:
