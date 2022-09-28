@@ -2,6 +2,9 @@
 [![Documentation Status](https://readthedocs.org/projects/chessengine/badge/?version=latest)](https://chessengine.readthedocs.io/en/latest/?badge=latest)  
 A chess engine written in Python with no dependencies. All contributions welcome.
 
+## Note
+This project is in active development and you may encounter bugs, especially in the game loop. 
+
 ## Features
 - Internal bitboard representation
 - Alpha-beta pruned search
