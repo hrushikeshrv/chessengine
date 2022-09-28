@@ -10,7 +10,7 @@ A chess engine written in Python with no dependencies.
 
 .. note::
 
-   This project is under active development.
+   This project is under active development and you may run into bugs, especially in the game loop.
 
 Features
 ========
@@ -26,6 +26,8 @@ Usage
 
 Installation
 ------------
+See :ref:`usage` for detailed installation instructions.
+
 Install using pip:
 
 .. code-block:: console
@@ -44,6 +46,8 @@ Table Of Contents
 .. toctree::
    api
    chessboard
+   usage
+   playing
    :maxdepth: 2
 
 
