@@ -18,9 +18,20 @@ This project is in active development and you may encounter bugs, especially in 
 ## Usage
 Install using `pip` -  
 ```bash
-pip install chessengine
+# macOS / Linux (could work on Windows)
+python3 -m pip install -U chessengine
+
+# Windows (the primary way)
+py -3 -m pip install -U chessengine
 ```
+
 Start a game -  
 ```bash
 python -m chessengine.play 
+```
+
+## Developer Notes
+This project uses the [flake8](https://flake8.pycqa.org) linter for determining code style. In order to install it using `pip` -
+```bash
+python -m pip install flake8
 ```

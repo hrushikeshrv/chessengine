@@ -43,7 +43,7 @@ class Board:
     A class implementing a bitboard representation of a chess board.
     A particular bitboard can be accessed via the get_bitboard method or
     as an attribute with the name <side>_<piece>s. For example -
-        
+
         - white_pawns
         - white_queens
         - black_kings
@@ -154,7 +154,7 @@ class Board:
 
         board_repr = ""
         for i in range(8):
-            board_repr += "\u2001".join(piece_list[8 * i : 8 * i + 8][::-1])
+            board_repr += "\u2001".join(piece_list[8 * i: 8 * i + 8][::-1])
             board_repr += "\n"
         return board_repr
 
@@ -264,7 +264,7 @@ class Board:
         """
         Returns the bitboard of the passed side for the passed pieces.
         For example, calling with side="black" and piece="king" will return the black_kings bitboard, and so on.
-        
+
         Raises AttributeError if a bitboard with an invalid name is requested. See above for the bitboard naming
         convention.
         """
@@ -332,11 +332,11 @@ class Board:
     def identify_piece_at(self, position: int) -> tuple:
         """
         Identifies if there is any piece on the position passed. Position is a power of 2
-        
+
         Returns a 3-tuple of the format (side, piece, bitboard) where side is the side of
         the piece identified at position (e.g, "black"), piece is the type of piece identified
         at position (e.g, "bishops"), and bitboard is the bitboard of the piece (e.g, Board.black_bishops).
-        
+
         If no piece is present at position, returns (None, None, None).
         """
         for side, piece in self.board:
@@ -349,7 +349,7 @@ class Board:
         """
         Moves the piece at start to end. Doesn't check anything, just makes
         the move (unless the start or end positions are invalid).
-        
+
         start and end are both powers of 2.
         If track is True, stores the move in Board.moves so you can undo it later.
         """
@@ -485,7 +485,7 @@ class Board:
         If piece is not specified, get all moves for all pieces of the passed side, i.e. get all valid moves for white or black.
         If side and piece are specified and position is not, get all valid moves for the specified side and piece on
         the board, i.e. if side is "white" and piece is "rooks", get all valid moves for all white rooks on the board.
-        
+
         Returns a list of moves as a list of tuples (start, end), where start and end are positions on the board.
         """
         if piece is not None:
@@ -528,7 +528,7 @@ class Board:
         """
         Execute an alpha-beta pruned depth-first search to find the optimal move from
         the current board state.
-        
+
         Arguments -
         depth: int - The number of plies to search (1 move is 2 plies). Default = 4 plies.
         """
@@ -659,7 +659,7 @@ class Board:
                     "Enter the move you want to make in standard algebraic notation - "
                 ).strip()
                 if move.lower() == "q":
-                    print(f"Thanks for playing!")
+                    print("Thanks for playing!")
                     return
                 if move.lower() == "u":
                     try:
