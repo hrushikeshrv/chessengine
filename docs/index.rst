@@ -48,6 +48,7 @@ Table Of Contents
    chessboard
    usage
    playing
+   contributing
    :maxdepth: 2
 
 
