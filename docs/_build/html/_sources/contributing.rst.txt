@@ -4,9 +4,13 @@ Contributing A Patch
 ====================
 
 Before contributing, make sure you have followed the steps given under :ref:`dev_installation`
-and installed the development version of chessengine in a virtual environment. Before starting work
-on your patch, make sure you have raised an issue about it on the project repository, or an issue
-about the patch exists.
+and installed the development version of chessengine in a virtual environment.
+
+.. important::
+
+    Before starting work
+    on your patch, please make sure you have raised an issue about it on the project repository, or an issue
+    about the patch exists.
 
 Once you have installed chessengine correctly, you should activate your virtual environment before
 starting to work on a patch - see :ref:`activating virtual environment <activating_virtual_env>`.
