@@ -3,10 +3,10 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
-<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="API Reference" href="api.html" />
+<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="prev" title="Playing A Game" href="playing.html" />
 
     <meta name="generator" content="sphinx-5.1.1, furo 2022.09.15"/>
-        <title>chessengine 0.1.2 documentation</title>
+        <title>Contributing A Patch - chessengine 0.1.2 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=9ec31e2665bf879c1d47d93a8ec4893870ee1e45" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
@@ -123,7 +123,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="#"><div class="brand">chessengine 0.1.2 documentation</div></a>
+      <a href="index.html"><div class="brand">chessengine 0.1.2 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -143,7 +143,7 @@
   <aside class="sidebar-drawer">
     <div class="sidebar-container">
       
-      <div class="sidebar-sticky"><a class="sidebar-brand" href="#">
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
   
   
   <span class="sidebar-brand-text">chessengine 0.1.2 documentation</span>
@@ -154,7 +154,7 @@
   <input type="hidden" name="area" value="default">
 </form>
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
-  <ul>
+  <ul class="current">
 <li class="toctree-l1 has-children"><a class="reference internal" href="api.html">API Reference</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="ref/chessengine.bitboard.html">chessengine.bitboard</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ref/chessengine.lookup_tables.html">chessengine.lookup_tables</a></li>
@@ -167,7 +167,7 @@
 <li class="toctree-l1"><a class="reference internal" href="chessboard.html">Internal Board Representation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="usage.html">Usage &amp; Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="playing.html">Playing A Game</a></li>
-<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing A Patch</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Contributing A Patch</a></li>
 </ul>
 
 </div>
@@ -201,70 +201,36 @@
           </label>
         </div>
         <article role="main">
-          <section id="welcome-to-chessengine-s-documentation">
-<h1>Welcome to chessengine’s documentation!<a class="headerlink" href="#welcome-to-chessengine-s-documentation" title="Permalink to this heading">#</a></h1>
-<p>A chess engine written in Python with no dependencies.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>This project is under active development and you may run into bugs, especially in the game loop.</p>
-</div>
-</section>
-<section id="features">
-<h1>Features<a class="headerlink" href="#features" title="Permalink to this heading">#</a></h1>
-<ul class="simple">
-<li><p>Internal bitboard representation</p></li>
-<li><p>Alpha-beta pruned search</p></li>
-<li><p>Move generation API</p></li>
-<li><p>Opening book</p></li>
-<li><p>PGN parsing</p></li>
-</ul>
-</section>
-<section id="usage">
-<h1>Usage<a class="headerlink" href="#usage" title="Permalink to this heading">#</a></h1>
-<section id="installation">
-<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this heading">#</a></h2>
-<p>See <a class="reference internal" href="usage.html#usage"><span class="std std-ref">Usage &amp; Installation</span></a> for detailed installation instructions.</p>
-<p>Install using pip:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>pip install chessengine
+          <section id="contributing-a-patch">
+<span id="contributing"></span><h1>Contributing A Patch<a class="headerlink" href="#contributing-a-patch" title="Permalink to this heading">#</a></h1>
+<p>Before contributing, make sure you have followed the steps given under <a class="reference internal" href="usage.html#dev-installation"><span class="std std-ref">Installing Locally For Development</span></a>
+and installed the development version of chessengine in a virtual environment. Before starting work
+on your patch, make sure you have raised an issue about it on the project repository, or an issue
+about the patch exists.</p>
+<p>Once you have installed chessengine correctly, you should activate your virtual environment before
+starting to work on a patch - see <a class="reference internal" href="usage.html#activating-virtual-env"><span class="std std-ref">activating virtual environment</span></a>.</p>
+<p>Next, create a branch for your patch by running -</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>git checkout -b &lt;branch-name&gt;
 </pre></div>
 </div>
-<p>Start a game -</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>python -m chessengine.play
+<p>You can name your branch anything you want. Then, write the code for your patch and modify the required files. If required, update the
+documentation as well.</p>
+<p>Commit your changes and add a commit message of the format - <code class="docutils literal notranslate"><span class="pre">Fixed</span> <span class="pre">#&lt;issue-number&gt;</span> <span class="pre">--</span> <span class="pre">&lt;description&gt;</span></code>,
+where <code class="docutils literal notranslate"><span class="pre">&lt;issue-number&gt;</span></code> is the id of the issue you are trying to fix. As a last step, make sure
+you have formatted your code using <code class="docutils literal notranslate"><span class="pre">black</span></code>. Black is a PEP8 compliant opinionated formatter. If you
+haven’t already installed black, install it using -</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>pip install black
 </pre></div>
 </div>
-</section>
-</section>
-<section id="table-of-contents">
-<h1>Table Of Contents<a class="headerlink" href="#table-of-contents" title="Permalink to this heading">#</a></h1>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="api.html">API Reference</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="ref/chessengine.bitboard.html">chessengine.bitboard</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ref/chessengine.lookup_tables.html">chessengine.lookup_tables</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ref/chessengine.moves.html">chessengine.moves</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ref/chessengine.utils.html">chessengine.utils</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ref/chessengine.pgn.node.html">chessengine.pgn.node</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ref/chessengine.pgn.parser.html">chessengine.pgn.parser</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api.html#summary">Summary</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="chessboard.html">Internal Board Representation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="usage.html">Usage &amp; Installation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="usage.html#installing-locally-for-development">Installing Locally For Development</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="playing.html">Playing A Game</a></li>
-<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing A Patch</a></li>
-</ul>
+<p>Then run it on the files you have changed by -</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>black path/to/changed/files
+</pre></div>
 </div>
-</section>
-<section id="indices-and-tables">
-<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this heading">#</a></h1>
-<ul class="simple">
-<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
-<li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
-<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
-</ul>
+<p>Finally, you can push your changes using -</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>git push origin &lt;branch-name&gt;
+</pre></div>
+</div>
+<p>Now you can start a pull request!</p>
 </section>
 
         </article>
@@ -272,16 +238,18 @@
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="api.html">
+          
+          <a class="prev-page" href="playing.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
-                  <span>Next</span>
+                  <span>Previous</span>
                 </div>
-                <div class="title">API Reference</div>
+                
+                <div class="title">Playing A Game</div>
+                
               </div>
-              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
-          
         </div>
         <div class="bottom-of-page">
           <div class="left-details">

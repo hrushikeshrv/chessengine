@@ -5,6 +5,9 @@ A chess engine written in Python with no dependencies. All contributions welcome
 ## Note
 This project is in active development and you may encounter bugs, especially in the game loop. 
 
+## Contribution Guide
+The contribution guide can be found on the [documentation page](https://chessengine.readthedocs.io/en/latest/contributing.html)
+
 ## Features
 - Internal bitboard representation
 - Alpha-beta pruned search

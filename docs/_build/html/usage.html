@@ -167,6 +167,7 @@
 <li class="toctree-l1"><a class="reference internal" href="chessboard.html">Internal Board Representation</a></li>
 <li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Usage &amp; Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="playing.html">Playing A Game</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing A Patch</a></li>
 </ul>
 
 </div>
@@ -202,8 +203,59 @@
         <article role="main">
           <section id="usage-installation">
 <span id="usage"></span><h1>Usage &amp; Installation<a class="headerlink" href="#usage-installation" title="Permalink to this heading">#</a></h1>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><strong>chessengine</strong> requires Python 3.7 or later.</p>
+</div>
+<p>To just use the chessengine, the recommended method of installation is using pip -</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>pip install chessengine
+</pre></div>
+</div>
+<p>To start a game on the command line, call the play module using -</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>python -m chessengine.play
+</pre></div>
+</div>
+<p>Also see <a class="reference internal" href="playing.html#playing-a-game"><span class="std std-ref">Playing A Game</span></a> for more.</p>
 <section id="installing-locally-for-development">
-<h2>Installing Locally For Development<a class="headerlink" href="#installing-locally-for-development" title="Permalink to this heading">#</a></h2>
+<span id="dev-installation"></span><h2>Installing Locally For Development<a class="headerlink" href="#installing-locally-for-development" title="Permalink to this heading">#</a></h2>
+<p>For contributing to chessengine, you should get the source code by cloning the repository instead of
+installing using <cite>pip</cite>.</p>
+<p>First, fork the repository on GitHub.</p>
+<p>Navigate to the folder where you want to download the source code, and then clone the repository
+by running the following command -</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>git clone https://github.com/&lt;your-username&gt;/chessengine.git
+</pre></div>
+</div>
+<p>Replace <code class="docutils literal notranslate"><span class="pre">&lt;your-username&gt;</span></code> with your GitHub username.</p>
+<p>This will download the latest copy of the source code. Now, you can install it like a package using
+<cite>pip</cite>. But first, it is highly recommended to create a virtual environment so that this installation
+of chessengine doesn’t interfere with other installations of chessengine on your machine (if you
+have any).</p>
+<p>To create a virtual environment in the directory in which you have cloned the repo, run the
+following command -</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>python -m venv venv
+</pre></div>
+</div>
+<p>This will create a virtual environment in a sub-directory called <cite>venv</cite>. Note that everytime you
+make some changes to the source code, you will only be able to notice them if the virtual
+environment is active. Activate the virtual environment using -</p>
+<div class="highlight-console notranslate" id="activating-virtual-env"><div class="highlight"><pre><span></span><span class="gp">$ </span><span class="nb">source</span> venv/bin/activate
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If you are on Windows, you can activate your virtual environment by running -</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>venv<span class="se">\s</span>cripts<span class="se">\a</span>ctivate
+</pre></div>
+</div>
+</div>
+<p>Now that you have activated the virtual environment, you can install chessengine.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>pip install -e path/to/chessengine
+</pre></div>
+</div>
+<p>Now, inside this virtual environment, the installed version of chessengine will point towards the
+repository you just cloned, so you will immediately see any changes you make to the source code.</p>
+<p>To work on a patch and make a pull request, see <a class="reference internal" href="contributing.html#contributing"><span class="std std-ref">Contributing A Patch</span></a></p>
 </section>
 </section>
 
