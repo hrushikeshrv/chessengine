@@ -564,11 +564,10 @@ class Board:
         Execute an alpha-beta pruned search. You probably won't need to
         call this function yourself, use Board.search_forward instead.
 
-        Arguments -
-        depth: int - The number of plies to search forward (default=4)
-        alpha: int - The minimum score that the maximizing player is guaranteed (default=-1000). You probably won't need to specify this argument.
-        beta: int - The maximum score that the minimizing player is guaranteed (default=1000). You probably won't need to specify this argument.
-        maximizing_player: bool - True if white is searching for a move, False if black is searching for a move.
+        :param depth: The number of plies to search forward (default=4)
+        :param alpha: The minimum score that the maximizing player is guaranteed (default=-1000). You probably won't need to specify this argument.
+        :param beta: The maximum score that the minimizing player is guaranteed (default=1000). You probably won't need to specify this argument.
+        :param maximizing_player: True if white is searching for a move, False if black is searching for a move.
 
         Returns the value of the best board position found.
         """
