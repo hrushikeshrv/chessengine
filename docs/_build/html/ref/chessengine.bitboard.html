@@ -166,6 +166,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../chessboard.html">Internal Board Representation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../usage.html">Usage &amp; Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../playing.html">Playing A Game</a></li>
 </ul>
 
 </div>
@@ -275,25 +276,20 @@ because it is faster and easier to maintain than the FEN state</p>
 <span class="sig-name descname"><span class="pre">alpha_beta_search</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">depth</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">4</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">-1000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maximizing_player</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#chessengine.bitboard.Board.alpha_beta_search" title="Permalink to this definition">#</a></dt>
 <dd><p>Execute an alpha-beta pruned search. You probably won’t need to
 call this function yourself, use Board.search_forward instead.</p>
-<p>Arguments -
-depth: int - The number of plies to search forward (default=4)
-alpha: int - The minimum score that the maximizing player is guaranteed (default=-1000). You probably won’t need to specify this argument.
-beta: int - The maximum score that the minimizing player is guaranteed (default=1000). You probably won’t need to specify this argument.
-maximizing_player: bool - True if white is searching for a move, False if black is searching for a move.</p>
-<p>Returns the value of the best board position found.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>depth</strong> (<em>int</em>) – </p></li>
-<li><p><strong>alpha</strong> (<em>int</em>) – </p></li>
-<li><p><strong>beta</strong> (<em>int</em>) – </p></li>
-<li><p><strong>maximizing_player</strong> (<em>bool</em>) – </p></li>
+<li><p><strong>depth</strong> (<em>int</em>) – int - The number of plies to search forward (default=4)</p></li>
+<li><p><strong>alpha</strong> (<em>int</em>) – int - The minimum score that the maximizing player is guaranteed (default=-1000). You probably won’t need to specify this argument.</p></li>
+<li><p><strong>beta</strong> (<em>int</em>) – int - The maximum score that the minimizing player is guaranteed (default=1000). You probably won’t need to specify this argument.</p></li>
+<li><p><strong>maximizing_player</strong> (<em>bool</em>) – bool - True if white is searching for a move, False if black is searching for a move.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>int</p>
 </dd>
 </dl>
+<p>Returns the value of the best board position found.</p>
 </dd></dl>
 
 <dl class="py method">
