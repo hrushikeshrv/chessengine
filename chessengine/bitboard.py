@@ -154,7 +154,7 @@ class Board:
 
         board_repr = ""
         for i in range(8):
-            board_repr += "\u2001".join(piece_list[8 * i: 8 * i + 8][::-1])
+            board_repr += "\u2001".join(piece_list[8 * i : 8 * i + 8][::-1])
             board_repr += "\n"
         return board_repr
 

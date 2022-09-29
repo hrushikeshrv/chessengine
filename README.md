@@ -34,7 +34,11 @@ python -m chessengine.play
 ```
 
 ## Developer Notes
-This project uses the [flake8](https://flake8.pycqa.org) linter for determining code style. In order to install it using `pip` -
+This project uses the [black](https://flake8.pycqa.org) linter for determining code style.
 ```bash
-python -m pip install flake8
+# Install black via pip.
+python -m pip install black
+
+# Do the lint!
+python -m black . --check --verbose
 ```
