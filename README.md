@@ -40,5 +40,5 @@ This project uses the [black](https://flake8.pycqa.org) linter for determining c
 python -m pip install black
 
 # Do the lint!
-python -m black . --check --verbose
+python -m black --check --verbose .
 ```
