@@ -45,14 +45,14 @@ class PGNParser:
             try:
                 self._parse(pgn_file)
             except (TypeError, AttributeError):
-                with open(pgn_file, mode="r") as pgn_file:
+                with open(pgn_file, mode="r", errors="replace") as pgn_file:
                     self._parse(pgn_file)
         else:
             for file in self.pgn_files:
                 try:
                     self._parse(file)
                 except (TypeError, AttributeError):
-                    with open(file, mode="r") as pgn_file:
+                    with open(file, mode="r", errors="replace") as pgn_file:
                         self._parse(pgn_file)
 
     def _parse(self, pgn_file):
