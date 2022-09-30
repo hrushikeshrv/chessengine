@@ -4,6 +4,7 @@ from .bitboard import Board
 def prompt_player_side():
     return input("Do you want to play white or black (w/b)? - ").lower().strip()
 
+
 def main():
     player_side = prompt_player_side()
     while not player_side.startswith(("b", "w")):
