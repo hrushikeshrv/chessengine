@@ -1,5 +1,7 @@
 # Chess Engine
-[![Documentation Status](https://readthedocs.org/projects/chessengine/badge/?version=latest)](https://chessengine.readthedocs.io/en/latest/?badge=latest)  
+[![Documentation Status](https://readthedocs.org/projects/chessengine/badge/?version=latest)](https://chessengine.readthedocs.io/en/latest/?badge=latest)
+[![Linting](https://github.com/hrushikeshrv/chessengine/actions/workflows/linting.yml/badge.svg)](https://github.com/hrushikeshrv/chessengine/actions/workflows/linting.yml)
+
 A chess engine written in Python with no dependencies. All contributions welcome.
 
 ## Note
