@@ -1,5 +1,4 @@
-from .bitboard import Board
-
+from chessengine.bitboard import Board
 
 if __name__ == "__main__":
     player_side = input("Do you want to play white or black (w/b)? - ")
