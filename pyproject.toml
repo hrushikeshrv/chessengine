@@ -24,6 +24,9 @@ classifiers = [
     "Operating System :: OS Independent",
 ]
 
+[project.scripts]
+chessengine = "chessengine.cli:main"
+
 [project.urls]
 "Homepage" = "https://github.com/hrushikeshrv/chessengine"
 "Bug Tracker" = "https://github.com/hrushikeshrv/chessengine/issues"
