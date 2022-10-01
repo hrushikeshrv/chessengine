@@ -1,5 +1,7 @@
 # Chess Engine
-[![Documentation Status](https://readthedocs.org/projects/chessengine/badge/?version=latest)](https://chessengine.readthedocs.io/en/latest/?badge=latest)  
+[![Documentation Status](https://readthedocs.org/projects/chessengine/badge/?version=latest)](https://chessengine.readthedocs.io/en/latest/?badge=latest)
+[![Linting](https://github.com/hrushikeshrv/chessengine/actions/workflows/linting.yml/badge.svg)](https://github.com/hrushikeshrv/chessengine/actions/workflows/linting.yml)
+
 A chess engine written in Python with no dependencies. All contributions welcome.
 
 ## Note
@@ -21,9 +23,24 @@ The contribution guide can be found on the [documentation page](https://chesseng
 ## Usage
 Install using `pip` -  
 ```bash
-pip install chessengine
+# macOS / Linux (could work on Windows)
+python3 -m pip install -U chessengine
+
+# Windows (the primary way)
+py -3 -m pip install -U chessengine
 ```
+
 Start a game -  
 ```bash
 python -m chessengine.play 
+```
+
+## Developer Notes
+This project uses the [black](https://flake8.pycqa.org) linter for determining code style.
+```bash
+# Install black via pip.
+python -m pip install black
+
+# Do the lint!
+python -m black --check --verbose .
 ```
