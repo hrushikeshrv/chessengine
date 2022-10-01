@@ -1,5 +1,5 @@
 import argparse
-import os
+import sys
 from functools import wraps
 
 from chessengine.bitboard import Board
@@ -13,7 +13,7 @@ def handle_error(f):
         except KeyboardInterrupt as e:
             print(f"\nDetected {e.__class__.__name__} {e}.")
             print("Exit.")
-            os._exit(1)
+            sys.exit(1)
 
     return wrapper
 
