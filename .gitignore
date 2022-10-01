@@ -6,3 +6,4 @@ debug/
 venv/
 dist/
 chessengine.egg-info/
+build/

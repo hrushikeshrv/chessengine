@@ -38,13 +38,13 @@ Start a game -
 
 .. code-block:: console
 
-   $ chessengine
+   $ chessengine play
 
 Start a game by source code -
 
 .. code-block:: console
 
-   $ python -m chessengine
+   $ python -m chessengine play
 
 Table Of Contents
 =================

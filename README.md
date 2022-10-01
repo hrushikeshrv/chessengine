@@ -32,7 +32,11 @@ py -3 -m pip install -U chessengine
 
 Start a game -
 ```bash
-python -m chessengine.play
+chessengine play
+```
+or
+```bash
+python -m chessengine play
 ```
 
 ## Developer Notes
