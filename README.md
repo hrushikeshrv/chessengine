@@ -36,7 +36,7 @@ python -m chessengine.play
 ```
 
 ## Developer Notes
-This project uses the [black](https://flake8.pycqa.org) linter for determining code style.
+This project uses the [black](https://black.readthedocs.io/en/stable/) linter for determining code style.
 ```bash
 # Install black via pip.
 python -m pip install black
