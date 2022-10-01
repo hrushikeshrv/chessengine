@@ -101,7 +101,8 @@ class Board:
         }
 
         if side.lower().strip() not in ["black", "white"]:
-            raise ValueError(f'side must be one of "black" or "white". Got {side}')
+            raise ValueError(
+                f'side must be one of "black" or "white". Got {side}')
         self.side = side.lower().strip()
         self.opponent_side = "black" if self.side == "white" else "white"
 
@@ -154,7 +155,7 @@ class Board:
 
         board_repr = ""
         for i in range(8):
-            board_repr += "\u2001".join(piece_list[8 * i : 8 * i + 8][::-1])
+            board_repr += "\u2001".join(piece_list[8 * i: 8 * i + 8][::-1])
             board_repr += "\n"
         return board_repr
 
@@ -201,7 +202,8 @@ class Board:
         b = self.piece_count[("black", "bishops")]
         n = self.piece_count[("black", "knights")]
         p = self.piece_count[("black", "pawns")]
-        s = 200 * (K - k) + 9 * (Q - q) + 5 * (R - r) + 3 * (B - b + N - n) + (P - p)
+        s = 200 * (K - k) + 9 * (Q - q) + 5 * (R - r) + \
+            3 * (B - b + N - n) + (P - p)
         if self.side == "white":
             return s
         return -s
@@ -364,7 +366,8 @@ class Board:
 
         start_side, start_piece, start_board = self.identify_piece_at(start)
         if start_side is None:
-            raise ValueError(f"There is no piece at position {log2(start)} to move")
+            raise ValueError(
+                f"There is no piece at position {log2(start)} to move")
 
         end_side, end_piece, end_board = self.identify_piece_at(end)
         if end_side == start_side:
@@ -448,12 +451,15 @@ class Board:
                             self.move(start=m[0], end=m[1])
                             break
                     else:
-                        raise ValueError(f"{move} is not a valid move for {side}.")
+                        raise ValueError(
+                            f"{move} is not a valid move for {side}.")
                 else:
                     # File and rank both present in the SAN
-                    start_pos = 2 ** coords_to_pos[groups[1].upper() + groups[2]]
+                    start_pos = 2 ** coords_to_pos[groups[1].upper() +
+                                                   groups[2]]
                     if (start_pos, end_pos) not in moves:
-                        raise ValueError(f"{move} is not a valid move for {side}.")
+                        raise ValueError(
+                            f"{move} is not a valid move for {side}.")
                     self.move(start=start_pos, end=end_pos)
 
     def make_moves(self, *moves: tuple[int, int]) -> None:
@@ -579,7 +585,8 @@ class Board:
             moves = self.get_moves(self.side)
             for move in moves:
                 self.move(start=move[0], end=move[1])
-                final_score = self.alpha_beta_search(depth - 1, alpha, beta, False)
+                final_score = self.alpha_beta_search(
+                    depth - 1, alpha, beta, False)
                 value = max(value, final_score)
                 self.undo_move()
                 if value >= beta:
@@ -591,7 +598,8 @@ class Board:
             moves = self.get_moves(self.opponent_side)
             for move in moves:
                 self.move(start=move[0], end=move[1])
-                final_score = self.alpha_beta_search(depth - 1, alpha, beta, True)
+                final_score = self.alpha_beta_search(
+                    depth - 1, alpha, beta, True)
                 value = min(value, final_score)
                 self.undo_move()
                 if value <= alpha:
@@ -642,7 +650,8 @@ class Board:
             if side_to_move == self.side:
                 clear_lines(11)
                 if in_game_tree:
-                    move, node = random.choice(list(current_node.children.items()))
+                    move, node = random.choice(
+                        list(current_node.children.items()))
                     self.move_san(move=move, side=side_to_move)
                     current_node = node
                     print(f"Board moves {move}")

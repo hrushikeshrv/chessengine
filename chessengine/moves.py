@@ -57,7 +57,8 @@ def get_rook_moves(board, side: str, position: int) -> list[int]:
     while True:
         # Move rank up
         _ = _ << 8
-        valid, should_break = check_valid_position(board, side, position, _, moves)
+        valid, should_break = check_valid_position(
+            board, side, position, _, moves)
         if should_break:
             break
 
@@ -65,7 +66,8 @@ def get_rook_moves(board, side: str, position: int) -> list[int]:
     while True:
         # Move rank down
         _ = _ >> 8
-        valid, should_break = check_valid_position(board, side, position, _, moves)
+        valid, should_break = check_valid_position(
+            board, side, position, _, moves)
         if should_break:
             break
 
@@ -75,7 +77,8 @@ def get_rook_moves(board, side: str, position: int) -> list[int]:
     for i in range(max_right):
         # Move right
         _ = _ << 1
-        valid, should_break = check_valid_position(board, side, position, _, moves)
+        valid, should_break = check_valid_position(
+            board, side, position, _, moves)
         if should_break:
             break
 
@@ -84,7 +87,8 @@ def get_rook_moves(board, side: str, position: int) -> list[int]:
     for i in range(max_left):
         # Move left
         _ = _ >> 1
-        valid, should_break = check_valid_position(board, side, position, _, moves)
+        valid, should_break = check_valid_position(
+            board, side, position, _, moves)
         if should_break:
             break
 
@@ -115,14 +119,16 @@ def get_bishop_moves(board, side: str, position: int) -> list[int]:
     _ = position
     for i in range(max_right):
         _ = _ << 9
-        valid, should_break = check_valid_position(board, side, position, _, moves)
+        valid, should_break = check_valid_position(
+            board, side, position, _, moves)
         if should_break:
             break
 
     _ = position
     for i in range(max_right):
         _ = _ >> 7
-        valid, should_break = check_valid_position(board, side, position, _, moves)
+        valid, should_break = check_valid_position(
+            board, side, position, _, moves)
         if should_break:
             break
 
@@ -130,14 +136,16 @@ def get_bishop_moves(board, side: str, position: int) -> list[int]:
     _ = position
     for i in range(max_left):
         _ = _ << 7
-        valid, should_break = check_valid_position(board, side, position, _, moves)
+        valid, should_break = check_valid_position(
+            board, side, position, _, moves)
         if should_break:
             break
 
     _ = position
     for i in range(max_left):
         _ = _ >> 9
-        valid, should_break = check_valid_position(board, side, position, _, moves)
+        valid, should_break = check_valid_position(
+            board, side, position, _, moves)
         if should_break:
             break
 
