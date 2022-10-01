@@ -11,4 +11,6 @@ on that square.
 
 The board is defined in the :ref:`chessengine.bitboard.Board <Board>` class. It
 stores the bitboards of all pieces for each side as attributes with the naming
-convention ``<side>_<piece>s``.
+convention ``<side>_<piece>s``. For example, you can access the bitboard
+corresponding to black bishops by accessing the ``black_bishops`` attribute
+on your ``Board`` object.
