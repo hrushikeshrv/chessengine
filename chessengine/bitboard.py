@@ -668,7 +668,7 @@ class Board:
                         return
                     if move.lower() == "u":
                         input_accepted = True
-                        move_undone = True # this helps us break out of the input loop
+                        move_undone = True  # this helps us break out of the input loop
                         try:
                             self.undo_move()
                             self.undo_move()
