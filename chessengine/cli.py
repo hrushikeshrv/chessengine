@@ -1,6 +1,21 @@
 import argparse
+import os
+from functools import wraps
 
 from chessengine.bitboard import Board
+
+
+def handle_error(f):
+    @wraps(f)
+    def wrapper():
+        try:
+            f()
+        except KeyboardInterrupt as e:
+            print(f"\nDetected {e.__class__.__name__} {e}.")
+            print("Exit.")
+            os._exit(1)
+
+    return wrapper
 
 
 def prompt_player_side():
@@ -26,9 +41,10 @@ def update():
     print("Work in progress.")
 
 
+@handle_error
 def main():
     parser = argparse.ArgumentParser(
-        prog=__package__, description="A chess engine written in Python."
+        prog=__package__, description="A chess engine written in Python"
     )
 
     parser.add_argument(
