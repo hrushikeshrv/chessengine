@@ -99,7 +99,8 @@ class Board:
             ("black", "knights"): 2,
             ("black", "pawns"): 8,
         }
-
+        self.number_list = ["\u0038", "\u0037", "\u0036", "\u0035", "\u0034", "\u0033", "\u0032", "\u0031"]
+        self.alphabet_list = [" ", "\u0061", "\u0062", "\u0063", "\u0064", "\u0065", "\u0066", "\u0067", "\u0068", " "]
         if side.lower().strip() not in ["black", "white"]:
             raise ValueError(f'side must be one of "black" or "white". Got {side}')
         self.side = side.lower().strip()
@@ -153,9 +154,14 @@ class Board:
             add_bitboard_to_repr(self.board[(side, piece)], side, piece)
 
         board_repr = ""
+        for i in range(10):
+            board_repr += self.alphabet_list[i] + " "
+        board_repr += "\n"
         for i in range(8):
-            board_repr += "\u2001".join(piece_list[8 * i : 8 * i + 8][::-1])
+            board_repr += self.number_list[i] +" " +"\u2001".join(piece_list[8 * i: 8 * i + 8][::-1]) +" "+ self.number_list[i]
             board_repr += "\n"
+        for i in range(10):
+            board_repr += self.alphabet_list[i] + " "
         return board_repr
 
     def __str__(self):
@@ -264,7 +270,7 @@ class Board:
         """
         Returns the bitboard of the passed side for the passed pieces.
         For example, calling with side="black" and piece="king" will return the black_kings bitboard, and so on.
-        
+
         Raises AttributeError if a bitboard with an invalid name is requested. See above for the bitboard naming
         convention.
         """
@@ -332,11 +338,11 @@ class Board:
     def identify_piece_at(self, position: int) -> tuple:
         """
         Identifies if there is any piece on the position passed. Position is a power of 2
-        
+
         Returns a 3-tuple of the format (side, piece, bitboard) where side is the side of
         the piece identified at position (e.g, "black"), piece is the type of piece identified
         at position (e.g, "bishops"), and bitboard is the bitboard of the piece (e.g, Board.black_bishops).
-        
+
         If no piece is present at position, returns (None, None, None).
         """
         for side, piece in self.board:
@@ -349,7 +355,7 @@ class Board:
         """
         Moves the piece at start to end. Doesn't check anything, just makes
         the move (unless the start or end positions are invalid).
-        
+
         start and end are both powers of 2.
         If track is True, stores the move in Board.moves so you can undo it later.
         """
@@ -485,7 +491,7 @@ class Board:
         If piece is not specified, get all moves for all pieces of the passed side, i.e. get all valid moves for white or black.
         If side and piece are specified and position is not, get all valid moves for the specified side and piece on
         the board, i.e. if side is "white" and piece is "rooks", get all valid moves for all white rooks on the board.
-        
+
         Returns a list of moves as a list of tuples (start, end), where start and end are positions on the board.
         """
         if piece is not None:
@@ -528,7 +534,7 @@ class Board:
         """
         Execute an alpha-beta pruned depth-first search to find the optimal move from
         the current board state.
-        
+
         Arguments -
         depth: int - The number of plies to search (1 move is 2 plies). Default = 4 plies.
         """
@@ -564,10 +570,11 @@ class Board:
         Execute an alpha-beta pruned search. You probably won't need to
         call this function yourself, use Board.search_forward instead.
 
-        :param depth: The number of plies to search forward (default=4)
-        :param alpha: The minimum score that the maximizing player is guaranteed (default=-1000). You probably won't need to specify this argument.
-        :param beta: The maximum score that the minimizing player is guaranteed (default=1000). You probably won't need to specify this argument.
-        :param maximizing_player: True if white is searching for a move, False if black is searching for a move.
+        Arguments -
+        depth: int - The number of plies to search forward (default=4)
+        alpha: int - The minimum score that the maximizing player is guaranteed (default=-1000). You probably won't need to specify this argument.
+        beta: int - The maximum score that the minimizing player is guaranteed (default=1000). You probably won't need to specify this argument.
+        maximizing_player: bool - True if white is searching for a move, False if black is searching for a move.
 
         Returns the value of the best board position found.
         """
