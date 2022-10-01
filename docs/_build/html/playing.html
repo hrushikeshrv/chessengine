@@ -6,7 +6,7 @@
 <link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Contributing A Patch" href="contributing.html" /><link rel="prev" title="Usage &amp; Installation" href="usage.html" />
 
     <meta name="generator" content="sphinx-5.1.1, furo 2022.09.15"/>
-        <title>Playing A Game - chessengine 0.1.2 documentation</title>
+        <title>Playing A Game - chessengine 0.1.3 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=9ec31e2665bf879c1d47d93a8ec4893870ee1e45" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
@@ -123,7 +123,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="index.html"><div class="brand">chessengine 0.1.2 documentation</div></a>
+      <a href="index.html"><div class="brand">chessengine 0.1.3 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -146,7 +146,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
   
   
-  <span class="sidebar-brand-text">chessengine 0.1.2 documentation</span>
+  <span class="sidebar-brand-text">chessengine 0.1.3 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html" role="search">
   <input class="sidebar-search" placeholder=Search name="q" aria-label="Search">
@@ -203,6 +203,60 @@
         <article role="main">
           <section id="playing-a-game">
 <span id="id1"></span><h1>Playing A Game<a class="headerlink" href="#playing-a-game" title="Permalink to this heading">#</a></h1>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The current version of chessengine has not yet implemented all rules of
+chess. A few move-related bugs are also known and under development.</p>
+<ul class="simple">
+<li><dl class="simple">
+<dt>King moves -</dt><dd><ul>
+<li><p>The king generates moves that move it into check</p></li>
+<li><p>The king isn’t required to move itself out of check</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Pawn promotion -</dt><dd><ul>
+<li><p>Pawns are not promoted when they reach the last rank</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Stalemate -</dt><dd><ul>
+<li><p>The engine still asks for a move if the user is stalemated</p></li>
+<li><p>If the engine is stalemated, it crashes</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>SAN input by user is not verified for correctness -</dt><dd><ul>
+<li><p>SAN moves that are ambiguous are accepted as valid, and a piece is chosen by the engine</p></li>
+<li><p>SAN moves that are invalid throw an error instead of giving the user a chance to enter the move again</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Castling -</dt><dd><ul>
+<li><p>Castling is accepted after the rook has moved</p></li>
+<li><p>Castling is accepted after the king has moved</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>En-passant moves -</dt><dd><ul>
+<li><p>The engine does not make en-passant moves</p></li>
+<li><p>The engine does not allow the user to make en-passant moves</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</div>
 <p>The recommended way to play a game on the console is by using the command -</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>python -m chessengine.play
 </pre></div>

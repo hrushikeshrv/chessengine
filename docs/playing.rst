@@ -3,6 +3,29 @@
 Playing A Game
 ==============
 
+.. note::
+
+    The current version of chessengine has not yet implemented all rules of
+    chess. A few move-related bugs are also known and under development.
+
+    * King moves -
+        * The king generates moves that move it into check
+        * The king isn't required to move itself out of check
+    * Pawn promotion -
+        * Pawns are not promoted when they reach the last rank
+    * Stalemate -
+        * The engine still asks for a move if the user is stalemated
+        * If the engine is stalemated, it crashes
+    * SAN input by user is not verified for correctness -
+        * SAN moves that are ambiguous are accepted as valid, and a piece is chosen by the engine
+        * SAN moves that are invalid throw an error instead of giving the user a chance to enter the move again
+    * Castling -
+        * Castling is accepted after the rook has moved
+        * Castling is accepted after the king has moved
+    * En-passant moves -
+        * The engine does not make en-passant moves
+        * The engine does not allow the user to make en-passant moves
+
 The recommended way to play a game on the console is by using the command -
 
 .. code-block:: console
