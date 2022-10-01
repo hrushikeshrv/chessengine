@@ -674,7 +674,7 @@ class Board:
                             self.undo_move()
                         except RuntimeError:
                             print("No moves have been made yet to undo!\n")
-                        continue
+                        break
 
                     # input was normal move:
                     try:
