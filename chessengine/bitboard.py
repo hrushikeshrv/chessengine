@@ -654,21 +654,41 @@ class Board:
                     )
                 print(self)
             else:
-                move = input(
-                    "Enter the move you want to make in standard algebraic notation - "
-                ).strip()
-                if move.lower() == "q":
-                    print("Thanks for playing!")
-                    return
-                if move.lower() == "u":
+                # ask for user input until accepted:
+                input_accepted = False
+                move_undone = False
+                num_wrong_tries = 0
+                while input_accepted is False:
+                    move = input(
+                        "Enter the move you want to make in standard algebraic notation - "
+                    ).strip()
+                    if move.lower() == "q":
+                        input_accepted = True
+                        print("Thanks for playing!")
+                        return
+                    if move.lower() == "u":
+                        input_accepted = True
+                        move_undone = True # this helps us break out of the input loop
+                        try:
+                            self.undo_move()
+                            self.undo_move()
+                        except RuntimeError:
+                            print("No moves have been made yet to undo!\n")
+                        continue
+
+                    # input was normal move:
                     try:
-                        self.undo_move()
-                        self.undo_move()
-                    except RuntimeError:
-                        print("No moves have been made yet to undo!\n")
+                        self.move_san(move=move, side=side_to_move)
+                        input_accepted = True
+                    except ValueError as e:
+                        num_wrong_tries += 1
+                        print(e)
+                # (end of input loop)
+                clear_lines(2 * num_wrong_tries)
+                if move_undone is True:
+                    # return to outer loop, so both sides need to make a new move:
                     continue
 
-                self.move_san(move=move, side=side_to_move)
                 if in_game_tree:
                     try:
                         current_node = current_node.get_child(move)
