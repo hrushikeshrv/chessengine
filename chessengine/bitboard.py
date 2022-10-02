@@ -141,6 +141,8 @@ class Board:
             ("black", "knights"): "\u265E",
             ("black", "pawns"): "\u265F",
         }
+        ranks = ["1", "2", "3", "4", "5", "6", "7", "8"]
+        files = ["\u2001", "a", "b", "c", "d", "e", "f", "g", "h", "\u2001"]
 
         def add_bitboard_to_repr(board, s, p):
             board_string = bin(board)[2:]
@@ -153,9 +155,17 @@ class Board:
             add_bitboard_to_repr(self.board[(side, piece)], side, piece)
 
         board_repr = ""
+        board_repr += "\u2001" + "\u2001".join(files) + "\n"
         for i in range(8):
-            board_repr += "\u2001".join(piece_list[8 * i : 8 * i + 8][::-1])
+            board_repr += (
+                ranks[i]
+                + "\u2001\u2001"
+                + "\u2001".join(piece_list[8 * i : 8 * i + 8][::-1])
+                + "\u2001\u2001"
+                + ranks[i]
+            )
             board_repr += "\n"
+        board_repr += "\u2001" + "\u2001".join(files) + "\n"
         return board_repr
 
     def __str__(self):
