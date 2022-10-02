@@ -141,6 +141,8 @@ class Board:
             ("black", "knights"): "\u265E",
             ("black", "pawns"): "\u265F",
         }
+        ranks = ["8", "7", "6", "5", "4", "3", "2", "1"]
+        files = ["\u2001", "a", "b", "c", "d", "e", "f", "g", "h", "\u2001"]
 
         def add_bitboard_to_repr(board, s, p):
             board_string = bin(board)[2:]
@@ -153,9 +155,17 @@ class Board:
             add_bitboard_to_repr(self.board[(side, piece)], side, piece)
 
         board_repr = ""
+        board_repr += "\u2001" + "\u2001".join(files) + "\n"
         for i in range(8):
-            board_repr += "\u2001".join(piece_list[8 * i : 8 * i + 8][::-1])
+            board_repr += (
+                ranks[i]
+                + "\u2001\u2001"
+                + "\u2001".join(piece_list[8 * i : 8 * i + 8][::-1])
+                + "\u2001\u2001"
+                + ranks[i]
+            )
             board_repr += "\n"
+        board_repr += "\u2001" + "\u2001".join(files) + "\n"
         return board_repr
 
     def __str__(self):
@@ -638,9 +648,12 @@ class Board:
         side_to_move = "white"
         in_game_tree = parser is not None
         current_node = parser.root_node if in_game_tree else None
+        lines_printed = 11
         while True:
+            clear_lines(lines_printed)
+            print(self)
+            lines_printed = 11
             if side_to_move == self.side:
-                clear_lines(11)
                 if in_game_tree:
                     move, node = random.choice(list(current_node.children.items()))
                     self.move_san(move=move, side=side_to_move)
@@ -652,19 +665,20 @@ class Board:
                     print(
                         f"Board moves from {pos_to_coords[log2(best_move[0])]} to {pos_to_coords[log2(best_move[1])]}"
                     )
-                print(self)
+                lines_printed += 1
             else:
                 # ask for user input until accepted:
                 input_accepted = False
                 move_undone = False
-                num_wrong_tries = 0
                 while input_accepted is False:
                     move = input(
                         "Enter the move you want to make in standard algebraic notation - "
                     ).strip()
+                    lines_printed += 1
                     if move.lower() == "q":
                         input_accepted = True
                         print("Thanks for playing!")
+                        lines_printed += 1
                         return
                     if move.lower() == "u":
                         input_accepted = True
@@ -674,6 +688,7 @@ class Board:
                             self.undo_move()
                         except RuntimeError:
                             print("No moves have been made yet to undo!\n")
+                            lines_printed += 1
                         break
 
                     # input was normal move:
@@ -681,10 +696,9 @@ class Board:
                         self.move_san(move=move, side=side_to_move)
                         input_accepted = True
                     except ValueError as e:
-                        num_wrong_tries += 1
                         print(e)
+                        lines_printed += 1
                 # (end of input loop)
-                clear_lines(2 * num_wrong_tries)
                 if move_undone is True:
                     # return to outer loop, so both sides need to make a new move:
                     continue
@@ -694,9 +708,8 @@ class Board:
                         current_node = current_node.get_child(move)
                     except ValueError:
                         in_game_tree = False
-                clear_lines(11)
                 print(f"You moved from {move[0]} to {move[1]}")
-                print(self)
+                lines_printed += 1
 
             if side_to_move == "white":
                 side_to_move = "black"
