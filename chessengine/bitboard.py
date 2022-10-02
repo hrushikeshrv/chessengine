@@ -667,23 +667,42 @@ class Board:
                     )
                 lines_printed += 1
             else:
-                move = input(
-                    "Enter the move you want to make in standard algebraic notation - "
-                ).strip()
-                lines_printed += 1
-                if move.lower() == "q":
-                    print("Thanks for playing!")
-                    return
-                if move.lower() == "u":
-                    try:
-                        self.undo_move()
-                        self.undo_move()
-                    except RuntimeError:
-                        print("No moves have been made yet to undo!")
+                # ask for user input until accepted:
+                input_accepted = False
+                move_undone = False
+                while input_accepted is False:
+                    move = input(
+                        "Enter the move you want to make in standard algebraic notation - "
+                    ).strip()
+                    lines_printed += 1
+                    if move.lower() == "q":
+                        input_accepted = True
+                        print("Thanks for playing!")
                         lines_printed += 1
+                        return
+                    if move.lower() == "u":
+                        input_accepted = True
+                        move_undone = True  # this helps us break out of the input loop
+                        try:
+                            self.undo_move()
+                            self.undo_move()
+                        except RuntimeError:
+                            print("No moves have been made yet to undo!\n")
+                            lines_printed += 1
+                        break
+
+                    # input was normal move:
+                    try:
+                        self.move_san(move=move, side=side_to_move)
+                        input_accepted = True
+                    except ValueError as e:
+                        print(e)
+                        lines_printed += 1
+                # (end of input loop)
+                if move_undone is True:
+                    # return to outer loop, so both sides need to make a new move:
                     continue
 
-                self.move_san(move=move, side=side_to_move)
                 if in_game_tree:
                     try:
                         current_node = current_node.get_child(move)
