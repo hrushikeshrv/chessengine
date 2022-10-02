@@ -141,7 +141,7 @@ class Board:
             ("black", "knights"): "\u265E",
             ("black", "pawns"): "\u265F",
         }
-        ranks = ["1", "2", "3", "4", "5", "6", "7", "8"]
+        ranks = ["8", "7", "6", "5", "4", "3", "2", "1"]
         files = ["\u2001", "a", "b", "c", "d", "e", "f", "g", "h", "\u2001"]
 
         def add_bitboard_to_repr(board, s, p):
@@ -648,9 +648,12 @@ class Board:
         side_to_move = "white"
         in_game_tree = parser is not None
         current_node = parser.root_node if in_game_tree else None
+        lines_printed = 11
         while True:
+            clear_lines(lines_printed)
+            print(self)
+            lines_printed = 11
             if side_to_move == self.side:
-                clear_lines(11)
                 if in_game_tree:
                     move, node = random.choice(list(current_node.children.items()))
                     self.move_san(move=move, side=side_to_move)
@@ -662,11 +665,12 @@ class Board:
                     print(
                         f"Board moves from {pos_to_coords[log2(best_move[0])]} to {pos_to_coords[log2(best_move[1])]}"
                     )
-                print(self)
+                lines_printed += 1
             else:
                 move = input(
                     "Enter the move you want to make in standard algebraic notation - "
                 ).strip()
+                lines_printed += 1
                 if move.lower() == "q":
                     print("Thanks for playing!")
                     return
@@ -675,7 +679,8 @@ class Board:
                         self.undo_move()
                         self.undo_move()
                     except RuntimeError:
-                        print("No moves have been made yet to undo!\n")
+                        print("No moves have been made yet to undo!")
+                        lines_printed += 1
                     continue
 
                 self.move_san(move=move, side=side_to_move)
@@ -684,9 +689,8 @@ class Board:
                         current_node = current_node.get_child(move)
                     except ValueError:
                         in_game_tree = False
-                clear_lines(11)
                 print(f"You moved from {move[0]} to {move[1]}")
-                print(self)
+                lines_printed += 1
 
             if side_to_move == "white":
                 side_to_move = "black"
