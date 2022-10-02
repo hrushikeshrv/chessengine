@@ -41,19 +41,13 @@ class PGNParser:
 
         :param pgn_file: a path to a PGN file as a string, path-like object, or file-like object
         """
-        if pgn_file is not None:
+        files_to_parse = [pgn_file] if pgn_file is not None else self.pgn_files
+        for file in files_to_parse:
             try:
-                self._parse(pgn_file)
+                self._parse(file)
             except (TypeError, AttributeError):
-                with open(pgn_file, mode="r", errors="replace") as pgn_file:
+                with open(file, mode="r", errors="replace") as pgn_file:
                     self._parse(pgn_file)
-        else:
-            for file in self.pgn_files:
-                try:
-                    self._parse(file)
-                except (TypeError, AttributeError):
-                    with open(file, mode="r", errors="replace") as pgn_file:
-                        self._parse(pgn_file)
 
     def _parse(self, pgn_file):
         """
