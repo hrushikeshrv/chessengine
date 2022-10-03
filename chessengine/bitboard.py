@@ -34,7 +34,7 @@ from chessengine.lookup_tables import (
     pos_to_coords,
     san_piece_map,
 )
-from chessengine.utils import get_bit_positions, get_file
+from chessengine.utils import get_bit_positions, get_file, clear_lines
 from chessengine.pgn.parser import PGNParser, SAN_MOVE_REGEX
 
 
@@ -613,16 +613,6 @@ class Board:
         """
         The game loop.
         """
-
-        def clear_lines(n):
-            """
-            Clears the last n lines printed so we can print there again
-            """
-            LINE_UP = "\033[1A"
-            LINE_CLEAR = "\x1b[2K"
-            for i in range(n):
-                print(LINE_UP, end=LINE_CLEAR)
-
         parser = None
         if pkg_resources is not None:
             loading_messages = [
@@ -644,12 +634,12 @@ class Board:
             print(f"\nRead through {len(parser.games)} games.")
         print(f"Set search depth to {search_depth}")
 
-        print("\n" * 11)
+        print(self)
         side_to_move = "white"
         in_game_tree = parser is not None
         current_node = parser.root_node if in_game_tree else None
         lines_printed = 11
-        last_move_string = ""
+        last_move = ""
         while True:
             clear_lines(lines_printed)
             print(self)
@@ -659,18 +649,18 @@ class Board:
                     move, node = random.choice(list(current_node.children.items()))
                     self.move_san(move=move, side=side_to_move)
                     current_node = node
-                    last_move_string = f"Board moves {move}"
+                    last_move = f"Board moves {move}"
                 else:
                     best_score, best_move = self.search_forward(search_depth)
                     self.move(best_move[0], best_move[1])
-                    last_move_string = f"Board moves from {pos_to_coords[log2(best_move[0])]} to {pos_to_coords[log2(best_move[1])]}"
+                    last_move = f"Board moves from {pos_to_coords[log2(best_move[0])]} to {pos_to_coords[log2(best_move[1])]}"
             else:
                 # ask for user input until accepted:
                 input_accepted = False
                 move_undone = False
                 move = ""
                 while not input_accepted:
-                    print(last_move_string)
+                    print(last_move)
                     move = input(
                         "Enter the move you want to make in standard algebraic notation - "
                     ).strip()
@@ -684,7 +674,7 @@ class Board:
                             self.undo_move()
                             self.undo_move()
                         except RuntimeError:
-                            print("No moves have been made yet to undo!\n")
+                            print("No moves have been made yet to undo!")
                             lines_printed += 1
                         break
 
@@ -704,8 +694,54 @@ class Board:
                         current_node = current_node.get_child(move)
                     except ValueError:
                         in_game_tree = False
-                print(f"You moved from {move[0]} to {move[1]}")
+                print(f"You moved {move}")
                 lines_printed += 1
+
+            if side_to_move == "white":
+                side_to_move = "black"
+            else:
+                side_to_move = "white"
+
+    def play_pvp(self) -> None:
+        """
+        Play a game of chess on the terminal with another player
+        """
+        print(self)
+        lines_printed = 11
+
+        side_to_move = "white"
+        last_move = ""
+        while True:
+            clear_lines(lines_printed)
+            print(self)
+            lines_printed = 11
+
+            input_accepted = False
+            while not input_accepted:
+                print(last_move)
+                move = input(
+                    f"Enter the move you want to make ({side_to_move.capitalize()}'s turn) - "
+                ).strip()
+                lines_printed += 2
+
+                if move.lower() == "q":
+                    print("Thanks for playing!")
+                    return
+                if move.lower() == "u":
+                    try:
+                        self.undo_move()
+                    except RuntimeError:
+                        print("No moves have been made yet to undo!")
+                        lines_printed += 1
+                    break
+
+                try:
+                    self.move_san(move=move, side=side_to_move)
+                    input_accepted = True
+                    last_move = f"{side_to_move.capitalize()} moved {move}"
+                except ValueError as e:
+                    print(e)
+                    lines_printed += 1
 
             if side_to_move == "white":
                 side_to_move = "black"
