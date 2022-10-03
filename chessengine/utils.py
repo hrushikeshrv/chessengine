@@ -2,9 +2,9 @@
 Utility functions for common bitboard operations.
 """
 
-
 from math import log2
-
+import random
+from time import sleep
 
 piece_characters = {
     ("white", "kings"): "K",
@@ -65,3 +65,13 @@ def lsb_pos(board: int) -> int:
     i.e. - Returns 0000100 for 1010100
     """
     return board & ~(board - 1)
+
+
+def randomize_choice_of_player():
+    player = ["white", "black"]
+    pieces = ["\u2654", "\u2655", "\u2656", "\u2657", "\u265A", "\u265B", "\u265C", "\u265D", "\u2658", "\u265f"]
+    for i in range(random.randint(3, 5)):
+        print(pieces[i], sep=' ', end=' ', flush=True)
+        sleep(0.5)
+    print("Randomly assigned!")
+    return random.choice(player)

@@ -711,3 +711,73 @@ class Board:
                 side_to_move = "black"
             else:
                 side_to_move = "white"
+
+    def play_player(self, player1="white", player2="black") -> None:
+        """
+        The game loop.
+        """
+        self.player1 = player1
+        self.player2 = player2
+
+        def clear_lines(n):
+            """
+            Clears the last n lines printed so we can print there again
+            """
+            LINE_UP = "\033[1A"
+            LINE_CLEAR = "\x1b[2K"
+            for i in range(n):
+                print(LINE_UP, end=LINE_CLEAR)
+
+        side_to_move = "white"
+        while True:
+            if side_to_move == "white":
+                clear_lines(11)
+                if self.player1 == "white":
+                    print("Player 1 turn (white):")
+                if self.player2 == "white":
+                    print("Player 2 turn (white):")
+                move = input(
+                    "Enter the move you want to make in standard algebraic notation - "
+                ).strip()
+                if move.lower() == "q":
+                    print(f"Thanks for playing!")
+                    return
+                if move.lower() == "u":
+                    try:
+                        self.undo_move()
+                        self.undo_move()
+                    except RuntimeError:
+                        print("No moves have been made yet to undo!\n")
+                    continue
+                self.move_san(move=move, side=side_to_move)
+                clear_lines(11)
+                print(f"You moved from {move[0]} to {move[1]}")
+                print(self)
+            else:
+                if self.player1 != "white":
+                    print("Player 1 turn (black):")
+                if self.player2 != "white":
+                    print("Player 2 turn (black):")
+                move = input(
+                    "Enter the move you want to make in standard algebraic notation - "
+                ).strip()
+                if move.lower() == "q":
+                    print(f"Thanks for playing!")
+                    return
+                if move.lower() == "u":
+                    try:
+                        self.undo_move()
+                        self.undo_move()
+                    except RuntimeError:
+                        print("No moves have been made yet to undo!\n")
+                    continue
+
+                self.move_san(move=move, side=side_to_move)
+                clear_lines(11)
+                print(f"You moved from {move[0]} to {move[1]}")
+                print(self)
+
+            if side_to_move == "white":
+                side_to_move = "black"
+            else:
+                side_to_move = "white"
