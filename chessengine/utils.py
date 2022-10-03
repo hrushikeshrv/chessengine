@@ -75,3 +75,10 @@ def clear_lines(n: int) -> None:
     LINE_CLEAR = "\x1b[2K"
     for i in range(n):
         print(LINE_UP, end=LINE_CLEAR)
+
+def to_san(move: str) -> str:
+    """
+    """
+    # do some translation stuff
+    return move
+

@@ -34,7 +34,7 @@ from chessengine.lookup_tables import (
     pos_to_coords,
     san_piece_map,
 )
-from chessengine.utils import get_bit_positions, get_file, clear_lines
+from chessengine.utils import get_bit_positions, get_file, clear_lines, to_san
 from chessengine.pgn.parser import PGNParser, SAN_MOVE_REGEX
 
 
@@ -680,7 +680,7 @@ class Board:
 
                     # input was normal move
                     try:
-                        self.move_san(move=move, side=side_to_move)
+                        self.move_san(move=to_san(move), side=side_to_move)
                         input_accepted = True
                     except ValueError as e:
                         print(e)
@@ -736,7 +736,7 @@ class Board:
                     break
 
                 try:
-                    self.move_san(move=move, side=side_to_move)
+                    self.move_san(move=to_san(move), side=side_to_move)
                     input_accepted = True
                     last_move = f"{side_to_move.capitalize()} moved {move}"
                 except ValueError as e:
