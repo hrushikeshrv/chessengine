@@ -1,4 +1,6 @@
-﻿chessengine.moves
+﻿.. _chessengine.moves:
+
+chessengine.moves
 =================
 
 .. py:currentmodule:: chessengine.moves

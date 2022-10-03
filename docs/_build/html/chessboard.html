@@ -221,7 +221,7 @@ on your <code class="docutils literal notranslate"><span class="pre">Board</span
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">all_pieces</span></code> - A bitboard representing the positions of all pieces on the board</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">board</span></code> - A dictionary mapping tuples of the format <code class="docutils literal notranslate"><span class="pre">(side,</span> <span class="pre">piece)</span></code> to the corresponding bitboard. For example, <code class="docutils literal notranslate"><span class="pre">board[(&quot;white&quot;,</span> <span class="pre">&quot;pawns&quot;)]</span></code> returns the bitboard corresponding to white pawns.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">moves</span></code> - A list of all moves made on the board. Moves are stored as a tuple in the format <code class="docutils literal notranslate"><span class="pre">(start,</span> <span class="pre">end,</span> <span class="pre">captured_side,</span> <span class="pre">captured_piece,</span> <span class="pre">captured_bitboard)</span></code> where start is the position the piece started from, end is the position the piece landed on, captured_side is the side of the piece captured (if any, else <code class="docutils literal notranslate"><span class="pre">None</span></code>), captured_piece is the piece captured (if any, else <code class="docutils literal notranslate"><span class="pre">None</span></code>), and captured_bitboard is the bitboard of the captured piece before it was captured (used to restore it in case we want to undo moves).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">moves</span></code> - A list of all moves made on the board. Moves are stored as a tuple in the format <code class="docutils literal notranslate"><span class="pre">(start,</span> <span class="pre">end,</span> <span class="pre">captured_side,</span> <span class="pre">captured_piece,</span> <span class="pre">captured_bitboard)</span></code> where start is the <a class="reference internal" href="#position-representation"><span class="std std-ref">position</span></a> the piece started from, end is the position the piece landed on, captured_side is the side of the piece captured (if any, else <code class="docutils literal notranslate"><span class="pre">None</span></code>), captured_piece is the piece captured (if any, else <code class="docutils literal notranslate"><span class="pre">None</span></code>), and captured_bitboard is the bitboard of the captured piece before it was captured (used to restore it in case we want to undo moves).</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">piece_count</span></code> - A dictionary mapping tuples of the format (side, piece) to the number of pieces of that side on the board currently. For example, at the start of the game <code class="docutils literal notranslate"><span class="pre">piece_count[(&quot;white&quot;,</span> <span class="pre">&quot;pawns&quot;)]</span></code> will be 8.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">side</span></code> - The side of the board. Can be <code class="docutils literal notranslate"><span class="pre">&quot;black&quot;</span></code> or <code class="docutils literal notranslate"><span class="pre">&quot;white&quot;</span></code>.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">opponent_side</span></code> - The side of the opponent. Can be <code class="docutils literal notranslate"><span class="pre">&quot;black&quot;</span></code> or <code class="docutils literal notranslate"><span class="pre">&quot;white&quot;</span></code></p></li>
@@ -251,6 +251,20 @@ on your <code class="docutils literal notranslate"><span class="pre">Board</span
 <li><p><code class="docutils literal notranslate"><span class="pre">all_black</span></code> - A bitboard representing the positions of all black pieces on the board</p></li>
 </ul>
 </section>
+</section>
+<section id="representing-positions-on-the-board">
+<span id="position-representation"></span><h2>Representing Positions On The Board<a class="headerlink" href="#representing-positions-on-the-board" title="Permalink to this heading">#</a></h2>
+<p>The squares on the chessboard are numbered as follows -</p>
+<a class="reference internal image-reference" href="_images/chessboard-numbered.svg"><img alt="A chessboard with indices assigned to each square" src="_images/chessboard-numbered.svg" width="300" /></a>
+<p>All positions on the board are specified as a power of 2, where the power is the index according to
+the diagram above. For example, to refer to the square <code class="docutils literal notranslate"><span class="pre">c2</span></code>, you would pass <code class="docutils literal notranslate"><span class="pre">2**10</span></code> to whichever
+function you are working with.</p>
+<p>All functions in <code class="docutils literal notranslate"><span class="pre">chessengine.moves</span></code> accept <code class="docutils literal notranslate"><span class="pre">position</span></code> as an argument, which is specified
+as mentioned here. In general, all functions that accept a <code class="docutils literal notranslate"><span class="pre">position</span></code> argument require it to
+be specified as mentioned here. Moreover, the <code class="docutils literal notranslate"><span class="pre">Board.move</span></code> function also requires this format for
+its <code class="docutils literal notranslate"><span class="pre">start</span></code> and <code class="docutils literal notranslate"><span class="pre">end</span></code> arguments.</p>
+<p>To help with converting between coordinates on the board, positions, and powers
+of 2, you can use the <code class="docutils literal notranslate"><span class="pre">chessengine.lookup_tables</span></code> module.</p>
 </section>
 </section>
 
@@ -318,6 +332,7 @@ on your <code class="docutils literal notranslate"><span class="pre">Board</span
 <li><a class="reference internal" href="#attributes-for-black-side">Attributes For Black Side</a></li>
 </ul>
 </li>
+<li><a class="reference internal" href="#representing-positions-on-the-board">Representing Positions On The Board</a></li>
 </ul>
 </li>
 </ul>

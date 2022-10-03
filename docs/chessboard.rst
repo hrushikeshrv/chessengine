@@ -26,7 +26,7 @@ Attributes For Chess Board
 
 * ``all_pieces`` - A bitboard representing the positions of all pieces on the board
 * ``board`` - A dictionary mapping tuples of the format ``(side, piece)`` to the corresponding bitboard. For example, ``board[("white", "pawns")]`` returns the bitboard corresponding to white pawns.
-* ``moves`` - A list of all moves made on the board. Moves are stored as a tuple in the format ``(start, end, captured_side, captured_piece, captured_bitboard)`` where start is the position the piece started from, end is the position the piece landed on, captured_side is the side of the piece captured (if any, else ``None``), captured_piece is the piece captured (if any, else ``None``), and captured_bitboard is the bitboard of the captured piece before it was captured (used to restore it in case we want to undo moves).
+* ``moves`` - A list of all moves made on the board. Moves are stored as a tuple in the format ``(start, end, captured_side, captured_piece, captured_bitboard)`` where start is the :ref:`position <position_representation>` the piece started from, end is the position the piece landed on, captured_side is the side of the piece captured (if any, else ``None``), captured_piece is the piece captured (if any, else ``None``), and captured_bitboard is the bitboard of the captured piece before it was captured (used to restore it in case we want to undo moves).
 * ``piece_count`` - A dictionary mapping tuples of the format (side, piece) to the number of pieces of that side on the board currently. For example, at the start of the game ``piece_count[("white", "pawns")]`` will be 8.
 * ``side`` - The side of the board. Can be ``"black"`` or ``"white"``.
 * ``opponent_side`` - The side of the opponent. Can be ``"black"`` or ``"white"``
@@ -52,3 +52,26 @@ Attributes For Black Side
 * ``black_queens`` - A bitboard representing the positions of all black queens on the board
 * ``black_rooks`` - A bitboard representing the positions of all black rooks on the board
 * ``all_black`` - A bitboard representing the positions of all black pieces on the board
+
+.. _position_representation:
+
+Representing Positions On The Board
+-----------------------------------
+
+The squares on the chessboard are numbered as follows -
+
+.. image:: media/chessboard-numbered.svg
+    :width: 300
+    :alt: A chessboard with indices assigned to each square
+
+All positions on the board are specified as a power of 2, where the power is the index according to
+the diagram above. For example, to refer to the square ``c2``, you would pass ``2**10`` to whichever
+function you are working with.
+
+All functions in ``chessengine.moves`` accept ``position`` as an argument, which is specified
+as mentioned here. In general, all functions that accept a ``position`` argument require it to
+be specified as mentioned here. Moreover, the ``Board.move`` function also requires this format for
+its ``start`` and ``end`` arguments.
+
+To help with converting between coordinates on the board, positions, and powers
+of 2, you can use the ``chessengine.lookup_tables`` module.

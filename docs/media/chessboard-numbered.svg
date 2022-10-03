@@ -1,0 +1,109 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="239" height="239" viewBox="0 0 239 239">
+  <defs>
+    <clipPath id="clip-chessboard-numbered">
+      <rect width="239" height="239"/>
+    </clipPath>
+  </defs>
+  <g id="chessboard-numbered" clip-path="url(#clip-chessboard-numbered)">
+    <rect width="239" height="239" fill="#c1c1c1"/>
+    <image id="NoPath" width="215" height="215" transform="translate(12 12)" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOEAAADhCAMAAAAJbSJIAAAAS1BMVEUAAAD///+lpaW7u7vU1NRnZ2c7Ozvo6OjX19ft7e3CwsJkZGS+vr4rKyubm5t5eXlycnKhoaFfX188PDw1NTUwMDCJiYlMTExVVVUudgVNAAACW0lEQVR4nO3dyW7bQBAEUEekNoq0dtn//6WJoXMXg0nkA/3qKhTaj8dpzPjtbfl5jF2VYQq9oayN76F2DOM+Qq9sdd1qRjj+qnMNvVDbhdoq9NZt4/Yzwi50N20j++8VbgkJCQkJCQkJCQkJCQkJCQkJCQkJCf9KOIRuOtUPtdYz70vbuLkz7+m6qTL12zpTWbud9mVrf77X44bQu5W1zWeoze00tuHLhdo61NLIvm3cJtQ6QkJCQkJCQkJCQkJCQkJCQkJCQkJCwn8RHkLt/P+Ftxnh8jczy9+uERISEhISEhISEhISEhISEhISEhISPpNe4Ll9r/DQNm7uzPt911fZndZlDnWt7y51bRXGPQ5l71JP64d63Do9zPSVffhyoXYJtbR72rWNm0JtmBHarhESEhISEhISEhISEhISEhISEhIS/hRh45l3uo3wgjPve6iNf34/ruqcm356SRr/lONb3j3dw5cLtdb7Fi/aPS1/f0hISEhISEhISEhISEhISEhISEhISPjM8t8Y+qgvK1yGcMsh3Kl4hDsVq3Cnoqun7era+hTGpX+g/ZVv3j294CWscUa4/P0hISEhISEhISEhISEhISEhISEhISHhM8t4Yyjtnl7wEtY59BpvI9iuERISEhISEhISEhISEhISEhISEhIS/hThar+tsv/clLmF2jCVtfs59E63sjeVre22r8dd042RryxjM5Oy/O0aISEhISEhISEhISEhISEhISEhISHhM41n3q3CxjPva6jNvcCz6uqE2sdQtsZj6L2PZS+dzk9h3GNGuIT8BngXjp3LXAKrAAAAAElFTkSuQmCC"/>
+    <text id="a" transform="translate(22 236)" fill="#1a1a1a" font-size="12" font-family="SegoeUI, Segoe UI"><tspan x="0" y="0">a</tspan></text>
+    <text id="b" transform="translate(49 236)" fill="#1a1a1a" font-size="12" font-family="SegoeUI, Segoe UI"><tspan x="0" y="0">b</tspan></text>
+    <text id="c" transform="translate(76 236)" fill="#1a1a1a" font-size="12" font-family="SegoeUI, Segoe UI"><tspan x="0" y="0">c</tspan></text>
+    <text id="d" transform="translate(103 236)" fill="#1a1a1a" font-size="12" font-family="SegoeUI, Segoe UI"><tspan x="0" y="0">d</tspan></text>
+    <text id="e" transform="translate(130 236)" fill="#1a1a1a" font-size="12" font-family="SegoeUI, Segoe UI"><tspan x="0" y="0">e</tspan></text>
+    <text id="f" transform="translate(157 236)" fill="#1a1a1a" font-size="12" font-family="SegoeUI, Segoe UI"><tspan x="0" y="0">f</tspan></text>
+    <text id="g" transform="translate(184 236)" fill="#1a1a1a" font-size="12" font-family="SegoeUI, Segoe UI"><tspan x="0" y="0">g</tspan></text>
+    <text id="h" transform="translate(211 236)" fill="#1a1a1a" font-size="12" font-family="SegoeUI, Segoe UI"><tspan x="0" y="0">h</tspan></text>
+    <text id="a-2" data-name="a" transform="translate(19 10)" fill="#1a1a1a" font-size="12" font-family="SegoeUI, Segoe UI"><tspan x="0" y="0">a</tspan></text>
+    <text id="b-2" data-name="b" transform="translate(46 10)" fill="#1a1a1a" font-size="12" font-family="SegoeUI, Segoe UI"><tspan x="0" y="0">b</tspan></text>
+    <text id="c-2" data-name="c" transform="translate(73 10)" fill="#1a1a1a" font-size="12" font-family="SegoeUI, Segoe UI"><tspan x="0" y="0">c</tspan></text>
+    <text id="d-2" data-name="d" transform="translate(100 10)" fill="#1a1a1a" font-size="12" font-family="SegoeUI, Segoe UI"><tspan x="0" y="0">d</tspan></text>
+    <text id="e-2" data-name="e" transform="translate(127 10)" fill="#1a1a1a" font-size="12" font-family="SegoeUI, Segoe UI"><tspan x="0" y="0">e</tspan></text>
+    <text id="f-2" data-name="f" transform="translate(154 10)" fill="#1a1a1a" font-size="12" font-family="SegoeUI, Segoe UI"><tspan x="0" y="0">f</tspan></text>
+    <text id="g-2" data-name="g" transform="translate(181 10)" fill="#1a1a1a" font-size="12" font-family="SegoeUI, Segoe UI"><tspan x="0" y="0">g</tspan></text>
+    <text id="h-2" data-name="h" transform="translate(208 10)" fill="#1a1a1a" font-size="12" font-family="SegoeUI, Segoe UI"><tspan x="0" y="0">h</tspan></text>
+    <text id="_8" data-name="8" transform="translate(3 30)" fill="#1a1a1a" font-size="12" font-family="SegoeUI, Segoe UI"><tspan x="0" y="0">8</tspan></text>
+    <text id="_7" data-name="7" transform="translate(3 57)" fill="#1a1a1a" font-size="12" font-family="SegoeUI, Segoe UI"><tspan x="0" y="0">7</tspan></text>
+    <text id="_6" data-name="6" transform="translate(3 84)" fill="#1a1a1a" font-size="12" font-family="SegoeUI, Segoe UI"><tspan x="0" y="0">6</tspan></text>
+    <text id="_5" data-name="5" transform="translate(3 111)" fill="#1a1a1a" font-size="12" font-family="SegoeUI, Segoe UI"><tspan x="0" y="0">5</tspan></text>
+    <text id="_4" data-name="4" transform="translate(3 138)" fill="#1a1a1a" font-size="12" font-family="SegoeUI, Segoe UI"><tspan x="0" y="0">4</tspan></text>
+    <text id="_3" data-name="3" transform="translate(3 165)" fill="#1a1a1a" font-size="12" font-family="SegoeUI, Segoe UI"><tspan x="0" y="0">3</tspan></text>
+    <text id="_2" data-name="2" transform="translate(3 192)" fill="#1a1a1a" font-size="12" font-family="SegoeUI, Segoe UI" opacity="0.7"><tspan x="0" y="0">2</tspan></text>
+    <text id="_1" data-name="1" transform="translate(3 219)" fill="#1a1a1a" font-size="12" font-family="SegoeUI, Segoe UI"><tspan x="0" y="0">1</tspan></text>
+    <text id="_8-2" data-name="8" transform="translate(230 31)" fill="#1a1a1a" font-size="12" font-family="SegoeUI, Segoe UI"><tspan x="0" y="0">8</tspan></text>
+    <text id="_7-2" data-name="7" transform="translate(230 58)" fill="#1a1a1a" font-size="12" font-family="SegoeUI, Segoe UI"><tspan x="0" y="0">7</tspan></text>
+    <text id="_6-2" data-name="6" transform="translate(230 85)" fill="#1a1a1a" font-size="12" font-family="SegoeUI, Segoe UI"><tspan x="0" y="0">6</tspan></text>
+    <text id="_5-2" data-name="5" transform="translate(230 112)" fill="#1a1a1a" font-size="12" font-family="SegoeUI, Segoe UI"><tspan x="0" y="0">5</tspan></text>
+    <text id="_4-2" data-name="4" transform="translate(230 139)" fill="#1a1a1a" font-size="12" font-family="SegoeUI, Segoe UI"><tspan x="0" y="0">4</tspan></text>
+    <text id="_3-2" data-name="3" transform="translate(230 166)" fill="#1a1a1a" font-size="12" font-family="SegoeUI, Segoe UI"><tspan x="0" y="0">3</tspan></text>
+    <text id="_2-2" data-name="2" transform="translate(230 193)" fill="#1a1a1a" font-size="12" font-family="SegoeUI, Segoe UI" opacity="0.7"><tspan x="0" y="0">2</tspan></text>
+    <text id="_1-2" data-name="1" transform="translate(230 220)" fill="#1a1a1a" font-size="12" font-family="SegoeUI, Segoe UI"><tspan x="0" y="0">1</tspan></text>
+    <text id="_0" data-name="0" transform="translate(20 220)" fill="#eee" font-size="18" font-family="SegoeUI, Segoe UI"><tspan x="0" y="0">0</tspan></text>
+    <text id="_2-3" data-name="2" transform="translate(74 220)" fill="#eee" font-size="18" font-family="SegoeUI, Segoe UI"><tspan x="0" y="0">2</tspan></text>
+    <text id="_4-3" data-name="4" transform="translate(128 220)" fill="#eee" font-size="18" font-family="SegoeUI, Segoe UI"><tspan x="0" y="0">4</tspan></text>
+    <text id="_6-3" data-name="6" transform="translate(180 220)" fill="#eee" font-size="18" font-family="SegoeUI, Segoe UI"><tspan x="0" y="0">6</tspan></text>
+    <text id="_1-3" data-name="1" transform="translate(48 220)" fill="#1e1e1e" font-size="18" font-family="SegoeUI, Segoe UI"><tspan x="0" y="0">1</tspan></text>
+    <text id="_3-3" data-name="3" transform="translate(102 220)" fill="#1e1e1e" font-size="18" font-family="SegoeUI, Segoe UI"><tspan x="0" y="0">3</tspan></text>
+    <text id="_5-3" data-name="5" transform="translate(154 220)" fill="#1e1e1e" font-size="18" font-family="SegoeUI, Segoe UI"><tspan x="0" y="0">5</tspan></text>
+    <text id="_7-3" data-name="7" transform="translate(209 220)" fill="#1e1e1e" font-size="18" font-family="SegoeUI, Segoe UI"><tspan x="0" y="0">7</tspan></text>
+    <text id="_16" data-name="16" transform="translate(16 166)" fill="#eee" font-size="18" font-family="SegoeUI, Segoe UI"><tspan x="0" y="0">16</tspan></text>
+    <text id="_18" data-name="18" transform="translate(70 166)" fill="#eee" font-size="18" font-family="SegoeUI, Segoe UI"><tspan x="0" y="0">18</tspan></text>
+    <text id="_20" data-name="20" transform="translate(124 166)" fill="#eee" font-size="18" font-family="SegoeUI, Segoe UI"><tspan x="0" y="0">20</tspan></text>
+    <text id="_22" data-name="22" transform="translate(178 166)" fill="#eee" font-size="18" font-family="SegoeUI, Segoe UI"><tspan x="0" y="0">22</tspan></text>
+    <text id="_17" data-name="17" transform="translate(44 166)" fill="#1e1e1e" font-size="18" font-family="SegoeUI, Segoe UI"><tspan x="0" y="0">17</tspan></text>
+    <text id="_19" data-name="19" transform="translate(96 166)" fill="#1e1e1e" font-size="18" font-family="SegoeUI, Segoe UI"><tspan x="0" y="0">19</tspan></text>
+    <text id="_21" data-name="21" transform="translate(150 166)" fill="#1e1e1e" font-size="18" font-family="SegoeUI, Segoe UI"><tspan x="0" y="0">21</tspan></text>
+    <text id="_23" data-name="23" transform="translate(204 166)" fill="#1e1e1e" font-size="18" font-family="SegoeUI, Segoe UI"><tspan x="0" y="0">23</tspan></text>
+    <text id="_32" data-name="32" transform="translate(16 112)" fill="#eee" font-size="18" font-family="SegoeUI, Segoe UI"><tspan x="0" y="0">32</tspan></text>
+    <text id="_34" data-name="34" transform="translate(72 112)" fill="#eee" font-size="18" font-family="SegoeUI, Segoe UI"><tspan x="0" y="0">34</tspan></text>
+    <text id="_36" data-name="36" transform="translate(124 112)" fill="#eee" font-size="18" font-family="SegoeUI, Segoe UI"><tspan x="0" y="0">36</tspan></text>
+    <text id="_38" data-name="38" transform="translate(178 112)" fill="#eee" font-size="18" font-family="SegoeUI, Segoe UI"><tspan x="0" y="0">38</tspan></text>
+    <text id="_33" data-name="33" transform="translate(44 112)" fill="#1e1e1e" font-size="18" font-family="SegoeUI, Segoe UI"><tspan x="0" y="0">33</tspan></text>
+    <text id="_35" data-name="35" transform="translate(96 112)" fill="#1e1e1e" font-size="18" font-family="SegoeUI, Segoe UI"><tspan x="0" y="0">35</tspan></text>
+    <text id="_37" data-name="37" transform="translate(150 112)" fill="#1e1e1e" font-size="18" font-family="SegoeUI, Segoe UI"><tspan x="0" y="0">37</tspan></text>
+    <text id="_39" data-name="39" transform="translate(204 112)" fill="#1e1e1e" font-size="18" font-family="SegoeUI, Segoe UI"><tspan x="0" y="0">39</tspan></text>
+    <text id="_48" data-name="48" transform="translate(16 60)" fill="#eee" font-size="18" font-family="SegoeUI, Segoe UI"><tspan x="0" y="0">48</tspan></text>
+    <text id="_50" data-name="50" transform="translate(70 60)" fill="#eee" font-size="18" font-family="SegoeUI, Segoe UI"><tspan x="0" y="0">50</tspan></text>
+    <text id="_52" data-name="52" transform="translate(122 60)" fill="#eee" font-size="18" font-family="SegoeUI, Segoe UI"><tspan x="0" y="0">52</tspan></text>
+    <text id="_54" data-name="54" transform="translate(178 60)" fill="#eee" font-size="18" font-family="SegoeUI, Segoe UI"><tspan x="0" y="0">54</tspan></text>
+    <text id="_49" data-name="49" transform="translate(44 60)" fill="#1e1e1e" font-size="18" font-family="SegoeUI, Segoe UI"><tspan x="0" y="0">49</tspan></text>
+    <text id="_51" data-name="51" transform="translate(96 60)" fill="#1e1e1e" font-size="18" font-family="SegoeUI, Segoe UI"><tspan x="0" y="0">51</tspan></text>
+    <text id="_53" data-name="53" transform="translate(150 60)" fill="#1e1e1e" font-size="18" font-family="SegoeUI, Segoe UI"><tspan x="0" y="0">53</tspan></text>
+    <text id="_55" data-name="55" transform="translate(204 60)" fill="#1e1e1e" font-size="18" font-family="SegoeUI, Segoe UI"><tspan x="0" y="0">55</tspan></text>
+    <text id="_0-2" data-name="0" transform="translate(20 194)" fill="#eee" font-size="18" font-family="SegoeUI, Segoe UI"><tspan x="0" y="0">0</tspan></text>
+    <text id="_1-4" data-name="1" transform="translate(48 194)" fill="#1e1e1e" font-size="18" font-family="SegoeUI, Segoe UI"><tspan x="0" y="0">1</tspan></text>
+    <text id="_8-3" data-name="8" transform="translate(20 194)" fill="#1d1d1d" font-size="18" font-family="SegoeUI, Segoe UI"><tspan x="0" y="0">8</tspan></text>
+    <text id="_12" data-name="12" transform="translate(122 194)" fill="#1a1a1a" font-size="18" font-family="SegoeUI, Segoe UI"><tspan x="0" y="0">12</tspan></text>
+    <text id="_14" data-name="14" transform="translate(175 194)" fill="#262626" font-size="18" font-family="SegoeUI, Segoe UI"><tspan x="0" y="0">14</tspan></text>
+    <text id="_9" data-name="9" transform="translate(48 194)" fill="#eee" font-size="18" font-family="SegoeUI, Segoe UI" opacity="0.9"><tspan x="0" y="0">9</tspan></text>
+    <text id="_11" data-name="11" transform="translate(97 194)" fill="#ebebeb" font-size="18" font-family="SegoeUI, Segoe UI"><tspan x="0" y="0">11</tspan></text>
+    <text id="_13" data-name="13" transform="translate(150 194)" fill="#f9f9f9" font-size="18" font-family="SegoeUI, Segoe UI"><tspan x="0" y="0">13</tspan></text>
+    <text id="_24" data-name="24" transform="translate(16 140)" fill="#1d1d1d" font-size="18" font-family="SegoeUI, Segoe UI"><tspan x="0" y="0">24</tspan></text>
+    <text id="_26" data-name="26" transform="translate(70 140)" fill="#1d1d1d" font-size="18" font-family="SegoeUI, Segoe UI"><tspan x="0" y="0">26</tspan></text>
+    <text id="_28" data-name="28" transform="translate(124 140)" fill="#1a1a1a" font-size="18" font-family="SegoeUI, Segoe UI"><tspan x="0" y="0">28</tspan></text>
+    <text id="_30" data-name="30" transform="translate(178 140)" fill="#262626" font-size="18" font-family="SegoeUI, Segoe UI"><tspan x="0" y="0">30</tspan></text>
+    <text id="_25" data-name="25" transform="translate(44 140)" fill="#eee" font-size="18" font-family="SegoeUI, Segoe UI"><tspan x="0" y="0">25</tspan></text>
+    <text id="_27" data-name="27" transform="translate(96 140)" fill="#ebebeb" font-size="18" font-family="SegoeUI, Segoe UI"><tspan x="0" y="0">27</tspan></text>
+    <text id="_29" data-name="29" transform="translate(150 140)" fill="#f9f9f9" font-size="18" font-family="SegoeUI, Segoe UI"><tspan x="0" y="0">29</tspan></text>
+    <text id="_31" data-name="31" transform="translate(204 140)" fill="#ebebeb" font-size="18" font-family="SegoeUI, Segoe UI"><tspan x="0" y="0">31</tspan></text>
+    <text id="_40" data-name="40" transform="translate(16 86)" fill="#1d1d1d" font-size="18" font-family="SegoeUI, Segoe UI"><tspan x="0" y="0">40</tspan></text>
+    <text id="_42" data-name="42" transform="translate(70 86)" fill="#1d1d1d" font-size="18" font-family="SegoeUI, Segoe UI"><tspan x="0" y="0">42</tspan></text>
+    <text id="_44" data-name="44" transform="translate(124 86)" fill="#1a1a1a" font-size="18" font-family="SegoeUI, Segoe UI"><tspan x="0" y="0">44</tspan></text>
+    <text id="_46" data-name="46" transform="translate(178 86)" fill="#262626" font-size="18" font-family="SegoeUI, Segoe UI"><tspan x="0" y="0">46</tspan></text>
+    <text id="_41" data-name="41" transform="translate(44 86)" fill="#eee" font-size="18" font-family="SegoeUI, Segoe UI"><tspan x="0" y="0">41</tspan></text>
+    <text id="_43" data-name="43" transform="translate(96 86)" fill="#ebebeb" font-size="18" font-family="SegoeUI, Segoe UI"><tspan x="0" y="0">43</tspan></text>
+    <text id="_45" data-name="45" transform="translate(150 86)" fill="#f9f9f9" font-size="18" font-family="SegoeUI, Segoe UI"><tspan x="0" y="0">45</tspan></text>
+    <text id="_47" data-name="47" transform="translate(203 86)" fill="#ebebeb" font-size="18" font-family="SegoeUI, Segoe UI"><tspan x="0" y="0">47</tspan></text>
+    <text id="_56" data-name="56" transform="translate(16 32)" fill="#1d1d1d" font-size="18" font-family="SegoeUI, Segoe UI"><tspan x="0" y="0">56</tspan></text>
+    <text id="_58" data-name="58" transform="translate(70 32)" fill="#1d1d1d" font-size="18" font-family="SegoeUI, Segoe UI"><tspan x="0" y="0">58</tspan></text>
+    <text id="_60" data-name="60" transform="translate(124 32)" fill="#1a1a1a" font-size="18" font-family="SegoeUI, Segoe UI"><tspan x="0" y="0">60</tspan></text>
+    <text id="_62" data-name="62" transform="translate(175 32)" fill="#262626" font-size="18" font-family="SegoeUI, Segoe UI"><tspan x="0" y="0">62</tspan></text>
+    <text id="_57" data-name="57" transform="translate(44 32)" fill="#eee" font-size="18" font-family="SegoeUI, Segoe UI"><tspan x="0" y="0">57</tspan></text>
+    <text id="_59" data-name="59" transform="translate(96 32)" fill="#ebebeb" font-size="18" font-family="SegoeUI, Segoe UI"><tspan x="0" y="0">59</tspan></text>
+    <text id="_61" data-name="61" transform="translate(150 32)" fill="#f9f9f9" font-size="18" font-family="SegoeUI, Segoe UI"><tspan x="0" y="0">61</tspan></text>
+    <text id="_63" data-name="63" transform="translate(204 32)" fill="#ebebeb" font-size="18" font-family="SegoeUI, Segoe UI"><tspan x="0" y="0">63</tspan></text>
+    <text id="_10" data-name="10" transform="translate(69 193)" fill="#1d1d1d" font-size="18" font-family="SegoeUI, Segoe UI"><tspan x="0" y="0">10</tspan></text>
+    <text id="_15" data-name="15" transform="translate(203 194)" fill="#ebebeb" font-size="18" font-family="SegoeUI, Segoe UI"><tspan x="0" y="0">15</tspan></text>
+  </g>
+</svg>
