@@ -679,7 +679,6 @@ class Board:
                         print("Thanks for playing!")
                         return
                     if move.lower() == "u":
-                        input_accepted = True
                         move_undone = True  # this helps us break out of the input loop
                         try:
                             self.undo_move()
