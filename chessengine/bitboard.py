@@ -649,6 +649,7 @@ class Board:
         in_game_tree = parser is not None
         current_node = parser.root_node if in_game_tree else None
         lines_printed = 11
+        last_move_string = ""
         while True:
             clear_lines(lines_printed)
             print(self)
@@ -658,24 +659,22 @@ class Board:
                     move, node = random.choice(list(current_node.children.items()))
                     self.move_san(move=move, side=side_to_move)
                     current_node = node
-                    print(f"Board moves {move}")
+                    last_move_string = f"Board moves {move}"
                 else:
                     best_score, best_move = self.search_forward(search_depth)
                     self.move(best_move[0], best_move[1])
-                    print(
-                        f"Board moves from {pos_to_coords[log2(best_move[0])]} to {pos_to_coords[log2(best_move[1])]}"
-                    )
-                lines_printed += 1
+                    last_move_string = f"Board moves from {pos_to_coords[log2(best_move[0])]} to {pos_to_coords[log2(best_move[1])]}"
             else:
                 # ask for user input until accepted:
                 input_accepted = False
                 move_undone = False
                 move = ""
                 while not input_accepted:
+                    print(last_move_string)
                     move = input(
                         "Enter the move you want to make in standard algebraic notation - "
                     ).strip()
-                    lines_printed += 1
+                    lines_printed += 2
                     if move.lower() == "q":
                         print("Thanks for playing!")
                         return
