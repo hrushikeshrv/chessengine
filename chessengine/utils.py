@@ -65,3 +65,13 @@ def lsb_pos(board: int) -> int:
     i.e. - Returns 0000100 for 1010100
     """
     return board & ~(board - 1)
+
+
+def clear_lines(n: int) -> None:
+    """
+    Clears the last n lines printed so we can print there again
+    """
+    LINE_UP = "\033[1A"
+    LINE_CLEAR = "\x1b[2K"
+    for i in range(n):
+        print(LINE_UP, end=LINE_CLEAR)
