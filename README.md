@@ -30,13 +30,22 @@ python3 -m pip install -U chessengine
 py -3 -m pip install -U chessengine
 ```
 
-Start a game -
+Start a game with computer -
 ```bash
 chessengine play
 ```
 or
 ```bash
 python -m chessengine play
+```
+
+If you want to play against another player -
+```bash
+chessengine play -p
+```
+or
+```bash
+python -m chessengine play -p
 ```
 
 ## Developer Notes
