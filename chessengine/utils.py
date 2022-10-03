@@ -77,6 +77,7 @@ def clear_lines(n: int) -> None:
     for i in range(n):
         print(LINE_UP, end=LINE_CLEAR)
 
+
 def to_san(move: str) -> str:
     """
     Attempts to translate a move in any input format into
@@ -89,18 +90,19 @@ def to_san(move: str) -> str:
     for a take back), you must parse the move for those
     instructions before applying this function.
     """
+
     def capitalize(match):
         return match[0].upper()
+
     # Strip off leading move numbers (like 10... h5 -> h5):
-    move = re.sub(r'^[1-9][0-9]*\.+ ?', '', move)
+    move = re.sub(r"^[1-9][0-9]*\.+ ?", "", move)
     # Strip off starting square and dashes in straight
     # (non-capturing) pawn moves (like e2-e4 -> e4):
-    move = re.sub(r'^([a-h])[2-7] ?- ?\1([1-8])', r'\1\2', move)
+    move = re.sub(r"^([a-h])[2-7] ?- ?\1([1-8])", r"\1\2", move)
     # Allow lowercase piece names (like nf3 -> Nf3):
     # For pieces that cannot be confused with file names:
-    move = re.sub(r'^[rnqk]', capitalize, move)
+    move = re.sub(r"^[rnqk]", capitalize, move)
     # For bishops, in cases where it cannot be confused with
     # the b pawn (like bg5 -> Bg5):
-    move = re.sub(r'^b([d-h][1-8])', r'B\1', move)
+    move = re.sub(r"^b([d-h][1-8])", r"B\1", move)
     return move
-
