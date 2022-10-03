@@ -4,6 +4,7 @@ Utility functions for common bitboard operations.
 
 
 from math import log2
+from re import sub
 
 
 piece_characters = {
@@ -78,7 +79,13 @@ def clear_lines(n: int) -> None:
 
 def to_san(move: str) -> str:
     """
+    Attempts to translate a move in any input format into
+    standard algebraic notation (SAN).
+    This is intended as a layer between getting the user input
+    and passing it on to the #move_san method in #bitboard.py .
     """
-    # do some translation stuff
+    # Strip off leading move numbers (like 10... h5 -> h5):
+    move = sub(r'^[1-9][0-9]*\.+ ?', '', move)
+
     return move
 
