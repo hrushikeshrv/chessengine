@@ -143,7 +143,7 @@ class Board:
         }
         ranks = ["8", "7", "6", "5", "4", "3", "2", "1"]
         files = ["\u2001", "a", "b", "c", "d", "e", "f", "g", "h", "\u2001"]
-        
+
         if self.side == "white":
             ranks.reverse()
             files.reverse()
@@ -162,7 +162,7 @@ class Board:
         board_repr += "\u2001" + "\u2001".join(files) + "\n"
         for i in range(8):
 
-            piece_list_str = ''
+            piece_list_str = ""
             if self.side == "white":
                 piece_list_str = piece_list[8 * i : 8 * i + 8]
             else:
