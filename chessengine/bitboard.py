@@ -710,6 +710,7 @@ class Board:
         lines_printed = 11
 
         side_to_move = "white"
+        piece_to_move = {"white": "\u2659", "black": "\u265F"}
         last_move = ""
         while True:
             clear_lines(lines_printed)
@@ -720,9 +721,9 @@ class Board:
             while not input_accepted:
                 print(last_move)
                 move = input(
-                    f"Enter the move you want to make ({side_to_move.capitalize()}'s turn) - "
+                    f"[ {side_to_move.capitalize()}'s turn ({piece_to_move[side_to_move]}) ]\nEnter the move you want to make - "
                 ).strip()
-                lines_printed += 2
+                lines_printed += 3
 
                 if move.lower() == "q":
                     print("Thanks for playing!")
@@ -738,7 +739,7 @@ class Board:
                 try:
                     self.move_san(move=move, side=side_to_move)
                     input_accepted = True
-                    last_move = f"{side_to_move.capitalize()} moved {move}"
+                    last_move = f"{side_to_move.capitalize()} ({piece_to_move[side_to_move]}) moved {move}"
                 except ValueError as e:
                     print(e)
                     lines_printed += 1
