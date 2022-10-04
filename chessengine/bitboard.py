@@ -143,6 +143,10 @@ class Board:
         }
         ranks = ["8", "7", "6", "5", "4", "3", "2", "1"]
         files = ["\u2001", "a", "b", "c", "d", "e", "f", "g", "h", "\u2001"]
+        
+        if self.side == "white":
+            ranks.reverse()
+            files.reverse()
 
         def add_bitboard_to_repr(board, s, p):
             board_string = bin(board)[2:]
@@ -157,10 +161,17 @@ class Board:
         board_repr = ""
         board_repr += "\u2001" + "\u2001".join(files) + "\n"
         for i in range(8):
+
+            piece_list_str = ''
+            if self.side == "white":
+                piece_list_str = piece_list[8 * i : 8 * i + 8]
+            else:
+                piece_list_str = piece_list[8 * i : 8 * i + 8][::-1]
+
             board_repr += (
                 ranks[i]
                 + "\u2001\u2001"
-                + "\u2001".join(piece_list[8 * i : 8 * i + 8][::-1])
+                + "\u2001".join(piece_list_str)
                 + "\u2001\u2001"
                 + ranks[i]
             )
