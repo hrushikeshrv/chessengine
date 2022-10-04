@@ -20,10 +20,10 @@ class Game:
     def add_header(self, key: str, value: str) -> None:
         """
         Add a header to Game.headers
-        
+
         :param key: The header to be added (usually sourced from the PGN file)
         :param value: The value of the header
-        
+
         :raises ValueError: If the key has already been added to the Game
         """
         if key in self.headers:
@@ -38,10 +38,10 @@ class GameNode:
     A class representing a node in a game. Useful for
     parsing a PGN game and building a tree of moves
     for the opening book.
-    
+
     Provides a ``children`` dictionary that maps a move (str) made from
     this GameNode to the GameNode representing the new Board state.
-    
+
     :param turn: The side to move on this GameNode.
     """
 
@@ -62,7 +62,7 @@ class GameNode:
         """
         Create a new GameNode and add it as a child to the current node in
         the ``children`` dictionary.
-        
+
         :param move: The move made to reach the new game node
         :return GameNode: Return the newly created GameNode.
         """
@@ -77,7 +77,7 @@ class GameNode:
         """
         Check if ``move`` is a child of this GameNode. If it is,
         return the corresponding GameNode, else raise ValueError.
-        
+
         :param move: The move to check for
         :return GameNode: Return the GameNode if found
         :raises ValueError: If the move passed is not a child of the GameNode
