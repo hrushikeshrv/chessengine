@@ -25,11 +25,15 @@ MOVE_TEXT_MOVE_REGEX = re.compile(
 class PGNParser:
     """
     A parser for parsing PGN files and constructing a tree of GameNodes
+    
+    :param pgn_files: A list of PGN files passed as strings, path-like objects, or file-like objects
+    :ivar root_node: The root node of the Game tree that the opening book will start from (always corresponds to a new chess board)
+    :ivar games: A list of games parsed by the parser
     """
 
     def __init__(self, pgn_files: list[str] = None) -> None:
         self.pgn_files = pgn_files  # Path to the pgn_file to parse OR file object
-        self.root_node = GameNode("white")
+        self.root_node: GameNode = GameNode("white")
         self.current_node = self.root_node
         self.current_game = None
         self.games: list[Game] = []

@@ -209,7 +209,13 @@
 <dd><p>A parser for parsing PGN files and constructing a tree of GameNodes</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>pgn_files</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>) – </p>
+<dd class="field-odd"><p><strong>pgn_files</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>) – A list of PGN files passed as strings, path-like objects, or file-like objects</p>
+</dd>
+<dt class="field-even">Variables<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>root_node</strong> – The root node of the Game tree that the opening book will start from (always corresponds to a new chess board)</p></li>
+<li><p><strong>games</strong> – A list of games parsed by the parser</p></li>
+</ul>
 </dd>
 </dl>
 <dl class="py method">
