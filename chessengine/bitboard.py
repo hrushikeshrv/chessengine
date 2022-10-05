@@ -141,8 +141,6 @@ class Board:
             ("black", "knights"): "\u265E",
             ("black", "pawns"): "\u265F",
         }
-        ranks = ["8", "7", "6", "5", "4", "3", "2", "1"]
-        files = ["\u2001", "a", "b", "c", "d", "e", "f", "g", "h", "\u2001"]
 
         def add_bitboard_to_repr(board, s, p):
             board_string = bin(board)[2:]
@@ -151,21 +149,48 @@ class Board:
                 if board_string[_] == "1":
                     piece_list[_] = unicode_piece[(s, p)]
 
+        def black_perspective_to_repr(piece_list):
+            ranks = ["8", "7", "6", "5", "4", "3", "2", "1"]
+            files = ["\u2001", "h", "g", "f", "e", "d", "c", "b", "a", "\u2001"]
+            board_repr = ""
+            board_repr += "\u2001" + "\u2001".join(files) + "\n"
+            for i in reversed(range(8)):
+                board_repr += (
+                    ranks[i]
+                    + "\u2001\u2001"
+                    + "\u2001".join(piece_list[8 * i : 8 * i + 8])
+                    + "\u2001\u2001"
+                    + ranks[i]
+                )
+                board_repr += "\n"
+            board_repr += "\u2001" + "\u2001".join(files) + "\n"
+            return board_repr
+
+        def white_perspective_to_repr(piece_list):
+            ranks = ["8", "7", "6", "5", "4", "3", "2", "1"]
+            files = ["\u2001", "a", "b", "c", "d", "e", "f", "g", "h", "\u2001"]
+            board_repr = ""
+            board_repr += "\u2001" + "\u2001".join(files) + "\n"
+            for i in range(8):
+                board_repr += (
+                    ranks[i]
+                    + "\u2001\u2001"
+                    + "\u2001".join(piece_list[8 * i : 8 * i + 8][::-1])
+                    + "\u2001\u2001"
+                    + ranks[i]
+                )
+                board_repr += "\n"
+            board_repr += "\u2001" + "\u2001".join(files) + "\n"
+            return board_repr
+
         for side, piece in self.board:
             add_bitboard_to_repr(self.board[(side, piece)], side, piece)
 
-        board_repr = ""
-        board_repr += "\u2001" + "\u2001".join(files) + "\n"
-        for i in range(8):
-            board_repr += (
-                ranks[i]
-                + "\u2001\u2001"
-                + "\u2001".join(piece_list[8 * i : 8 * i + 8][::-1])
-                + "\u2001\u2001"
-                + ranks[i]
-            )
-            board_repr += "\n"
-        board_repr += "\u2001" + "\u2001".join(files) + "\n"
+        if self.side == "white":
+            board_repr = black_perspective_to_repr(piece_list)
+        else:
+            board_repr = white_perspective_to_repr(piece_list)
+
         return board_repr
 
     def __str__(self):

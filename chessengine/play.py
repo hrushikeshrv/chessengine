@@ -27,5 +27,5 @@ if __name__ == "__main__":
             b = Board("white")
         b.play()
     elif play_against == "p":
-        b = Board("white")
+        b = Board("black")
         b.play_pvp()
