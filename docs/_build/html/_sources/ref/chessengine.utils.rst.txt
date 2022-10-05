@@ -11,16 +11,4 @@
 
 .. autofunction:: lsb_pos
 
-
-   
-
-   
-   
-   
-
-   
-   
-   
-
-
-
+.. autofunction:: clear_lines

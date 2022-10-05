@@ -211,6 +211,26 @@ throughout the game and the GameNodes reached as a result.
 Used to record a game and replay it.</p>
 <dl class="field-list simple">
 </dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="chessengine.pgn.node.Game.add_header">
+<span class="sig-name descname"><span class="pre">add_header</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#chessengine.pgn.node.Game.add_header" title="Permalink to this definition">#</a></dt>
+<dd><p>Add a header to Game.headers</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>key</strong> (<em>str</em>) – The header to be added (usually sourced from the PGN file)</p></li>
+<li><p><strong>value</strong> (<em>str</em>) – The value of the header</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If the key has already been added to the Game</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
 </dd></dl>
 
 <dl class="py class">
@@ -219,11 +239,46 @@ Used to record a game and replay it.</p>
 <dd><p>A class representing a node in a game. Useful for
 parsing a PGN game and building a tree of moves
 for the opening book.</p>
+<p>Provides a <code class="docutils literal notranslate"><span class="pre">children</span></code> dictionary that maps a move (str) made from
+this GameNode to the GameNode representing the new Board state.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>turn</strong> (<em>str</em>) – </p>
+<dd class="field-odd"><p><strong>turn</strong> (<em>str</em>) – The side to move on this GameNode.</p>
 </dd>
 </dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="chessengine.pgn.node.GameNode.add_child">
+<span class="sig-name descname"><span class="pre">add_child</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">move</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chessengine.pgn.node.GameNode.add_child" title="Permalink to this definition">#</a></dt>
+<dd><p>Create a new GameNode and add it as a child to the current node in
+the <code class="docutils literal notranslate"><span class="pre">children</span></code> dictionary.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>move</strong> (<em>str</em>) – The move made to reach the new game node</p>
+</dd>
+<dt class="field-even">Return GameNode<span class="colon">:</span></dt>
+<dd class="field-even"><p>Return the newly created GameNode.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="chessengine.pgn.node.GameNode.get_child">
+<span class="sig-name descname"><span class="pre">get_child</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">move</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chessengine.pgn.node.GameNode.get_child" title="Permalink to this definition">#</a></dt>
+<dd><p>Check if <code class="docutils literal notranslate"><span class="pre">move</span></code> is a child of this GameNode. If it is,
+return the corresponding GameNode, else raise ValueError.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>move</strong> (<em>str</em>) – The move to check for</p>
+</dd>
+<dt class="field-even">Return GameNode<span class="colon">:</span></dt>
+<dd class="field-even"><p>Return the GameNode if found</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ValueError</strong> – If the move passed is not a child of the GameNode</p>
+</dd>
+</dl>
+</dd></dl>
+
 </dd></dl>
 
 </section>
