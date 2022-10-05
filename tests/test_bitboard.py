@@ -3,6 +3,7 @@ from unittest.mock import patch
 from chessengine.bitboard import Board
 from typing import Optional, List
 
+
 class TestBoard(unittest.TestCase):
     def test_get_bitboard(self):
         board = Board("white")
@@ -22,12 +23,8 @@ class TestBoard(unittest.TestCase):
 
     def test_identify_piece_at(self):
         board = Board("white")
-        self.assertEqual(
-            board.identify_piece_at(2**8), ("white", "pawns", board.white_pawns)
-        )
-        self.assertEqual(
-            board.identify_piece_at(2**7), ("white", "rooks", board.white_rooks)
-        )
+        self.assertEqual(board.identify_piece_at(2**8), ("white", "pawns", board.white_pawns))
+        self.assertEqual(board.identify_piece_at(2**7), ("white", "rooks", board.white_rooks))
         self.assertEqual(board.identify_piece_at(2**20), (None, None, None))
 
     def test_move(self):

@@ -374,13 +374,9 @@ class Board:
         If track is True, stores the move in Board.moves so you can undo it later.
         """
         if not 1 <= start <= 2**63:
-            raise ValueError(
-                f"The start position is outside the board - moving from {log2(start)} to {log2(end)}"
-            )
+            raise ValueError(f"The start position is outside the board - moving from {log2(start)} to {log2(end)}")
         if not 1 <= end <= 2**63:
-            raise ValueError(
-                f"The end position is outside the board - moving from {log2(start)} to {log2(end)}"
-            )
+            raise ValueError(f"The end position is outside the board - moving from {log2(start)} to {log2(end)}")
 
         start_side, start_piece, start_board = self.identify_piece_at(start)
         if start_side is None:
@@ -388,9 +384,7 @@ class Board:
 
         end_side, end_piece, end_board = self.identify_piece_at(end)
         if end_side == start_side:
-            raise ValueError(
-                f"Can't move from {log2(start)} to {log2(end)}, both positions have {end_side} pieces."
-            )
+            raise ValueError(f"Can't move from {log2(start)} to {log2(end)}, both positions have {end_side} pieces.")
 
         if track:
             # Keep track of the board state before the move was made so we can undo
@@ -461,10 +455,7 @@ class Board:
                     # No rank provided in the SAN
                     for m in moves:
                         file = get_file(m[0])
-                        if (
-                            groups[1].upper() == "ABCDEFGH"[file - 1]
-                            and m[1] == end_pos
-                        ):
+                        if groups[1].upper() == "ABCDEFGH"[file - 1] and m[1] == end_pos:
                             self.move(start=m[0], end=m[1])
                             break
                     else:
@@ -496,9 +487,7 @@ class Board:
             self.set_bitboard(side, piece, board)
             self.piece_count[(side, piece)] += 1
 
-    def get_moves(
-        self, side: str, piece: str = None, position: int = None
-    ) -> list[tuple[int, int]]:
+    def get_moves(self, side: str, piece: str = None, position: int = None) -> list[tuple[int, int]]:
         """
         Get all end positions a piece of side can reach starting from position.
         side is always required, piece and position are optional.
@@ -560,9 +549,7 @@ class Board:
 
         for move in moves:
             self.move(start=move[0], end=move[1])
-            value = self.alpha_beta_search(
-                depth=depth - 1, maximizing_player=not maximize
-            )
+            value = self.alpha_beta_search(depth=depth - 1, maximizing_player=not maximize)
             self.undo_move()
 
             if maximize and value >= best_score:
@@ -623,7 +610,7 @@ class Board:
         """Wrapper for input to allow testing"""
         return input(prompt).strip()
 
-    def handle_player_move(self, side_to_move: str, last_move: str, is_pvp: bool = False) -> Tuple[str, str, bool]:
+    def handle_player_move(self, side_to_move: str, last_move: str) -> Tuple[str, str, bool]:
         """Ask for user input until accepted"""
         move = ""
         lines_added = 0
@@ -641,8 +628,7 @@ class Board:
             if move.lower() == "u":
                 try:
                     self.undo_move()
-                    if not is_pvp:
-                        self.undo_move()  # If computer has moved, we need to undo it too
+                    self.undo_move()  # Undo both player's moves
                 except RuntimeError:
                     print("No moves have been made yet to undo!")
                     lines_added += 1
@@ -706,9 +692,11 @@ class Board:
                 else:
                     best_score, best_move = self.search_forward(search_depth)
                     self.move(best_move[0], best_move[1])
-                    last_move = f"Board moves from {pos_to_coords[log2(best_move[0])]} to {pos_to_coords[log2(best_move[1])]}"
+                    last_move = (
+                        f"Board moves from {pos_to_coords[log2(best_move[0])]} to {pos_to_coords[log2(best_move[1])]}"
+                    )
             else:
-                move, lines_added, move_undone = self.handle_player_move(side_to_move, last_move, is_pvp=False)
+                move, lines_added, move_undone = self.handle_player_move(side_to_move, last_move)
                 lines_printed += lines_added
                 last_move = f"{side_to_move.capitalize()} moved {move}"
 
@@ -739,7 +727,7 @@ class Board:
             print(self)
             lines_printed = 11
 
-            move, lines_added, move_undone = self.handle_player_move(side_to_move, last_move, is_pvp=False)
+            move, lines_added, _ = self.handle_player_move(side_to_move, last_move)
             lines_printed += lines_added
             last_move = f"{side_to_move.capitalize()} moved {move}"
 
