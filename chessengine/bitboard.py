@@ -610,7 +610,7 @@ class Board:
         """Wrapper for input to allow testing"""
         return input(prompt).strip()
 
-    def handle_player_move(self, side_to_move: str, last_move: str) -> Tuple[str, str, bool]:
+    def handle_player_move(self, side_to_move: str, last_move: str) -> Tuple[str, int, bool]:
         """Ask for user input until accepted"""
         move = ""
         lines_added = 0
@@ -727,8 +727,11 @@ class Board:
             print(self)
             lines_printed = 11
 
-            move, lines_added, _ = self.handle_player_move(side_to_move, last_move)
+            move, lines_added, move_undone = self.handle_player_move(side_to_move, last_move)
             lines_printed += lines_added
             last_move = f"{side_to_move.capitalize()} moved {move}"
+
+            if move_undone:  # return to outer loop, so both sides need to make a new move
+                continue
 
             side_to_move = self.change_turn(side_to_move)

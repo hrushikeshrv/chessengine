@@ -78,7 +78,7 @@ class TestBoard(unittest.TestCase):
         mock_input.return_value = "a2a3"
 
         board = Board("white")
-        move, lines_added, move_undone = board.handle_player_move("white", "", is_pvp=False)
+        move, lines_added, move_undone = board.handle_player_move("white", "")
 
         self.assertEqual(move, "a2a3")
         self.assertEqual(lines_added, 2)
@@ -92,7 +92,7 @@ class TestBoard(unittest.TestCase):
         mock_input.return_value = "u"
 
         board = Board("white")
-        move, lines_added, move_undone = board.handle_player_move("white", "", is_pvp=False)
+        move, lines_added, move_undone = board.handle_player_move("white", "")
 
         self.assertEqual(move, "u")
         self.assertEqual(lines_added, 2)
@@ -108,7 +108,7 @@ class TestBoard(unittest.TestCase):
         mock_undo.side_effect = RuntimeError("No moves have been made yet to undo.")
 
         board = Board("white")
-        move, lines_added, move_undone = board.handle_player_move("white", "", is_pvp=False)
+        move, lines_added, move_undone = board.handle_player_move("white", "")
 
         self.assertEqual(move, "u")
         self.assertEqual(lines_added, 3)
