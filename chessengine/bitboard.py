@@ -10,8 +10,10 @@ except ImportError:
     # Python < 3.7
     pkg_resources = None
 import random
+import sys
 from copy import copy
 from math import log2
+from typing import Tuple
 
 from chessengine.moves import (
     get_white_pawn_moves,
@@ -617,6 +619,50 @@ class Board:
                 beta = min(beta, value)
             return value
 
+    def get_input(self, prompt: str) -> str:
+        """Wrapper for input to allow testing"""
+        return input(prompt).strip()
+
+    def handle_player_move(
+        self, side_to_move: str, last_move: str
+    ) -> Tuple[str, int, bool]:
+        """Ask for user input until accepted"""
+        move = ""
+        lines_added = 0
+        input_accepted = False
+
+        while not input_accepted:
+            print(last_move)
+            move = self.get_input(
+                f"Enter your move in standard algebraic notation ({side_to_move.capitalize()}'s turn) - "
+            )
+            lines_added += 2
+            if move.lower() == "q":
+                print("Thanks for playing!")
+                sys.exit(0)
+            if move.lower() == "u":
+                try:
+                    self.undo_move()
+                    self.undo_move()  # Undo both player's moves
+                except RuntimeError:
+                    print("No moves have been made yet to undo!")
+                    lines_added += 1
+                return move, lines_added, True
+            # input was normal move
+            try:
+                self.move_san(move=move, side=side_to_move)
+                input_accepted = True
+                last_move = f"{side_to_move.capitalize()} moved {move}"
+            except ValueError as e:
+                print(e)
+                lines_added += 1
+        return move, lines_added, False
+
+    def change_turn(self, side_to_move: str) -> str:
+        if side_to_move == "white":
+            return "black"
+        return "white"
+
     def play(self, search_depth: int = 4) -> None:
         """
         The game loop.
@@ -663,38 +709,15 @@ class Board:
                     self.move(best_move[0], best_move[1])
                     last_move = f"Board moves from {pos_to_coords[log2(best_move[0])]} to {pos_to_coords[log2(best_move[1])]}"
             else:
-                # ask for user input until accepted:
-                input_accepted = False
-                move_undone = False
-                move = ""
-                while not input_accepted:
-                    print(last_move)
-                    move = input(
-                        "Enter the move you want to make in standard algebraic notation - "
-                    ).strip()
-                    lines_printed += 2
-                    if move.lower() == "q":
-                        print("Thanks for playing!")
-                        return
-                    if move.lower() == "u":
-                        move_undone = True  # this helps us break out of the input loop
-                        try:
-                            self.undo_move()
-                            self.undo_move()
-                        except RuntimeError:
-                            print("No moves have been made yet to undo!")
-                            lines_printed += 1
-                        break
+                move, lines_added, move_undone = self.handle_player_move(
+                    side_to_move, last_move
+                )
+                lines_printed += lines_added
+                last_move = f"{side_to_move.capitalize()} moved {move}"
 
-                    # input was normal move
-                    try:
-                        self.move_san(move=move, side=side_to_move)
-                        input_accepted = True
-                    except ValueError as e:
-                        print(e)
-                        lines_printed += 1
-                if move_undone:
-                    # return to outer loop, so both sides need to make a new move
+                if (
+                    move_undone
+                ):  # return to outer loop, so both sides need to make a new move
                     continue
 
                 if in_game_tree:
@@ -705,10 +728,7 @@ class Board:
                 print(f"You moved {move}")
                 lines_printed += 1
 
-            if side_to_move == "white":
-                side_to_move = "black"
-            else:
-                side_to_move = "white"
+            side_to_move = self.change_turn(side_to_move)
 
     def play_pvp(self) -> None:
         """
@@ -724,34 +744,15 @@ class Board:
             print(self)
             lines_printed = 11
 
-            input_accepted = False
-            while not input_accepted:
-                print(last_move)
-                move = input(
-                    f"Enter the move you want to make ({side_to_move.capitalize()}'s turn) - "
-                ).strip()
-                lines_printed += 2
+            move, lines_added, move_undone = self.handle_player_move(
+                side_to_move, last_move
+            )
+            lines_printed += lines_added
+            last_move = f"{side_to_move.capitalize()} moved {move}"
 
-                if move.lower() == "q":
-                    print("Thanks for playing!")
-                    return
-                if move.lower() == "u":
-                    try:
-                        self.undo_move()
-                    except RuntimeError:
-                        print("No moves have been made yet to undo!")
-                        lines_printed += 1
-                    break
+            if (
+                move_undone
+            ):  # return to outer loop, so both sides need to make a new move
+                continue
 
-                try:
-                    self.move_san(move=move, side=side_to_move)
-                    input_accepted = True
-                    last_move = f"{side_to_move.capitalize()} moved {move}"
-                except ValueError as e:
-                    print(e)
-                    lines_printed += 1
-
-            if side_to_move == "white":
-                side_to_move = "black"
-            else:
-                side_to_move = "white"
+            side_to_move = self.change_turn(side_to_move)
