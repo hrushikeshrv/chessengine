@@ -39,8 +39,8 @@ python -m chessengine.play
 This project uses the [black](https://black.readthedocs.io/en/stable/) linter for determining code style.
 ```bash
 # Install black via pip.
-python -m pip install black
+python -m pip install black==22.10.0
 
-# Do the lint!
+# Format
 python -m black --check --verbose .
 ```

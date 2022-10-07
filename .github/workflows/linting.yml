@@ -9,7 +9,7 @@ on:
       - main
 
 jobs:
-  flake8_lint:
+  lint:
     name: black
     runs-on: ubuntu-latest
     
@@ -21,3 +21,4 @@ jobs:
         uses: psf/black@stable
         with:
           options: "--check --verbose"
+          version: "22.10.0"
