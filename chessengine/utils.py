@@ -75,3 +75,15 @@ def clear_lines(n: int) -> None:
     LINE_CLEAR = "\x1b[2K"
     for i in range(n):
         print(LINE_UP, end=LINE_CLEAR)
+
+
+def change_turn(side_to_move: str) -> str:
+    """Returns "black" if side_to_move is "white", and "white" otherwise."""
+    if side_to_move == "white":
+        return "black"
+    return "white"
+
+
+def get_input(prompt: str) -> str:
+    """Simple wrapper for input to allow testing"""
+    return input(prompt).strip()

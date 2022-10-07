@@ -36,7 +36,13 @@ from chessengine.lookup_tables import (
     pos_to_coords,
     san_piece_map,
 )
-from chessengine.utils import get_bit_positions, get_file, clear_lines
+from chessengine.utils import (
+    get_bit_positions,
+    get_file,
+    clear_lines,
+    get_input,
+    change_turn,
+)
 from chessengine.pgn.parser import PGNParser, SAN_MOVE_REGEX
 
 
@@ -619,10 +625,6 @@ class Board:
                 beta = min(beta, value)
             return value
 
-    def get_input(self, prompt: str) -> str:
-        """Wrapper for input to allow testing"""
-        return input(prompt).strip()
-
     def handle_player_move(
         self, side_to_move: str, last_move: str
     ) -> Tuple[str, int, bool]:
@@ -633,7 +635,7 @@ class Board:
 
         while not input_accepted:
             print(last_move)
-            move = self.get_input(
+            move = get_input(
                 f"Enter your move in standard algebraic notation ({side_to_move.capitalize()}'s turn) - "
             )
             lines_added += 2
@@ -657,11 +659,6 @@ class Board:
                 print(e)
                 lines_added += 1
         return move, lines_added, False
-
-    def change_turn(self, side_to_move: str) -> str:
-        if side_to_move == "white":
-            return "black"
-        return "white"
 
     def play(self, search_depth: int = 4) -> None:
         """
@@ -728,7 +725,7 @@ class Board:
                 print(f"You moved {move}")
                 lines_printed += 1
 
-            side_to_move = self.change_turn(side_to_move)
+            side_to_move = change_turn(side_to_move)
 
     def play_pvp(self) -> None:
         """
@@ -755,4 +752,4 @@ class Board:
             ):  # return to outer loop, so both sides need to make a new move
                 continue
 
-            side_to_move = self.change_turn(side_to_move)
+            side_to_move = change_turn(side_to_move)
