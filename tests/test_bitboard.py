@@ -23,8 +23,12 @@ class TestBoard(unittest.TestCase):
 
     def test_identify_piece_at(self):
         board = Board("white")
-        self.assertEqual(board.identify_piece_at(2**8), ("white", "pawns", board.white_pawns))
-        self.assertEqual(board.identify_piece_at(2**7), ("white", "rooks", board.white_rooks))
+        self.assertEqual(
+            board.identify_piece_at(2**8), ("white", "pawns", board.white_pawns)
+        )
+        self.assertEqual(
+            board.identify_piece_at(2**7), ("white", "rooks", board.white_rooks)
+        )
         self.assertEqual(board.identify_piece_at(2**20), (None, None, None))
 
     def test_move(self):
@@ -103,7 +107,9 @@ class TestBoard(unittest.TestCase):
     @patch("chessengine.bitboard.Board.undo_move")
     @patch("chessengine.bitboard.Board.move_san")
     @patch("chessengine.bitboard.Board.get_input")
-    def test_handle_player_move__undo_with_no_moves(self, mock_input, mock_move_san, mock_undo):
+    def test_handle_player_move__undo_with_no_moves(
+        self, mock_input, mock_move_san, mock_undo
+    ):
         mock_input.return_value = "u"
         mock_undo.side_effect = RuntimeError("No moves have been made yet to undo.")
 
