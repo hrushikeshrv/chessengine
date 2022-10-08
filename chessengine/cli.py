@@ -20,8 +20,10 @@ def handle_error(f):
 
 def prompt_player_side():
     side = input("Do you want to play white or black (w/b)? - ").lower().strip()
-    while not side.startswith(('b', 'w')):
-        print(f'You entered an invalid side - {side}. Enter "w" for white or "b" for black')
+    while not side.startswith(("b", "w")):
+        print(
+            f'You entered an invalid side - {side}. Enter "w" for white or "b" for black'
+        )
         side = input("Do you want to play white or black (w/b)? - ").lower().strip()
     return side
 
@@ -65,7 +67,7 @@ def main():
         required=False,
         action="store_true",
     )
-    
+
     parser_update = subparsers.add_parser("update", help="Update something.")
 
     args = parser.parse_args()
