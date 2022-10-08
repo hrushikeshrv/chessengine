@@ -1,4 +1,4 @@
-__version__ = "0.1.3"
+__version__ = "0.2.0"
 
 from chessengine.bitboard import Board
 from chessengine import moves

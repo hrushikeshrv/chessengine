@@ -5,7 +5,7 @@
 A chess engine written in Python with no dependencies. All contributions welcome.
 
 ## Note
-This project is in active development and you may encounter bugs, especially in the game loop. 
+This project is in active development and you may encounter bugs, especially in the game loop.
 
 ## Contribution Guide
 The contribution guide can be found on the [documentation page](https://chessengine.readthedocs.io/en/latest/contributing.html)
@@ -21,7 +21,7 @@ The contribution guide can be found on the [documentation page](https://chesseng
 - Non-trivial board state evaluation using better heuristics
 
 ## Usage
-Install using `pip` -  
+Install using `pip` -
 ```bash
 # macOS / Linux (could work on Windows)
 python3 -m pip install -U chessengine
@@ -30,9 +30,22 @@ python3 -m pip install -U chessengine
 py -3 -m pip install -U chessengine
 ```
 
-Start a game -  
+Start a game with the computer -
 ```bash
-python -m chessengine.play 
+chessengine play
+```
+or
+```bash
+python -m chessengine play
+```
+
+If you want to play against another player -
+```bash
+chessengine play -p
+```
+or
+```bash
+python -m chessengine play -p
 ```
 
 ## Developer Notes
