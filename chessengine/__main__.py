@@ -1,3 +1,3 @@
-from .cli import main
+from chessengine.cli import main
 
 main()

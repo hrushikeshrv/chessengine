@@ -10,7 +10,7 @@ openings = ["*.pgn"]
 
 [project]
 name = "chessengine"
-version = "0.1.3"
+version = "0.2.0"
 authors = [
     {name="Hrushikesh Vaidya", email="hrushikeshrv@gmail.com"},
 ]

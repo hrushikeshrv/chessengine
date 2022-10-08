@@ -34,7 +34,7 @@ Install using pip:
 
    $ pip install chessengine
 
-Start a game with computer -
+Start a game with the computer -
 
 .. code-block:: console
 
@@ -47,7 +47,7 @@ Start a game from source code -
    $ python -m chessengine play
 
 
-If you want to play agains another player -
+If you want to play against another player -
 
 .. code-block:: console
 
