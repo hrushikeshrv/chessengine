@@ -50,12 +50,10 @@ class Board:
     """
     A class implementing a bitboard representation of a chess board.
     A particular bitboard can be accessed via the get_bitboard method or
-    as an attribute with the name <side>_<piece>s. For example -
-
-        - white_pawns
-        - white_queens
-        - black_kings
-        - black_rooks
+    as an attribute with the name <side>_<piece>s. For example, ``white_pawns``,
+    ``black_bishops``, ``white_queens``, ``black_kings``.
+    
+    :param side: The side that the _board_ will play. Should be one of "white" or "black"
     """
 
     def __init__(self, side: str):
@@ -193,8 +191,6 @@ class Board:
         return str(self) == str(other)
 
     def __hash__(self):
-        """Just hash the bitboards instead of the FEN
-        because it is faster and easier to maintain than the FEN state"""
         hash_str = f"{self.side[0]} "
         for side, piece in [
             ("white", "kings"),
@@ -215,6 +211,10 @@ class Board:
 
     @property
     def score(self):
+        """
+        The "score" of the board. A higher/more positive score favors white,
+        a lower/more negative score favors black.
+        """
         K = self.piece_count[("white", "kings")]
         Q = self.piece_count[("white", "queens")]
         R = self.piece_count[("white", "rooks")]
@@ -234,6 +234,9 @@ class Board:
 
     @property
     def board_pieces(self):
+        """
+        A list of all bitboards of the pieces that belong to the Board.
+        """
         if self.side == "white":
             return [
                 ("white", "kings"),
@@ -254,6 +257,9 @@ class Board:
 
     @property
     def opponent_pieces(self):
+        """
+        A list of all bitboards of the pieces that belong to the opponent.
+        """
         if self.side == "black":
             return [
                 ("white", "kings"),
@@ -274,13 +280,16 @@ class Board:
 
     def copy(self):
         """
-        Create and return a copy of self.
+        Create and return a copy of the board.
         """
         return copy(self)
 
     def get_side_bitboard(self, side: str) -> int:
         """
-        Returns the bitboard containing all pieces for the given side
+        Returns the bitboard containing all pieces for the given side.
+        
+        :param side: "white" or "black"
+        :return: If ``side == "white"``, returns ``self.all_white``, else ``self.all_black``
         """
         if side == "white":
             return self.all_white
@@ -293,6 +302,10 @@ class Board:
 
         Raises AttributeError if a bitboard with an invalid name is requested. See above for the bitboard naming
         convention.
+        
+        :param side: "white" or "black"
+        :param piece: Can be one of - "kings", "queens", "bishops", "knights", "rooks", "pawns"
+        :return: Bitboard
         """
         attrname = side + "_" + piece
         return getattr(self, attrname)
@@ -302,7 +315,8 @@ class Board:
         Returns the bitboard corresponding to the passed piece, considering the board's
         own side. i.e. - If the board is white, calling with piece="king" will return
         white king, etc.
-        piece can be one of - "kings", "queens", "bishops", "knights", "rooks", "pawns"
+        :param piece: Can be one of - "kings", "queens", "bishops", "knights", "rooks", "pawns"
+        :return: Bitboard
         """
         return self.get_bitboard(side=self.side, piece=piece)
 
@@ -310,7 +324,7 @@ class Board:
         """
         Updates all Board attributes when a move is made or the state of the Board
         changes in any way. You should call this if you manually make any changes to
-        Board attributes, otherwise it is called automatically.
+        bitboards attributes, otherwise it is called automatically.
         """
         self.all_white = (
             self.white_pawns
@@ -350,6 +364,10 @@ class Board:
     def set_bitboard(self, side: str, piece: str, board: int) -> None:
         """
         Sets the bitboard for the passed arguments to the passed bitboard
+        
+        :param side: "white" or "black"
+        :param piece: Can be one of - "kings", "queens", "bishops", "knights", "rooks", "pawns"
+        :param board: The bitboard to be set
         """
         attrname = side + "_" + piece
         setattr(self, attrname, board)
@@ -357,13 +375,12 @@ class Board:
 
     def identify_piece_at(self, position: int) -> tuple:
         """
-        Identifies if there is any piece on the position passed. Position is a power of 2
-
-        Returns a 3-tuple of the format (side, piece, bitboard) where side is the side of
-        the piece identified at position (e.g, "black"), piece is the type of piece identified
-        at position (e.g, "bishops"), and bitboard is the bitboard of the piece (e.g, Board.black_bishops).
-
-        If no piece is present at position, returns (None, None, None).
+        Identifies if there is any piece on the position passed.
+        
+        :param position: A power of 2 corresponding to a position on the board. See :ref:`position_representation`
+        :return: Returns a 3-tuple of the format (side, piece, bitboard) where side is the side of
+            the piece identified at position (e.g, "black"), piece is the type of piece identified
+            at position (e.g, "bishops"), and bitboard is the bitboard of the piece (e.g, Board.black_bishops).
         """
         for side, piece in self.board:
             board = self.board[(side, piece)]
@@ -375,9 +392,10 @@ class Board:
         """
         Moves the piece at start to end. Doesn't check anything, just makes
         the move (unless the start or end positions are invalid).
-
-        start and end are both powers of 2.
-        If track is True, stores the move in Board.moves so you can undo it later.
+        
+        :param start: The start position of the move. See :ref:`position_representation`
+        :param end: The end position of the move. See :ref:`position_representation`
+        :param track: If ``True``, the move made will be stored in self.moves
         """
         if not 1 <= start <= 2**63:
             raise ValueError(
@@ -421,7 +439,9 @@ class Board:
     def move_san(self, move: str, side: str) -> None:
         """
         Make a move given in standard algebraic notation.
-        move is the SAN move, side is the side to move.
+        
+        :param move: A move given in SAN
+        :param side: "white" or "black"
         """
         # TODO - Add support for undoing castling
         if "0-0-0" in move:
@@ -485,14 +505,14 @@ class Board:
     def make_moves(self, *moves: Iterable[tuple[int, int]]) -> None:
         """
         Given a number of moves as tuples (start, end), call
-        Board.move on all
+        Board.move on all. Tracks all moves by default in ``self.moves``
         """
         for start, end in moves:
             self.move(start, end)
 
     def undo_move(self) -> None:
         """
-        Undo the last move tracked move.
+        Undo the last tracked move.
         """
         if not self.moves:
             raise RuntimeError("No moves have been made yet to undo.")
@@ -507,12 +527,22 @@ class Board:
     ) -> list[tuple[int, int]]:
         """
         Get all end positions a piece of side can reach starting from position.
-        side is always required, piece and position are optional.
-        If piece is not specified, get all moves for all pieces of the passed side, i.e. get all valid moves for white or black.
-        If side and piece are specified and position is not, get all valid moves for the specified side and piece on
-        the board, i.e. if side is "white" and piece is "rooks", get all valid moves for all white rooks on the board.
+        ``side`` is always required, piece and position are optional.
+        
+        If piece is not specified, gets all moves for all pieces of the passed side, i.e. get
+        all valid moves for white or black.
+        
+        If side and piece are specified and position is not, gets all valid moves for the
+        specified side and piece on the board, i.e. if side is "white" and piece is "rooks",
+        gets all valid moves for all white rooks on the board.
+        
+        If side, piece, and position are specified, gets all moves for the piece present on position.
 
-        Returns a list of moves as a list of tuples (start, end), where start and end are positions on the board.
+        :param side: "white" or "black"
+        :param piece: Can be one of - "kings", "queens", "bishops", "knights", "rooks", "pawns"
+        :param position: A power of 2 corresponding to a position on the board. See :ref:`position_representation`
+        :return: A list of moves as tuples ``(start, end)``, where ``start`` and ``end`` are positions on the board.
+            See :ref:`position_representation`
         """
         if piece is not None:
             if position is None:
@@ -550,13 +580,14 @@ class Board:
                     moves.extend(self.get_moves(side, piece, position))
             return moves
 
-    def search_forward(self, depth: int = 4) -> tuple[int, tuple]:
+    def search_forward(self, depth: int = 4) -> tuple[int, tuple[int, int]]:
         """
         Execute an alpha-beta pruned depth-first search to find the optimal move from
         the current board state.
 
-        Arguments -
-        depth: int - The number of plies to search (1 move is 2 plies). Default = 4 plies.
+        :param depth: int - The number of plies to search (1 move is 2 plies). Default = 4 plies.
+        :return: A 2-tuple where the first element is the best board score found, and the second
+            element is the best found move as a 2 tuple containing the start position and the end position
         """
         maximize = self.side == "white"
         best_score = -1000 if maximize else 1000
@@ -595,7 +626,7 @@ class Board:
         :param beta: The maximum score that the minimizing player is guaranteed (default=1000). You probably won't need to specify this argument.
         :param maximizing_player: True if white is searching for a move, False if black is searching for a move.
 
-        Returns the value of the best board position found.
+        :return: The score of the best board position found.
         """
         if depth == 0:
             return self.score
@@ -628,7 +659,16 @@ class Board:
     def handle_player_move(
         self, side_to_move: str, last_move: str
     ) -> Tuple[str, int, bool]:
-        """Ask for user input until accepted"""
+        """
+        Ask for user input until accepted. When a valid input is received, execute the move.
+        
+        :param side_to_move: "white" or "black"
+        :param last_move: The last move made by the board to print out to the user
+        :return: A 3-tuple of the form - the valid (move, lines_printed, move_undone)
+            where move is the valid move received as input, lines_printed is the number
+            of lines printed, and move_undone is a boolean that is ``True`` when the user
+            chose to undo their previous move
+        """
         move = ""
         lines_added = 0
         input_accepted = False
@@ -662,7 +702,11 @@ class Board:
 
     def play(self, search_depth: int = 4) -> None:
         """
-        The game loop.
+        Play a game of chess against the computer.
+        
+        :param search_depth: The number of plies the computer should search forward. Be careful
+            passing values about 4 as the search depth. It increases the running time of the
+            move search exponentially.
         """
         parser = None
         if pkg_resources is not None:
