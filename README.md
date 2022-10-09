@@ -55,5 +55,5 @@ This project uses the [black](https://black.readthedocs.io/en/stable/) linter fo
 python -m pip install black==22.10.0
 
 # Format
-python -m black --check --verbose .
+black .
 ```
