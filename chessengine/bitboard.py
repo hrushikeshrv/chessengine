@@ -13,7 +13,7 @@ import random
 import sys
 from copy import copy
 from math import log2
-from typing import Tuple
+from typing import Tuple, Iterable
 
 from chessengine.moves import (
     get_white_pawn_moves,
@@ -482,7 +482,7 @@ class Board:
                         raise ValueError(f"{move} is not a valid move for {side}.")
                     self.move(start=start_pos, end=end_pos)
 
-    def make_moves(self, *moves: tuple[int, int]) -> None:
+    def make_moves(self, *moves: Iterable[tuple[int, int]]) -> None:
         """
         Given a number of moves as tuples (start, end), call
         Board.move on all
@@ -490,7 +490,7 @@ class Board:
         for start, end in moves:
             self.move(start, end)
 
-    def undo_move(self):
+    def undo_move(self) -> None:
         """
         Undo the last move tracked move.
         """
