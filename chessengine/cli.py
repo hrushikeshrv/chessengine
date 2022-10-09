@@ -18,7 +18,7 @@ def handle_error(f):
     return wrapper
 
 
-def prompt_player_side():
+def prompt_player_side() -> str:
     side = input("Do you want to play white or black (w/b)? - ").lower().strip()
     while not side.startswith(("b", "w")):
         print(
@@ -28,7 +28,7 @@ def prompt_player_side():
     return side
 
 
-def play(play_with_player: bool):
+def play(play_with_player: bool) -> None:
     board = Board("black")
     if play_with_player:
         board.play_pvp()

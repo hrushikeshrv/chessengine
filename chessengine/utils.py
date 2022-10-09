@@ -3,6 +3,7 @@ Utility functions for common bitboard operations.
 """
 
 
+from typing import List
 from math import log2
 
 
@@ -22,7 +23,7 @@ piece_characters = {
 }
 
 
-def get_bit_positions(bitboard: int) -> list[int]:
+def get_bit_positions(bitboard: int) -> List[int]:
     """
     Returns a list of positions in the bitboard which have a 1.
     1001100 returns [100, 1000, 1000000]
