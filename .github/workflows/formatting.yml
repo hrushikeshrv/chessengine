@@ -14,7 +14,7 @@ env:
 jobs:
   format:
     name: black
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     
     steps:
       - name: Checkout
