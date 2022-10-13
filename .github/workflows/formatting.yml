@@ -8,6 +8,9 @@ on:
     branches:
       - main
 
+env:
+  VERSION: 22.10.0
+
 jobs:
   format:
     name: black
@@ -17,14 +20,22 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Run black
-        uses: rickstaa/action-black@v1
-        id: action_black
+      - name: Check
+        id: checkifneeded
+        uses: psf/black@stable
         with:
-          black_args: "."
+          options: "--check --verbose"
+          version: $VERSION
+        continue-on-error: true
+
+      - name: Format
+        uses: psf/black@stable
+        with:
+          options: "--verbose"
+          version: $VERSION
 
       - name: Create pull request
-        if: steps.action_black.outputs.is_formatted == 'true'
+        if: steps.checkifneeded.outcome != 'success'
         uses: peter-evans/create-pull-request@v3
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
