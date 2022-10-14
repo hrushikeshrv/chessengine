@@ -94,7 +94,7 @@ class Board:
         self.all_pieces = self.all_black | self.all_white
 
         self.piece_count = {
-            ("white", "kings"): 1,
+            ('white', 'kings'): 1,
             ("white", "queens"): 1,
             ("white", "rooks"): 2,
             ("white", "bishops"): 2,
