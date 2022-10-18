@@ -35,7 +35,7 @@ def play(play_with_player: bool) -> None:
     else:
         player_side = prompt_player_side()
 
-        if player_side.startswith("w"):
+        if player_side.startswith("b"):
             board = Board("white")
         board.play()
 
