@@ -692,7 +692,7 @@ class Board:
                 return move, lines_added, True
             # Input was normal move
             try:
-                if ' to ' in move:
+                if " to " in move:
                     # Input was not in SAN
                     _ = move.upper().strip().split()
                     start = 2 ** coords_to_pos[_[0]]
