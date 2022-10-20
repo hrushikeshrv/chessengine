@@ -26,7 +26,9 @@ piece_characters = {
 def get_bit_positions(bitboard: int) -> List[int]:
     """
     Returns a list of positions in the bitboard which have a 1.
-    1001100 returns [100, 1000, 1000000]
+    For e.g. - 1001100 returns [100, 1000, 1000000]
+
+    :param bitboard: A bitboard.
     """
     positions = []
     mask = 1
@@ -43,6 +45,15 @@ def get_rank(position: int, log: bool = False) -> int:
     Returns the rank of a position. position either has to be a
     power of 2, or log has to be True.
     Returns the rank which is in range [1, 8]
+
+    :param position: The position whose rank is to be returned. See :ref:`position_representation`
+    :param log: If True, position will not be assumed to be a power of 2, but an index on the
+        chess board.
+
+    .. note:
+        The following calls are equivalent -
+        ``get_rank(2**8, False)``
+        ``get_rank(8, True)``
     """
     if not log:
         position = log2(position)
@@ -54,6 +65,15 @@ def get_file(position: int, log: bool = False) -> int:
     Returns the file of a position. position either has to be a
     power of 2, or log has to be True.
     Returns the file which is in range [1, 8]
+
+    :param position: The position whose file is to be returned. See :ref:`position_representation`
+    :param log: If True, position will not be assumed to be a power of 2, but an index on the
+        chess board.
+
+    .. note:
+        The following calls are equivalent -
+        ``get_file(2**8, False)``
+        ``get_file(8, True)``
     """
     if not log:
         position = log2(position)
@@ -64,6 +84,8 @@ def lsb_pos(board: int) -> int:
     """
     Clears all but the rightmost set bit on the board.
     i.e. - Returns 0000100 for 1010100
+
+    :param board: A bitboard
     """
     return board & ~(board - 1)
 
@@ -71,6 +93,8 @@ def lsb_pos(board: int) -> int:
 def clear_lines(n: int) -> None:
     """
     Clears the last n lines printed so we can print there again
+
+    :param n: The number of lines to clear
     """
     LINE_UP = "\033[1A"
     LINE_CLEAR = "\x1b[2K"
@@ -79,12 +103,18 @@ def clear_lines(n: int) -> None:
 
 
 def change_turn(side_to_move: str) -> str:
-    """Returns "black" if side_to_move is "white", and "white" otherwise."""
+    """
+    Returns "black" if side_to_move is "white", and "white" otherwise.
+
+    :param side_to_move: The current side
+    """
     if side_to_move == "white":
         return "black"
     return "white"
 
 
 def get_input(prompt: str) -> str:
-    """Simple wrapper for input to allow testing"""
+    """
+    Simple wrapper for input to allow testing
+    """
     return input(prompt).strip()
