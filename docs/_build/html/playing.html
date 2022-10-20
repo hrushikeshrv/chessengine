@@ -134,7 +134,7 @@
           <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
         </button>
       </div>
-      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
         <div class="visually-hidden">Toggle table of contents sidebar</div>
         <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
       </label>
@@ -195,7 +195,7 @@
               <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
             </button>
           </div>
-          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
             <div class="visually-hidden">Toggle table of contents sidebar</div>
             <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
           </label>
@@ -259,10 +259,33 @@ chess. A few move-related bugs are also known and under development.</p>
 </ul>
 </div>
 <p>The recommended way to play a game on the console is by using the command -</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>chessengine play
+</pre></div>
+</div>
+<p>You can also invoke chessengine from python by running -</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>python -m chessengine.play
 </pre></div>
 </div>
-<p>Enter the side you want to play - “w” for white and “b” for black.</p>
+<p>Use the <code class="docutils literal notranslate"><span class="pre">-p</span></code> flag to play against another player instead of the computer -</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>chessengine play -p
+</pre></div>
+</div>
+<p>If playing against the computer, chessengine will prompt you to pick the side you
+want to play - black or white. Enter “w” for white and “b” for black. The computer
+will parse PGN files included in the package to search for opening moves, and the
+game will start.</p>
+<section id="making-moves-on-the-board">
+<span id="move-representation"></span><h2>Making Moves On The Board<a class="headerlink" href="#making-moves-on-the-board" title="Permalink to this heading">#</a></h2>
+<p>You can make moves by entering the Standard Algebraic Notation (SAN) of the move
+as the input. SAN is the standard method of recording moves in chess games. Note
+that the SAN you enter must be valid given the current state of the chessboard.</p>
+<p>If you are not familiar with SAN, you can also make moves by describing the start
+square and the end square for the move in the following format -</p>
+<p><code class="docutils literal notranslate"><span class="pre">&quot;&lt;start_square&gt;</span> <span class="pre">to</span> <span class="pre">&lt;end_square&gt;&quot;</span></code></p>
+<p>Where <code class="docutils literal notranslate"><span class="pre">&lt;start_square&gt;</span></code> and <code class="docutils literal notranslate"><span class="pre">&lt;end_square&gt;</span></code> are given as coordinates on the
+chessboard. For example, <code class="docutils literal notranslate"><span class="pre">b1</span> <span class="pre">to</span> <span class="pre">c3</span></code>. This will move the piece on square <code class="docutils literal notranslate"><span class="pre">b1</span></code>
+to the square <code class="docutils literal notranslate"><span class="pre">c3</span></code>.</p>
+</section>
 </section>
 
         </article>
@@ -310,8 +333,27 @@ chess. A few move-related bugs are also known and under development.</p>
         
       </footer>
     </div>
-    <aside class="toc-drawer no-toc">
+    <aside class="toc-drawer">
       
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Playing A Game</a><ul>
+<li><a class="reference internal" href="#making-moves-on-the-board">Making Moves On The Board</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
       
       
     </aside>

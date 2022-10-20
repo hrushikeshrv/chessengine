@@ -258,7 +258,7 @@ on your <code class="docutils literal notranslate"><span class="pre">Board</span
 <a class="reference internal image-reference" href="_images/chessboard-numbered.svg"><img alt="A chessboard with indices assigned to each square" src="_images/chessboard-numbered.svg" width="300" /></a>
 <p>All positions on the board are specified as a power of 2, where the power is the index according to
 the diagram above. For example, to refer to the square <code class="docutils literal notranslate"><span class="pre">c2</span></code>, you would pass <code class="docutils literal notranslate"><span class="pre">2**10</span></code> to whichever
-function you are working with.</p>
+function you are working with, and to refer to the square <code class="docutils literal notranslate"><span class="pre">e5</span></code>, you would pass <code class="docutils literal notranslate"><span class="pre">2**36</span></code>.</p>
 <p>All functions in <code class="docutils literal notranslate"><span class="pre">chessengine.moves</span></code> accept <code class="docutils literal notranslate"><span class="pre">position</span></code> as an argument, which is specified
 as mentioned here. In general, all functions that accept a <code class="docutils literal notranslate"><span class="pre">position</span></code> argument require it to
 be specified as mentioned here. Moreover, the <code class="docutils literal notranslate"><span class="pre">Board.move</span></code> function also requires this format for

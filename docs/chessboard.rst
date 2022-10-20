@@ -66,7 +66,7 @@ The squares on the chessboard are numbered as follows -
 
 All positions on the board are specified as a power of 2, where the power is the index according to
 the diagram above. For example, to refer to the square ``c2``, you would pass ``2**10`` to whichever
-function you are working with.
+function you are working with, and to refer to the square ``e5``, you would pass ``2**36``.
 
 All functions in ``chessengine.moves`` accept ``position`` as an argument, which is specified
 as mentioned here. In general, all functions that accept a ``position`` argument require it to

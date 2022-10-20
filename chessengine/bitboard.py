@@ -690,14 +690,24 @@ class Board:
                     print("No moves have been made yet to undo!")
                     lines_added += 1
                 return move, lines_added, True
-            # input was normal move
+            # Input was normal move
             try:
-                self.move_san(move=move, side=side_to_move)
+                if ' to ' in move:
+                    # Input was not in SAN
+                    _ = move.upper().strip().split()
+                    start = 2 ** coords_to_pos[_[0]]
+                    end = 2 ** coords_to_pos[_[-1]]
+                    self.move(start=start, end=end)
+                else:
+                    # Input was in SAN
+                    self.move_san(move=move, side=side_to_move)
                 input_accepted = True
                 last_move = f"{side_to_move.capitalize()} moved {move}"
             except ValueError as e:
                 print(e)
                 lines_added += 1
+            except KeyError as e:
+                print(f"{e} is not a valid square. Please try again.")
         return move, lines_added, False
 
     def play(self, search_depth: int = 4) -> None:

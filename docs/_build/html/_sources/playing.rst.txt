@@ -31,6 +31,39 @@ The recommended way to play a game on the console is by using the command -
 
 .. code-block:: console
 
+    $ chessengine play
+
+You can also invoke chessengine from python by running -
+
+.. code-block:: console
+
     $ python -m chessengine.play
 
-Enter the side you want to play - "w" for white and "b" for black.
+Use the ``-p`` flag to play against another player instead of the computer -
+
+.. code-block:: console
+
+    $ chessengine play -p
+
+If playing against the computer, chessengine will prompt you to pick the side you
+want to play - black or white. Enter "w" for white and "b" for black. The computer
+will parse PGN files included in the package to search for opening moves, and the
+game will start.
+
+.. _move_representation:
+
+Making Moves On The Board
+-------------------------
+
+You can make moves by entering the Standard Algebraic Notation (SAN) of the move
+as the input. SAN is the standard method of recording moves in chess games. Note
+that the SAN you enter must be valid given the current state of the chessboard.
+
+If you are not familiar with SAN, you can also make moves by describing the start
+square and the end square for the move in the following format -
+
+``"<start_square> to <end_square>"``
+
+Where ``<start_square>`` and ``<end_square>`` are given as coordinates on the
+chessboard. For example, ``b1 to c3``. This will move the piece on square ``b1``
+to the square ``c3``.
