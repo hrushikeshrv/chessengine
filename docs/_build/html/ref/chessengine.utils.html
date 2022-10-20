@@ -207,10 +207,10 @@
 <dt class="sig sig-object py" id="chessengine.utils.get_bit_positions">
 <span class="sig-prename descclassname"><span class="pre">chessengine.utils.</span></span><span class="sig-name descname"><span class="pre">get_bit_positions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bitboard</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#chessengine.utils.get_bit_positions" title="Permalink to this definition">#</a></dt>
 <dd><p>Returns a list of positions in the bitboard which have a 1.
-1001100 returns [100, 1000, 1000000]</p>
+For e.g. - 1001100 returns [100, 1000, 1000000]</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>bitboard</strong> (<em>int</em>) – </p>
+<dd class="field-odd"><p><strong>bitboard</strong> (<em>int</em>) – A bitboard.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><em>List</em>[int]</p>
@@ -227,8 +227,9 @@ Returns the file which is in range [1, 8]</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>position</strong> (<em>int</em>) – </p></li>
-<li><p><strong>log</strong> (<em>bool</em>) – </p></li>
+<li><p><strong>position</strong> (<em>int</em>) – The position whose file is to be returned. See <a class="reference internal" href="../chessboard.html#position-representation"><span class="std std-ref">Representing Positions On The Board</span></a></p></li>
+<li><p><strong>log</strong> (<em>bool</em>) – If True, position will not be assumed to be a power of 2, but an index on the
+chess board.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
@@ -246,8 +247,9 @@ Returns the rank which is in range [1, 8]</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>position</strong> (<em>int</em>) – </p></li>
-<li><p><strong>log</strong> (<em>bool</em>) – </p></li>
+<li><p><strong>position</strong> (<em>int</em>) – The position whose rank is to be returned. See <a class="reference internal" href="../chessboard.html#position-representation"><span class="std std-ref">Representing Positions On The Board</span></a></p></li>
+<li><p><strong>log</strong> (<em>bool</em>) – If True, position will not be assumed to be a power of 2, but an index on the
+chess board.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
@@ -263,7 +265,7 @@ Returns the rank which is in range [1, 8]</p>
 i.e. - Returns 0000100 for 1010100</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>board</strong> (<em>int</em>) – </p>
+<dd class="field-odd"><p><strong>board</strong> (<em>int</em>) – A bitboard</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>int</p>
@@ -277,7 +279,7 @@ i.e. - Returns 0000100 for 1010100</p>
 <dd><p>Clears the last n lines printed so we can print there again</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>n</strong> (<em>int</em>) – </p>
+<dd class="field-odd"><p><strong>n</strong> (<em>int</em>) – The number of lines to clear</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>None</p>

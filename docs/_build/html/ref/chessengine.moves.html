@@ -210,8 +210,9 @@
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>side</strong> (<em>str</em>) – </p></li>
-<li><p><strong>position</strong> (<em>int</em>) – </p></li>
+<li><p><strong>board</strong> – A <a class="reference internal" href="chessengine.bitboard.html#board"><span class="std std-ref">chessengine.bitboard.Board</span></a> object</p></li>
+<li><p><strong>side</strong> (<em>str</em>) – The side of the bishop. “white” or “black”</p></li>
+<li><p><strong>position</strong> (<em>int</em>) – The position the bishop starts on. See <a class="reference internal" href="../chessboard.html#position-representation"><span class="std std-ref">Representing Positions On The Board</span></a></p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
@@ -226,7 +227,10 @@
 <dd><p>Returns a list of end positions a black bishop starting at position can reach</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>position</strong> (<em>int</em>) – </p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>board</strong> – A <a class="reference internal" href="chessengine.bitboard.html#board"><span class="std std-ref">chessengine.bitboard.Board</span></a> object</p></li>
+<li><p><strong>position</strong> (<em>int</em>) – The position the bishop starts on. See <a class="reference internal" href="../chessboard.html#position-representation"><span class="std std-ref">Representing Positions On The Board</span></a></p></li>
+</ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>list[int]</p>
@@ -240,7 +244,10 @@
 <dd><p>Returns a list of end positions a black king starting at position can reach</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>position</strong> (<em>int</em>) – </p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>board</strong> – A <a class="reference internal" href="chessengine.bitboard.html#board"><span class="std std-ref">chessengine.bitboard.Board</span></a> object</p></li>
+<li><p><strong>position</strong> (<em>int</em>) – The position the king starts on. See <a class="reference internal" href="../chessboard.html#position-representation"><span class="std std-ref">Representing Positions On The Board</span></a></p></li>
+</ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>list[int]</p>
@@ -254,7 +261,10 @@
 <dd><p>Returns a list of end positions a black knight starting at position can reach</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>position</strong> (<em>int</em>) – </p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>board</strong> – A <a class="reference internal" href="chessengine.bitboard.html#board"><span class="std std-ref">chessengine.bitboard.Board</span></a> object</p></li>
+<li><p><strong>position</strong> (<em>int</em>) – The position the knight starts on. See <a class="reference internal" href="../chessboard.html#position-representation"><span class="std std-ref">Representing Positions On The Board</span></a></p></li>
+</ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>list[int]</p>
@@ -269,7 +279,8 @@
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>position</strong> (<em>int</em>) – </p></li>
+<li><p><strong>board</strong> – A <a class="reference internal" href="chessengine.bitboard.html#board"><span class="std std-ref">chessengine.bitboard.Board</span></a> object</p></li>
+<li><p><strong>position</strong> (<em>int</em>) – The position the pawn starts on. See <a class="reference internal" href="../chessboard.html#position-representation"><span class="std std-ref">Representing Positions On The Board</span></a></p></li>
 <li><p><strong>allow_en_passant</strong> (<em>bool</em>) – </p></li>
 </ul>
 </dd>
@@ -285,7 +296,10 @@
 <dd><p>Returns a list of end positions a black queen starting at position can reach</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>position</strong> (<em>int</em>) – </p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>board</strong> – A <a class="reference internal" href="chessengine.bitboard.html#board"><span class="std std-ref">chessengine.bitboard.Board</span></a> object</p></li>
+<li><p><strong>position</strong> (<em>int</em>) – The position the queen starts on. See <a class="reference internal" href="../chessboard.html#position-representation"><span class="std std-ref">Representing Positions On The Board</span></a></p></li>
+</ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>list[int]</p>
@@ -299,7 +313,10 @@
 <dd><p>Returns a list of end positions a black rook starting at position can reach</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>position</strong> (<em>int</em>) – </p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>board</strong> – A <a class="reference internal" href="chessengine.bitboard.html#board"><span class="std std-ref">chessengine.bitboard.Board</span></a> object</p></li>
+<li><p><strong>position</strong> (<em>int</em>) – The position the rook starts on. See <a class="reference internal" href="../chessboard.html#position-representation"><span class="std std-ref">Representing Positions On The Board</span></a></p></li>
+</ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>list[int]</p>
@@ -314,8 +331,9 @@
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>side</strong> (<em>str</em>) – </p></li>
-<li><p><strong>position</strong> (<em>int</em>) – </p></li>
+<li><p><strong>board</strong> – A <a class="reference internal" href="chessengine.bitboard.html#board"><span class="std std-ref">chessengine.bitboard.Board</span></a> object</p></li>
+<li><p><strong>side</strong> (<em>str</em>) – The side of the king. “white” or “black”.</p></li>
+<li><p><strong>position</strong> (<em>int</em>) – The position the king starts on. See <a class="reference internal" href="../chessboard.html#position-representation"><span class="std std-ref">Representing Positions On The Board</span></a></p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
@@ -331,8 +349,9 @@
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>side</strong> (<em>str</em>) – </p></li>
-<li><p><strong>position</strong> (<em>int</em>) – </p></li>
+<li><p><strong>board</strong> – A <a class="reference internal" href="chessengine.bitboard.html#board"><span class="std std-ref">chessengine.bitboard.Board</span></a> object</p></li>
+<li><p><strong>side</strong> (<em>str</em>) – The side of the knight. “white” or “black”</p></li>
+<li><p><strong>position</strong> (<em>int</em>) – The position the knight starts on. See <a class="reference internal" href="../chessboard.html#position-representation"><span class="std std-ref">Representing Positions On The Board</span></a></p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
@@ -348,8 +367,9 @@
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>side</strong> (<em>str</em>) – </p></li>
-<li><p><strong>position</strong> (<em>int</em>) – </p></li>
+<li><p><strong>board</strong> – A <a class="reference internal" href="chessengine.bitboard.html#board"><span class="std std-ref">chessengine.bitboard.Board</span></a> object</p></li>
+<li><p><strong>side</strong> (<em>str</em>) – The side of the rook. Either “white” or “black”</p></li>
+<li><p><strong>position</strong> (<em>int</em>) – The position the rook starts on. See <a class="reference internal" href="../chessboard.html#position-representation"><span class="std std-ref">Representing Positions On The Board</span></a></p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
@@ -364,7 +384,10 @@
 <dd><p>Returns a list of end positions a white bishop starting at position can reach</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>position</strong> (<em>int</em>) – </p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>board</strong> – A <a class="reference internal" href="chessengine.bitboard.html#board"><span class="std std-ref">chessengine.bitboard.Board</span></a> object</p></li>
+<li><p><strong>position</strong> (<em>int</em>) – The position the bishop starts on. See <a class="reference internal" href="../chessboard.html#position-representation"><span class="std std-ref">Representing Positions On The Board</span></a></p></li>
+</ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>list[int]</p>
@@ -378,7 +401,10 @@
 <dd><p>Returns a list of end positions a white king starting at position can reach</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>position</strong> (<em>int</em>) – </p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>board</strong> – A <a class="reference internal" href="chessengine.bitboard.html#board"><span class="std std-ref">chessengine.bitboard.Board</span></a> object</p></li>
+<li><p><strong>position</strong> (<em>int</em>) – The position the king starts on. See <a class="reference internal" href="../chessboard.html#position-representation"><span class="std std-ref">Representing Positions On The Board</span></a></p></li>
+</ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>list[int]</p>
@@ -392,7 +418,10 @@
 <dd><p>Returns a list of end positions a white knight starting at position can reach</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>position</strong> (<em>int</em>) – </p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>board</strong> – A <a class="reference internal" href="chessengine.bitboard.html#board"><span class="std std-ref">chessengine.bitboard.Board</span></a> object</p></li>
+<li><p><strong>position</strong> (<em>int</em>) – The position the knight starts on. See <a class="reference internal" href="../chessboard.html#position-representation"><span class="std std-ref">Representing Positions On The Board</span></a></p></li>
+</ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>list[int]</p>
@@ -407,7 +436,8 @@
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>position</strong> (<em>int</em>) – </p></li>
+<li><p><strong>board</strong> – A <a class="reference internal" href="chessengine.bitboard.html#board"><span class="std std-ref">chessengine.bitboard.Board</span></a> object</p></li>
+<li><p><strong>position</strong> (<em>int</em>) – The position the pawn starts on. See <a class="reference internal" href="../chessboard.html#position-representation"><span class="std std-ref">Representing Positions On The Board</span></a></p></li>
 <li><p><strong>allow_en_passant</strong> (<em>bool</em>) – </p></li>
 </ul>
 </dd>
@@ -423,7 +453,10 @@
 <dd><p>Returns a list of end positions a white queen starting at position can reach</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>position</strong> (<em>int</em>) – </p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>board</strong> – A <a class="reference internal" href="chessengine.bitboard.html#board"><span class="std std-ref">chessengine.bitboard.Board</span></a> object</p></li>
+<li><p><strong>position</strong> (<em>int</em>) – The position the queen starts on. See <a class="reference internal" href="../chessboard.html#position-representation"><span class="std std-ref">Representing Positions On The Board</span></a></p></li>
+</ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>list[int]</p>
@@ -437,7 +470,10 @@
 <dd><p>Returns a list of end positions a white rook starting at position can reach</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>position</strong> (<em>int</em>) – </p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>board</strong> – A <a class="reference internal" href="chessengine.bitboard.html#board"><span class="std std-ref">chessengine.bitboard.Board</span></a> object</p></li>
+<li><p><strong>position</strong> (<em>int</em>) – The position the rook starts on. See <a class="reference internal" href="../chessboard.html#position-representation"><span class="std std-ref">Representing Positions On The Board</span></a></p></li>
+</ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>list[int]</p>

@@ -52,7 +52,7 @@ class Board:
     A particular bitboard can be accessed via the get_bitboard method or
     as an attribute with the name <side>_<piece>s. For example, ``white_pawns``,
     ``black_bishops``, ``white_queens``, ``black_kings``.
-    
+
     :param side: The side that the _board_ will play. Should be one of "white" or "black"
     """
 
@@ -287,7 +287,7 @@ class Board:
     def get_side_bitboard(self, side: str) -> int:
         """
         Returns the bitboard containing all pieces for the given side.
-        
+
         :param side: "white" or "black"
         :return: If ``side == "white"``, returns ``self.all_white``, else ``self.all_black``
         """
@@ -302,7 +302,7 @@ class Board:
 
         Raises AttributeError if a bitboard with an invalid name is requested. See above for the bitboard naming
         convention.
-        
+
         :param side: "white" or "black"
         :param piece: Can be one of - "kings", "queens", "bishops", "knights", "rooks", "pawns"
         :return: Bitboard
@@ -364,7 +364,7 @@ class Board:
     def set_bitboard(self, side: str, piece: str, board: int) -> None:
         """
         Sets the bitboard for the passed arguments to the passed bitboard
-        
+
         :param side: "white" or "black"
         :param piece: Can be one of - "kings", "queens", "bishops", "knights", "rooks", "pawns"
         :param board: The bitboard to be set
@@ -376,7 +376,7 @@ class Board:
     def identify_piece_at(self, position: int) -> tuple:
         """
         Identifies if there is any piece on the position passed.
-        
+
         :param position: A power of 2 corresponding to a position on the board. See :ref:`position_representation`
         :return: Returns a 3-tuple of the format (side, piece, bitboard) where side is the side of
             the piece identified at position (e.g, "black"), piece is the type of piece identified
@@ -392,7 +392,7 @@ class Board:
         """
         Moves the piece at start to end. Doesn't check anything, just makes
         the move (unless the start or end positions are invalid).
-        
+
         :param start: The start position of the move. See :ref:`position_representation`
         :param end: The end position of the move. See :ref:`position_representation`
         :param track: If ``True``, the move made will be stored in self.moves
@@ -439,7 +439,7 @@ class Board:
     def move_san(self, move: str, side: str) -> None:
         """
         Make a move given in standard algebraic notation.
-        
+
         :param move: A move given in SAN
         :param side: "white" or "black"
         """
@@ -528,14 +528,14 @@ class Board:
         """
         Get all end positions a piece of side can reach starting from position.
         ``side`` is always required, piece and position are optional.
-        
+
         If piece is not specified, gets all moves for all pieces of the passed side, i.e. get
         all valid moves for white or black.
-        
+
         If side and piece are specified and position is not, gets all valid moves for the
         specified side and piece on the board, i.e. if side is "white" and piece is "rooks",
         gets all valid moves for all white rooks on the board.
-        
+
         If side, piece, and position are specified, gets all moves for the piece present on position.
 
         :param side: "white" or "black"
@@ -661,7 +661,7 @@ class Board:
     ) -> Tuple[str, int, bool]:
         """
         Ask for user input until accepted. When a valid input is received, execute the move.
-        
+
         :param side_to_move: "white" or "black"
         :param last_move: The last move made by the board to print out to the user
         :return: A 3-tuple of the form - the valid (move, lines_printed, move_undone)
@@ -703,7 +703,7 @@ class Board:
     def play(self, search_depth: int = 4) -> None:
         """
         Play a game of chess against the computer.
-        
+
         :param search_depth: The number of plies the computer should search forward. Be careful
             passing values about 4 as the search depth. It increases the running time of the
             move search exponentially.

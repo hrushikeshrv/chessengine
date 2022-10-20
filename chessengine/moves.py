@@ -50,6 +50,10 @@ def check_valid_position(
 def get_rook_moves(board, side: str, position: int) -> list[int]:
     """
     Returns a list of end positions a rook of side=side can reach starting at position
+
+    :param board: A :ref:`chessengine.bitboard.Board <Board>` object
+    :param side: The side of the rook. Either "white" or "black"
+    :param position: The position the rook starts on. See :ref:`position_representation`
     """
     moves = []
 
@@ -94,6 +98,9 @@ def get_rook_moves(board, side: str, position: int) -> list[int]:
 def get_white_rook_moves(board, position: int) -> list[int]:
     """
     Returns a list of end positions a white rook starting at position can reach
+
+    :param board: A :ref:`chessengine.bitboard.Board <Board>` object
+    :param position: The position the rook starts on. See :ref:`position_representation`
     """
     return get_rook_moves(board, "white", position)
 
@@ -101,6 +108,9 @@ def get_white_rook_moves(board, position: int) -> list[int]:
 def get_black_rook_moves(board, position: int) -> list[int]:
     """
     Returns a list of end positions a black rook starting at position can reach
+
+    :param board: A :ref:`chessengine.bitboard.Board <Board>` object
+    :param position: The position the rook starts on. See :ref:`position_representation`
     """
     return get_rook_moves(board, "black", position)
 
@@ -108,6 +118,10 @@ def get_black_rook_moves(board, position: int) -> list[int]:
 def get_bishop_moves(board, side: str, position: int) -> list[int]:
     """
     Returns a list of end positions a bishop of side=side can reach starting at position
+
+    :param board: A :ref:`chessengine.bitboard.Board <Board>` object
+    :param side: The side of the bishop. "white" or "black"
+    :param position: The position the bishop starts on. See :ref:`position_representation`
     """
     moves = []
     file = get_file(position)
@@ -147,6 +161,9 @@ def get_bishop_moves(board, side: str, position: int) -> list[int]:
 def get_white_bishop_moves(board, position: int) -> list[int]:
     """
     Returns a list of end positions a white bishop starting at position can reach
+
+    :param board: A :ref:`chessengine.bitboard.Board <Board>` object
+    :param position: The position the bishop starts on. See :ref:`position_representation`
     """
     return get_bishop_moves(board, "white", position)
 
@@ -154,6 +171,9 @@ def get_white_bishop_moves(board, position: int) -> list[int]:
 def get_black_bishop_moves(board, position: int) -> list[int]:
     """
     Returns a list of end positions a black bishop starting at position can reach
+
+    :param board: A :ref:`chessengine.bitboard.Board <Board>` object
+    :param position: The position the bishop starts on. See :ref:`position_representation`
     """
     return get_bishop_moves(board, "black", position)
 
@@ -161,6 +181,10 @@ def get_black_bishop_moves(board, position: int) -> list[int]:
 def get_knight_moves(board, side: str, position: int) -> list[int]:
     """
     Returns a list of end positions a knight starting at position can reach
+
+    :param board: A :ref:`chessengine.bitboard.Board <Board>` object
+    :param side: The side of the knight. "white" or "black"
+    :param position: The position the knight starts on. See :ref:`position_representation`
     """
     moves = []
     rank = get_rank(position)
@@ -204,6 +228,9 @@ def get_knight_moves(board, side: str, position: int) -> list[int]:
 def get_white_knight_moves(board, position: int) -> list[int]:
     """
     Returns a list of end positions a white knight starting at position can reach
+
+    :param board: A :ref:`chessengine.bitboard.Board <Board>` object
+    :param position: The position the knight starts on. See :ref:`position_representation`
     """
     return get_knight_moves(board, "white", position)
 
@@ -211,6 +238,9 @@ def get_white_knight_moves(board, position: int) -> list[int]:
 def get_black_knight_moves(board, position: int) -> list[int]:
     """
     Returns a list of end positions a black knight starting at position can reach
+
+    :param board: A :ref:`chessengine.bitboard.Board <Board>` object
+    :param position: The position the knight starts on. See :ref:`position_representation`
     """
     return get_knight_moves(board, "black", position)
 
@@ -218,6 +248,10 @@ def get_black_knight_moves(board, position: int) -> list[int]:
 def get_king_moves(board, side: str, position: int) -> list[int]:
     """
     Returns a list of end positions a king starting at position can reach
+
+    :param board: A :ref:`chessengine.bitboard.Board <Board>` object
+    :param side: The side of the king. "white" or "black".
+    :param position: The position the king starts on. See :ref:`position_representation`
     """
     moves = []
 
@@ -261,6 +295,9 @@ def get_king_moves(board, side: str, position: int) -> list[int]:
 def get_white_king_moves(board, position: int) -> list[int]:
     """
     Returns a list of end positions a white king starting at position can reach
+
+    :param board: A :ref:`chessengine.bitboard.Board <Board>` object
+    :param position: The position the king starts on. See :ref:`position_representation`
     """
     return get_king_moves(board, "white", position)
 
@@ -268,6 +305,9 @@ def get_white_king_moves(board, position: int) -> list[int]:
 def get_black_king_moves(board, position: int) -> list[int]:
     """
     Returns a list of end positions a black king starting at position can reach
+
+    :param board: A :ref:`chessengine.bitboard.Board <Board>` object
+    :param position: The position the king starts on. See :ref:`position_representation`
     """
     return get_king_moves(board, "black", position)
 
@@ -275,6 +315,9 @@ def get_black_king_moves(board, position: int) -> list[int]:
 def get_white_queen_moves(board, position: int) -> list[int]:
     """
     Returns a list of end positions a white queen starting at position can reach
+
+    :param board: A :ref:`chessengine.bitboard.Board <Board>` object
+    :param position: The position the queen starts on. See :ref:`position_representation`
     """
     return get_white_rook_moves(board, position) + get_white_bishop_moves(
         board, position
@@ -284,6 +327,9 @@ def get_white_queen_moves(board, position: int) -> list[int]:
 def get_black_queen_moves(board, position: int) -> list[int]:
     """
     Returns a list of end positions a black queen starting at position can reach
+
+    :param board: A :ref:`chessengine.bitboard.Board <Board>` object
+    :param position: The position the queen starts on. See :ref:`position_representation`
     """
     return get_black_rook_moves(board, position) + get_black_bishop_moves(
         board, position
@@ -295,6 +341,9 @@ def get_white_pawn_moves(
 ) -> list[tuple[int, int]]:
     """
     Returns a list of end positions a white pawn starting at position can reach
+
+    :param board: A :ref:`chessengine.bitboard.Board <Board>` object
+    :param position: The position the pawn starts on. See :ref:`position_representation`
     """
     rank = get_rank(position)
     if rank == 8:
@@ -334,6 +383,9 @@ def get_black_pawn_moves(
 ) -> list[tuple[int, int]]:
     """
     Returns a list of end positions a black pawn starting at position can reach
+
+    :param board: A :ref:`chessengine.bitboard.Board <Board>` object
+    :param position: The position the pawn starts on. See :ref:`position_representation`
     """
     rank = get_rank(position)
     if rank == 1:
