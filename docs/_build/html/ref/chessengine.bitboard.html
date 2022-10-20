@@ -6,7 +6,7 @@
 <link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="chessengine.lookup_tables" href="chessengine.lookup_tables.html" /><link rel="prev" title="API Reference" href="../api.html" />
 
     <meta name="generator" content="sphinx-5.1.1, furo 2022.09.15"/>
-        <title>chessengine.bitboard - chessengine 0.1.3 documentation</title>
+        <title>chessengine.bitboard - chessengine 0.2.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?digest=9ec31e2665bf879c1d47d93a8ec4893870ee1e45" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
@@ -123,7 +123,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../index.html"><div class="brand">chessengine 0.1.3 documentation</div></a>
+      <a href="../index.html"><div class="brand">chessengine 0.2.0 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -146,7 +146,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
   
   
-  <span class="sidebar-brand-text">chessengine 0.1.3 documentation</span>
+  <span class="sidebar-brand-text">chessengine 0.2.0 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
   <input class="sidebar-search" placeholder=Search name="q" aria-label="Search">
@@ -217,18 +217,11 @@ to play a game of chess.</p>
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">chessengine.bitboard.</span></span><span class="sig-name descname"><span class="pre">Board</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">side</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chessengine.bitboard.Board" title="Permalink to this definition">#</a></dt>
 <dd><p>A class implementing a bitboard representation of a chess board.
 A particular bitboard can be accessed via the get_bitboard method or
-as an attribute with the name &lt;side&gt;_&lt;piece&gt;s. For example -</p>
-<blockquote>
-<div><ul class="simple">
-<li><p>white_pawns</p></li>
-<li><p>white_queens</p></li>
-<li><p>black_kings</p></li>
-<li><p>black_rooks</p></li>
-</ul>
-</div></blockquote>
+as an attribute with the name &lt;side&gt;_&lt;piece&gt;s. For example, <code class="docutils literal notranslate"><span class="pre">white_pawns</span></code>,
+<code class="docutils literal notranslate"><span class="pre">black_bishops</span></code>, <code class="docutils literal notranslate"><span class="pre">white_queens</span></code>, <code class="docutils literal notranslate"><span class="pre">black_kings</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>side</strong> (<em>str</em>) – </p>
+<dd class="field-odd"><p><strong>side</strong> (<em>str</em>) – The side that the _board_ will play. Should be one of “white” or “black”</p>
 </dd>
 </dl>
 <dl class="py method">
@@ -240,8 +233,7 @@ as an attribute with the name &lt;side&gt;_&lt;piece&gt;s. For example -</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="chessengine.bitboard.Board.__hash__">
 <span class="sig-name descname"><span class="pre">__hash__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#chessengine.bitboard.Board.__hash__" title="Permalink to this definition">#</a></dt>
-<dd><p>Just hash the bitboards instead of the FEN
-because it is faster and easier to maintain than the FEN state</p>
+<dd><p>Return hash(self).</p>
 </dd></dl>
 
 <dl class="py method">
@@ -286,17 +278,25 @@ call this function yourself, use Board.search_forward instead.</p>
 <li><p><strong>maximizing_player</strong> (<em>bool</em>) – True if white is searching for a move, False if black is searching for a move.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>int</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The score of the best board position found.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
 </dd>
 </dl>
-<p>Returns the value of the best board position found.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="chessengine.bitboard.Board.board_pieces">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">board_pieces</span></span><a class="headerlink" href="#chessengine.bitboard.Board.board_pieces" title="Permalink to this definition">#</a></dt>
+<dd><p>A list of all bitboards of the pieces that belong to the Board.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="chessengine.bitboard.Board.copy">
 <span class="sig-name descname"><span class="pre">copy</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#chessengine.bitboard.Board.copy" title="Permalink to this definition">#</a></dt>
-<dd><p>Create and return a copy of self.</p>
+<dd><p>Create and return a copy of the board.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -309,12 +309,15 @@ convention.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>side</strong> (<em>str</em>) – </p></li>
-<li><p><strong>piece</strong> (<em>str</em>) – </p></li>
+<li><p><strong>side</strong> (<em>str</em>) – “white” or “black”</p></li>
+<li><p><strong>piece</strong> (<em>str</em>) – Can be one of - “kings”, “queens”, “bishops”, “knights”, “rooks”, “pawns”</p></li>
 </ul>
 </dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>int</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Bitboard</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
 </dd>
 </dl>
 </dd></dl>
@@ -323,21 +326,27 @@ convention.</p>
 <dt class="sig sig-object py" id="chessengine.bitboard.Board.get_moves">
 <span class="sig-name descname"><span class="pre">get_moves</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">side</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">piece</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">position</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#chessengine.bitboard.Board.get_moves" title="Permalink to this definition">#</a></dt>
 <dd><p>Get all end positions a piece of side can reach starting from position.
-side is always required, piece and position are optional.
-If piece is not specified, get all moves for all pieces of the passed side, i.e. get all valid moves for white or black.
-If side and piece are specified and position is not, get all valid moves for the specified side and piece on
-the board, i.e. if side is “white” and piece is “rooks”, get all valid moves for all white rooks on the board.</p>
-<p>Returns a list of moves as a list of tuples (start, end), where start and end are positions on the board.</p>
+<code class="docutils literal notranslate"><span class="pre">side</span></code> is always required, piece and position are optional.</p>
+<p>If piece is not specified, gets all moves for all pieces of the passed side, i.e. get
+all valid moves for white or black.</p>
+<p>If side and piece are specified and position is not, gets all valid moves for the
+specified side and piece on the board, i.e. if side is “white” and piece is “rooks”,
+gets all valid moves for all white rooks on the board.</p>
+<p>If side, piece, and position are specified, gets all moves for the piece present on position.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>side</strong> (<em>str</em>) – </p></li>
-<li><p><strong>piece</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) – </p></li>
-<li><p><strong>position</strong> (<em>Optional</em><em>[</em><em>int</em><em>]</em>) – </p></li>
+<li><p><strong>side</strong> (<em>str</em>) – “white” or “black”</p></li>
+<li><p><strong>piece</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) – Can be one of - “kings”, “queens”, “bishops”, “knights”, “rooks”, “pawns”</p></li>
+<li><p><strong>position</strong> (<em>Optional</em><em>[</em><em>int</em><em>]</em>) – A power of 2 corresponding to a position on the board. See <a class="reference internal" href="../chessboard.html#position-representation"><span class="std std-ref">Representing Positions On The Board</span></a></p></li>
 </ul>
 </dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>list[tuple[int, int]]</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of moves as tuples <code class="docutils literal notranslate"><span class="pre">(start,</span> <span class="pre">end)</span></code>, where <code class="docutils literal notranslate"><span class="pre">start</span></code> and <code class="docutils literal notranslate"><span class="pre">end</span></code> are positions on the board.
+See <a class="reference internal" href="../chessboard.html#position-representation"><span class="std std-ref">Representing Positions On The Board</span></a></p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[tuple[int, int]]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -348,7 +357,8 @@ the board, i.e. if side is “white” and piece is “rooks”, get all valid m
 <dd><p>Returns the bitboard corresponding to the passed piece, considering the board’s
 own side. i.e. - If the board is white, calling with piece=”king” will return
 white king, etc.
-piece can be one of - “kings”, “queens”, “bishops”, “knights”, “rooks”, “pawns”</p>
+:param piece: Can be one of - “kings”, “queens”, “bishops”, “knights”, “rooks”, “pawns”
+:return: Bitboard</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>piece</strong> (<em>str</em>) – </p>
@@ -362,13 +372,39 @@ piece can be one of - “kings”, “queens”, “bishops”, “knights”, �
 <dl class="py method">
 <dt class="sig sig-object py" id="chessengine.bitboard.Board.get_side_bitboard">
 <span class="sig-name descname"><span class="pre">get_side_bitboard</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">side</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#chessengine.bitboard.Board.get_side_bitboard" title="Permalink to this definition">#</a></dt>
-<dd><p>Returns the bitboard containing all pieces for the given side</p>
+<dd><p>Returns the bitboard containing all pieces for the given side.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>side</strong> (<em>str</em>) – </p>
+<dd class="field-odd"><p><strong>side</strong> (<em>str</em>) – “white” or “black”</p>
 </dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>int</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>If <code class="docutils literal notranslate"><span class="pre">side</span> <span class="pre">==</span> <span class="pre">&quot;white&quot;</span></code>, returns <code class="docutils literal notranslate"><span class="pre">self.all_white</span></code>, else <code class="docutils literal notranslate"><span class="pre">self.all_black</span></code></p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="chessengine.bitboard.Board.handle_player_move">
+<span class="sig-name descname"><span class="pre">handle_player_move</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">side_to_move</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">last_move</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#chessengine.bitboard.Board.handle_player_move" title="Permalink to this definition">#</a></dt>
+<dd><p>Ask for user input until accepted. When a valid input is received, execute the move.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>side_to_move</strong> (<em>str</em>) – “white” or “black”</p></li>
+<li><p><strong>last_move</strong> (<em>str</em>) – The last move made by the board to print out to the user</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A 3-tuple of the form - the valid (move, lines_printed, move_undone)
+where move is the valid move received as input, lines_printed is the number
+of lines printed, and move_undone is a boolean that is <code class="docutils literal notranslate"><span class="pre">True</span></code> when the user
+chose to undo their previous move</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><em>Tuple</em>[str, int, bool]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -376,29 +412,30 @@ piece can be one of - “kings”, “queens”, “bishops”, “knights”, �
 <dl class="py method">
 <dt class="sig sig-object py" id="chessengine.bitboard.Board.identify_piece_at">
 <span class="sig-name descname"><span class="pre">identify_piece_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">position</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span></span></span><a class="headerlink" href="#chessengine.bitboard.Board.identify_piece_at" title="Permalink to this definition">#</a></dt>
-<dd><p>Identifies if there is any piece on the position passed. Position is a power of 2</p>
-<p>Returns a 3-tuple of the format (side, piece, bitboard) where side is the side of
-the piece identified at position (e.g, “black”), piece is the type of piece identified
-at position (e.g, “bishops”), and bitboard is the bitboard of the piece (e.g, Board.black_bishops).</p>
-<p>If no piece is present at position, returns (None, None, None).</p>
+<dd><p>Identifies if there is any piece on the position passed.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>position</strong> (<em>int</em>) – </p>
+<dd class="field-odd"><p><strong>position</strong> (<em>int</em>) – A power of 2 corresponding to a position on the board. See <a class="reference internal" href="../chessboard.html#position-representation"><span class="std std-ref">Representing Positions On The Board</span></a></p>
 </dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>tuple</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Returns a 3-tuple of the format (side, piece, bitboard) where side is the side of
+the piece identified at position (e.g, “black”), piece is the type of piece identified
+at position (e.g, “bishops”), and bitboard is the bitboard of the piece (e.g, Board.black_bishops).</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="chessengine.bitboard.Board.make_moves">
-<span class="sig-name descname"><span class="pre">make_moves</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">moves</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#chessengine.bitboard.Board.make_moves" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">make_moves</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">moves</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#chessengine.bitboard.Board.make_moves" title="Permalink to this definition">#</a></dt>
 <dd><p>Given a number of moves as tuples (start, end), call
-Board.move on all</p>
+Board.move on all. Tracks all moves by default in <code class="docutils literal notranslate"><span class="pre">self.moves</span></code></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>moves</strong> (<em>tuple</em><em>[</em><em>int</em><em>, </em><em>int</em><em>]</em>) – </p>
+<dd class="field-odd"><p><strong>moves</strong> (<em>Iterable</em><em>[</em><em>tuple</em><em>[</em><em>int</em><em>, </em><em>int</em><em>]</em><em>]</em>) – </p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>None</p>
@@ -411,14 +448,12 @@ Board.move on all</p>
 <span class="sig-name descname"><span class="pre">move</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">track</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#chessengine.bitboard.Board.move" title="Permalink to this definition">#</a></dt>
 <dd><p>Moves the piece at start to end. Doesn’t check anything, just makes
 the move (unless the start or end positions are invalid).</p>
-<p>start and end are both powers of 2.
-If track is True, stores the move in Board.moves so you can undo it later.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>start</strong> (<em>int</em>) – </p></li>
-<li><p><strong>end</strong> (<em>int</em>) – </p></li>
-<li><p><strong>track</strong> (<em>bool</em>) – </p></li>
+<li><p><strong>start</strong> (<em>int</em>) – The start position of the move. See <a class="reference internal" href="../chessboard.html#position-representation"><span class="std std-ref">Representing Positions On The Board</span></a></p></li>
+<li><p><strong>end</strong> (<em>int</em>) – The end position of the move. See <a class="reference internal" href="../chessboard.html#position-representation"><span class="std std-ref">Representing Positions On The Board</span></a></p></li>
+<li><p><strong>track</strong> (<em>bool</em>) – If <code class="docutils literal notranslate"><span class="pre">True</span></code>, the move made will be stored in self.moves</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
@@ -430,13 +465,12 @@ If track is True, stores the move in Board.moves so you can undo it later.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="chessengine.bitboard.Board.move_san">
 <span class="sig-name descname"><span class="pre">move_san</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">move</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">side</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#chessengine.bitboard.Board.move_san" title="Permalink to this definition">#</a></dt>
-<dd><p>Make a move given in standard algebraic notation.
-move is the SAN move, side is the side to move.</p>
+<dd><p>Make a move given in standard algebraic notation.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>move</strong> (<em>str</em>) – </p></li>
-<li><p><strong>side</strong> (<em>str</em>) – </p></li>
+<li><p><strong>move</strong> (<em>str</em>) – A move given in SAN</p></li>
+<li><p><strong>side</strong> (<em>str</em>) – “white” or “black”</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
@@ -445,13 +479,21 @@ move is the SAN move, side is the side to move.</p>
 </dl>
 </dd></dl>
 
+<dl class="py property">
+<dt class="sig sig-object py" id="chessengine.bitboard.Board.opponent_pieces">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">opponent_pieces</span></span><a class="headerlink" href="#chessengine.bitboard.Board.opponent_pieces" title="Permalink to this definition">#</a></dt>
+<dd><p>A list of all bitboards of the pieces that belong to the opponent.</p>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="chessengine.bitboard.Board.play">
 <span class="sig-name descname"><span class="pre">play</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">search_depth</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">4</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#chessengine.bitboard.Board.play" title="Permalink to this definition">#</a></dt>
-<dd><p>The game loop.</p>
+<dd><p>Play a game of chess against the computer.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>search_depth</strong> (<em>int</em>) – </p>
+<dd class="field-odd"><p><strong>search_depth</strong> (<em>int</em>) – The number of plies the computer should search forward. Be careful
+passing values about 4 as the search depth. It increases the running time of the
+move search exponentially.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>None</p>
@@ -470,19 +512,28 @@ move is the SAN move, side is the side to move.</p>
 </dl>
 </dd></dl>
 
+<dl class="py property">
+<dt class="sig sig-object py" id="chessengine.bitboard.Board.score">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">score</span></span><a class="headerlink" href="#chessengine.bitboard.Board.score" title="Permalink to this definition">#</a></dt>
+<dd><p>The “score” of the board. A higher/more positive score favors white,
+a lower/more negative score favors black.</p>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="chessengine.bitboard.Board.search_forward">
-<span class="sig-name descname"><span class="pre">search_forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">depth</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">4</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">tuple</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#chessengine.bitboard.Board.search_forward" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">search_forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">depth</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">4</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#chessengine.bitboard.Board.search_forward" title="Permalink to this definition">#</a></dt>
 <dd><p>Execute an alpha-beta pruned depth-first search to find the optimal move from
 the current board state.</p>
-<p>Arguments -
-depth: int - The number of plies to search (1 move is 2 plies). Default = 4 plies.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>depth</strong> (<em>int</em>) – </p>
+<dd class="field-odd"><p><strong>depth</strong> (<em>int</em>) – int - The number of plies to search (1 move is 2 plies). Default = 4 plies.</p>
 </dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>tuple[int, tuple]</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A 2-tuple where the first element is the best board score found, and the second
+element is the best found move as a 2 tuple containing the start position and the end position</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple[int, tuple[int, int]]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -494,9 +545,9 @@ depth: int - The number of plies to search (1 move is 2 plies). Default = 4 plie
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>side</strong> (<em>str</em>) – </p></li>
-<li><p><strong>piece</strong> (<em>str</em>) – </p></li>
-<li><p><strong>board</strong> (<em>int</em>) – </p></li>
+<li><p><strong>side</strong> (<em>str</em>) – “white” or “black”</p></li>
+<li><p><strong>piece</strong> (<em>str</em>) – Can be one of - “kings”, “queens”, “bishops”, “knights”, “rooks”, “pawns”</p></li>
+<li><p><strong>board</strong> (<em>int</em>) – The bitboard to be set</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
@@ -507,8 +558,13 @@ depth: int - The number of plies to search (1 move is 2 plies). Default = 4 plie
 
 <dl class="py method">
 <dt class="sig sig-object py" id="chessengine.bitboard.Board.undo_move">
-<span class="sig-name descname"><span class="pre">undo_move</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#chessengine.bitboard.Board.undo_move" title="Permalink to this definition">#</a></dt>
-<dd><p>Undo the last move tracked move.</p>
+<span class="sig-name descname"><span class="pre">undo_move</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#chessengine.bitboard.Board.undo_move" title="Permalink to this definition">#</a></dt>
+<dd><p>Undo the last tracked move.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -516,7 +572,7 @@ depth: int - The number of plies to search (1 move is 2 plies). Default = 4 plie
 <span class="sig-name descname"><span class="pre">update_board_state</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#chessengine.bitboard.Board.update_board_state" title="Permalink to this definition">#</a></dt>
 <dd><p>Updates all Board attributes when a move is made or the state of the Board
 changes in any way. You should call this if you manually make any changes to
-Board attributes, otherwise it is called automatically.</p>
+bitboards attributes, otherwise it is called automatically.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>None</p>

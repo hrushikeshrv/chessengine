@@ -1,6 +1,6 @@
 # Chess Engine
 [![Documentation Status](https://readthedocs.org/projects/chessengine/badge/?version=latest)](https://chessengine.readthedocs.io/en/latest/?badge=latest)
-[![Linting](https://github.com/hrushikeshrv/chessengine/actions/workflows/linting.yml/badge.svg)](https://github.com/hrushikeshrv/chessengine/actions/workflows/linting.yml)
+[![Formatting](https://github.com/hrushikeshrv/chessengine/actions/workflows/formatting.yml/badge.svg)](https://github.com/hrushikeshrv/chessengine/actions/workflows/formatting.yml)
 
 A chess engine written in Python with no dependencies. All contributions welcome.
 
@@ -57,3 +57,5 @@ python -m pip install black==22.10.0
 # Format
 black .
 ```
+
+If you've forked this repository, consider **enabling GitHub Actions** to leverage the automatic pull request creation provided for resolving code formatting errors!
