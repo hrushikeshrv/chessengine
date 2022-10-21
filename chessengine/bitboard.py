@@ -436,6 +436,27 @@ class Board:
         move_side_board |= mask_position[end]
         self.set_bitboard(start_side, start_piece, move_side_board)
 
+    def move_raw(self, start: int, end: int, track: bool = True) -> None:
+        """
+        Moves the piece at start to end. Checks if the move is a valid move
+        to make given the current state of the board.
+
+        :param start: The start position of the move. See :ref:`position_representation`
+        :param end: The end position of the move. See :ref:`position_representation`
+        :param track: If ``True``, the move made will be stored in self.moves
+        """
+        side, piece, board = self.identify_piece_at(start)
+        if side is None:
+            raise ValueError(
+                f"There is no piece at {pos_to_coords[int(log2(start))]} to move."
+            )
+        moves = self.get_moves(side=side, piece=piece)
+        if (start, end) not in moves:
+            raise ValueError(
+                f"{pos_to_coords[int(log2(start))]} to {pos_to_coords[int(log2(end))]} is not a valid move for {side}"
+            )
+        self.move(start=start, end=end, track=track)
+
     def move_san(self, move: str, side: str) -> None:
         """
         Make a move given in standard algebraic notation.
@@ -678,7 +699,7 @@ class Board:
             move = get_input(
                 f"Enter your move in standard algebraic notation ({side_to_move.capitalize()}'s turn) - "
             )
-            lines_added += 2
+            lines_added += 3
             if move.lower() == "q":
                 print("Thanks for playing!")
                 sys.exit(0)
@@ -697,7 +718,7 @@ class Board:
                     _ = move.upper().strip().split()
                     start = 2 ** coords_to_pos[_[0]]
                     end = 2 ** coords_to_pos[_[-1]]
-                    self.move(start=start, end=end)
+                    self.move_raw(start=start, end=end)
                 else:
                     # Input was in SAN
                     self.move_san(move=move, side=side_to_move)
@@ -708,6 +729,7 @@ class Board:
                 lines_added += 1
             except KeyError as e:
                 print(f"{e} is not a valid square. Please try again.")
+                lines_added += 1
         return move, lines_added, False
 
     def play(self, search_depth: int = 4) -> None:
