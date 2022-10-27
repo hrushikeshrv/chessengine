@@ -6,6 +6,9 @@ import unittest
 class TestUtils(unittest.TestCase):
     def test_get_bit_positions(self):
         self.assertEqual(get_bit_positions(0b110100), [0b100, 0b10000, 0b100000])
+        self.assertEqual(get_bit_positions(0b110101), [0b1, 0b100, 0b10000, 0b100000])
+        self.assertEqual(get_bit_positions(0b10), [0b10])
+        self.assertEqual(get_bit_positions(0), [])
 
     def test_lsb_pos(self):
         test_cases = (

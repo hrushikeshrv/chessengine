@@ -31,12 +31,12 @@ def get_bit_positions(bitboard: int) -> List[int]:
     :param bitboard: A bitboard.
     """
     positions = []
-    mask = 1
-    for i in range(64):
-        if bitboard & mask:
-            positions.append(mask)
-        mask = mask << 1
-
+    if bitboard == 0:
+        return positions
+    
+    _ = ~bitboard + 1
+    positions.append(bitboard & _)
+    positions += get_bit_positions(bitboard & ~_)
     return positions
 
 
