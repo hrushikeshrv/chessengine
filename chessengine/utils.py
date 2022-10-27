@@ -33,7 +33,7 @@ def get_bit_positions(bitboard: int) -> List[int]:
     positions = []
     if bitboard == 0:
         return positions
-    
+
     _ = ~bitboard + 1
     positions.append(bitboard & _)
     positions += get_bit_positions(bitboard & ~_)
