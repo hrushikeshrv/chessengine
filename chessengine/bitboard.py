@@ -422,21 +422,21 @@ class Board:
             # Keep track of the board state before the move was made so we can undo
             start_state = (start, end, end_side, end_piece, end_board)
             self.moves.append(start_state)
-        
+
         # Check en passant moves
-        if start_piece == 'pawns':
-            if start_side == 'white':
+        if start_piece == "pawns":
+            if start_side == "white":
                 # Check en passant status
                 if get_rank(end) - get_rank(start) == 2:
                     self.en_passant_position = start << 8
-                    
+
                 # Check if a pawn captured by an en passant move
                 elif get_file(start) != get_file(end):
                     # White pawn made an en passant move
-                    black_pawn_bb = self.get_bitboard('black', 'pawns')
+                    black_pawn_bb = self.get_bitboard("black", "pawns")
                     black_pawn_bb &= clear_position[end >> 8]
-                    self.set_bitboard('black', 'pawns', black_pawn_bb)
-                    self.piece_count[('black', 'pawns')] -= 1
+                    self.set_bitboard("black", "pawns", black_pawn_bb)
+                    self.piece_count[("black", "pawns")] -= 1
                     self.en_passant_position = 0
 
                 # Clear self.en_passant_position
@@ -447,14 +447,14 @@ class Board:
                 # Check en passant status
                 if get_rank(start) - get_rank(end) == 2:
                     self.en_passant_position = start >> 8
-                    
+
                 # Check if a pawn captured by an en passant move
                 elif get_file(start) != get_file(end):
                     # Black pawn made an en passant move
-                    white_pawn_bb = self.get_bitboard('white', 'pawns')
+                    white_pawn_bb = self.get_bitboard("white", "pawns")
                     white_pawn_bb &= clear_position[end << 8]
-                    self.set_bitboard('white', 'pawns', white_pawn_bb)
-                    self.piece_count[('white', 'pawns')] -= 1
+                    self.set_bitboard("white", "pawns", white_pawn_bb)
+                    self.piece_count[("white", "pawns")] -= 1
                     self.en_passant_position = 0
 
                 # Clear self.en_passant_position
@@ -463,7 +463,7 @@ class Board:
 
         else:
             self.en_passant_position = 0
-            
+
         if end_piece is not None:
             # Clear the captured piece's position (set "end" to 0)
             opp_side_board = self.get_bitboard(end_side, end_piece)
