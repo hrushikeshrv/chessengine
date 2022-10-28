@@ -463,6 +463,25 @@ the move (unless the start or end positions are invalid).</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="chessengine.bitboard.Board.move_raw">
+<span class="sig-name descname"><span class="pre">move_raw</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">track</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#chessengine.bitboard.Board.move_raw" title="Permalink to this definition">#</a></dt>
+<dd><p>Moves the piece at start to end. Checks if the move is a valid move
+to make given the current state of the board.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>start</strong> (<em>int</em>) – The start position of the move. See <a class="reference internal" href="../chessboard.html#position-representation"><span class="std std-ref">Representing Positions On The Board</span></a></p></li>
+<li><p><strong>end</strong> (<em>int</em>) – The end position of the move. See <a class="reference internal" href="../chessboard.html#position-representation"><span class="std std-ref">Representing Positions On The Board</span></a></p></li>
+<li><p><strong>track</strong> (<em>bool</em>) – If <code class="docutils literal notranslate"><span class="pre">True</span></code>, the move made will be stored in self.moves</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="chessengine.bitboard.Board.move_san">
 <span class="sig-name descname"><span class="pre">move_san</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">move</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">side</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#chessengine.bitboard.Board.move_san" title="Permalink to this definition">#</a></dt>
 <dd><p>Make a move given in standard algebraic notation.</p>

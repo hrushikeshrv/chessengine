@@ -225,6 +225,7 @@ on your <code class="docutils literal notranslate"><span class="pre">Board</span
 <li><p><code class="docutils literal notranslate"><span class="pre">piece_count</span></code> - A dictionary mapping tuples of the format (side, piece) to the number of pieces of that side on the board currently. For example, at the start of the game <code class="docutils literal notranslate"><span class="pre">piece_count[(&quot;white&quot;,</span> <span class="pre">&quot;pawns&quot;)]</span></code> will be 8.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">side</span></code> - The side of the board. Can be <code class="docutils literal notranslate"><span class="pre">&quot;black&quot;</span></code> or <code class="docutils literal notranslate"><span class="pre">&quot;white&quot;</span></code>.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">opponent_side</span></code> - The side of the opponent. Can be <code class="docutils literal notranslate"><span class="pre">&quot;black&quot;</span></code> or <code class="docutils literal notranslate"><span class="pre">&quot;white&quot;</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">en_passant_position</span></code> - The position on the board to which a pawn can move to capture a pawn of the opposite side by en passant. Set to <code class="docutils literal notranslate"><span class="pre">0</span></code> if no en passant move can be made in the current turn.</p></li>
 </ul>
 </section>
 <section id="attributes-for-white-side">
