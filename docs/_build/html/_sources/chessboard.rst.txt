@@ -30,6 +30,7 @@ Attributes For Chess Board
 * ``piece_count`` - A dictionary mapping tuples of the format (side, piece) to the number of pieces of that side on the board currently. For example, at the start of the game ``piece_count[("white", "pawns")]`` will be 8.
 * ``side`` - The side of the board. Can be ``"black"`` or ``"white"``.
 * ``opponent_side`` - The side of the opponent. Can be ``"black"`` or ``"white"``
+* ``en_passant_position`` - The position on the board to which a pawn can move to capture a pawn of the opposite side by en passant. Set to ``0`` if no en passant move can be made in the current turn.
 
 Attributes For White Side
 """""""""""""""""""""""""

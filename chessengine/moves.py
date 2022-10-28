@@ -337,7 +337,7 @@ def get_black_queen_moves(board, position: int) -> list[int]:
 
 
 def get_white_pawn_moves(
-    board, position: int, allow_en_passant: bool = False
+    board, position: int
 ) -> list[tuple[int, int]]:
     """
     Returns a list of end positions a white pawn starting at position can reach
@@ -366,20 +366,20 @@ def get_white_pawn_moves(
         _ = position << 9
         if board.all_black & _ > 0:
             moves.append((position, _))
-
-    if allow_en_passant:
-        if file >= 2:
-            _ = position << 7
-            check_valid_position(board, "white", position, _, moves)
-        if file <= 7:
-            _ = position << 9
-            check_valid_position(board, "white", position, _, moves)
+    
+    en_passant_position = board.en_passant_position
+    if en_passant_position == position << 7 and file >= 2:
+        _ = position << 7
+        check_valid_position(board, "white", position, _, moves)
+    if en_passant_position == position << 9 and file <= 7:
+        _ = position << 9
+        check_valid_position(board, "white", position, _, moves)
 
     return moves
 
 
 def get_black_pawn_moves(
-    board, position: int, allow_en_passant: bool = False
+    board, position: int
 ) -> list[tuple[int, int]]:
     """
     Returns a list of end positions a black pawn starting at position can reach
@@ -409,12 +409,12 @@ def get_black_pawn_moves(
         if board.all_white & _ > 0:
             moves.append((position, _))
 
-    if allow_en_passant:
-        if file >= 2:
-            _ = position >> 9
-            check_valid_position(board, "black", position, _, moves)
-        if file <= 7:
-            _ = position >> 7
-            check_valid_position(board, "black", position, _, moves)
+    en_passant_position = board.en_passant_position
+    if en_passant_position == position >> 9 and file >= 2:
+        _ = position >> 9
+        check_valid_position(board, "black", position, _, moves)
+    if en_passant_position == position >> 7 and file <= 7:
+        _ = position >> 7
+        check_valid_position(board, "black", position, _, moves)
 
     return moves
