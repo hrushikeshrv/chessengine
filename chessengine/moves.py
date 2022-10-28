@@ -336,9 +336,7 @@ def get_black_queen_moves(board, position: int) -> list[int]:
     )
 
 
-def get_white_pawn_moves(
-    board, position: int
-) -> list[tuple[int, int]]:
+def get_white_pawn_moves(board, position: int) -> list[tuple[int, int]]:
     """
     Returns a list of end positions a white pawn starting at position can reach
 
@@ -366,7 +364,7 @@ def get_white_pawn_moves(
         _ = position << 9
         if board.all_black & _ > 0:
             moves.append((position, _))
-    
+
     en_passant_position = board.en_passant_position
     if en_passant_position == position << 7 and file >= 2:
         _ = position << 7
@@ -378,9 +376,7 @@ def get_white_pawn_moves(
     return moves
 
 
-def get_black_pawn_moves(
-    board, position: int
-) -> list[tuple[int, int]]:
+def get_black_pawn_moves(board, position: int) -> list[tuple[int, int]]:
     """
     Returns a list of end positions a black pawn starting at position can reach
 
