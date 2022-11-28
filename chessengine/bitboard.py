@@ -802,7 +802,7 @@ class Board:
                 file_path = pkg_resources.path("chessengine.openings", child)
                 with file_path as f:
                     if f.suffix == ".pgn":
-                        print(".", end='', flush=True)
+                        print(".", end="", flush=True)
                         parser.parse(f)
             print(f"\nRead through {len(parser.games)} games.")
         sleep(1)
