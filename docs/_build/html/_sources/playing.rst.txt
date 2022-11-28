@@ -37,7 +37,7 @@ You can also invoke chessengine from python by running -
 
 .. code-block:: console
 
-    $ python -m chessengine.play
+    $ chessengine play
 
 Use the ``-p`` flag to play against another player instead of the computer -
 

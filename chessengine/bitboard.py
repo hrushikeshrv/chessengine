@@ -13,6 +13,7 @@ import random
 import sys
 from copy import copy
 from math import log2
+from time import sleep
 from typing import Tuple, Iterable
 
 from chessengine.moves import (
@@ -791,7 +792,7 @@ class Board:
                 "Searching for opening moves.",
                 "Reading an opening book.",
                 "Waking up.",
-                "Reading thousands of past games.",
+                "Building move tree.",
             ]
 
             parser = PGNParser()
@@ -801,10 +802,12 @@ class Board:
                 file_path = pkg_resources.path("chessengine.openings", child)
                 with file_path as f:
                     if f.suffix == ".pgn":
-                        print(".")
+                        print(".", end='', flush=True)
                         parser.parse(f)
             print(f"\nRead through {len(parser.games)} games.")
+        sleep(1)
         print(f"Set search depth to {search_depth}")
+        sleep(0.7)
 
         print(self)
         side_to_move = "white"
@@ -833,11 +836,9 @@ class Board:
                 lines_printed += lines_added
                 last_move = f"{side_to_move.capitalize()} moved {move}"
 
-                if (
-                    move_undone
-                ):  # return to outer loop, so both sides need to make a new move
+                if move_undone:
+                    # return to outer loop, so both sides need to make a new move
                     continue
-
                 if in_game_tree:
                     try:
                         current_node = current_node.get_child(move)
