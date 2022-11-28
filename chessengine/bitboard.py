@@ -134,7 +134,7 @@ class Board:
         self.moves = []
 
     def __repr__(self):
-        piece_list = ["\u2001" for _ in range(64)]
+        piece_list = [" " for _ in range(64)]
         unicode_piece = {
             ("white", "kings"): "\u2654",
             ("white", "queens"): "\u2655",
@@ -150,7 +150,7 @@ class Board:
             ("black", "pawns"): "\u265F",
         }
         ranks = ["8", "7", "6", "5", "4", "3", "2", "1"]
-        files = ["\u2001", "a", "b", "c", "d", "e", "f", "g", "h", "\u2001"]
+        files = [" ", "a", "b", "c", "d", "e", "f", "g", "h", " "]
 
         def add_bitboard_to_repr(board, s, p):
             board_string = bin(board)[2:]
@@ -168,20 +168,22 @@ class Board:
             files = list(reversed(files))
 
         board_repr = ""
-        board_repr += "\u2001" + "\u2001".join(files) + "\n"
+        board_repr += " " + "   ".join(files) + "\n"
 
         for i in r:
-            board_repr += ranks[i] + "\u2001\u2001"
+            board_repr += "   +---+---+---+---+---+---+---+---+   \n"
+            board_repr += ranks[i] + "  | "
 
             if self.side == "white":
-                board_repr += "\u2001".join(piece_list[8 * i : 8 * i + 8])
+                board_repr += " | ".join(piece_list[8 * i : 8 * i + 8])
             else:
-                board_repr += "\u2001".join(piece_list[8 * i : 8 * i + 8][::-1])
+                board_repr += " | ".join(piece_list[8 * i : 8 * i + 8][::-1])
 
-            board_repr += "\u2001\u2001" + ranks[i]
+            board_repr += " |  " + ranks[i]
             board_repr += "\n"
 
-        board_repr += "\u2001" + "\u2001".join(files) + "\n"
+        board_repr += "   +---+---+---+---+---+---+---+---+   \n"
+        board_repr += " " + "   ".join(files) + "\n"
         return board_repr
 
     def __str__(self):
@@ -808,12 +810,12 @@ class Board:
         side_to_move = "white"
         in_game_tree = parser is not None
         current_node = parser.root_node if in_game_tree else None
-        lines_printed = 11
+        lines_printed = 20
         last_move = ""
         while True:
             clear_lines(lines_printed)
             print(self)
-            lines_printed = 11
+            lines_printed = 20
             if side_to_move == self.side:
                 if in_game_tree:
                     move, node = random.choice(list(current_node.children.items()))
@@ -851,14 +853,14 @@ class Board:
         Play a game of chess on the terminal with another player
         """
         print(self)
-        lines_printed = 11
+        lines_printed = 20
 
         side_to_move = "white"
         last_move = ""
         while True:
             clear_lines(lines_printed)
             print(self)
-            lines_printed = 11
+            lines_printed = 20
 
             move, lines_added, move_undone = self.handle_player_move(
                 side_to_move, last_move
