@@ -113,6 +113,10 @@ class Board:
         self.side = side.lower().strip()
         self.opponent_side = "black" if self.side == "white" else "white"
         self.en_passant_position = 0
+        self.white_king_side_castle = True
+        self.white_queen_side_castle = True
+        self.black_king_side_castle = True
+        self.black_queen_side_castle = True
 
         # A dictionary matching a side and piece to its corresponding bit board.
         # Useful when we want to iterate through all of the bitboards of the board.
@@ -514,19 +518,39 @@ class Board:
         if "0-0-0" in move:
             # queen side castle
             if side == "white":
-                self.move(1, 2**3, track=False)
-                self.move(2**4, 2**2)
+                if self.white_queen_side_castle:
+                    self.move(1, 2**3, track=False)
+                    self.move(2**4, 2**2)
+                else:
+                    raise ValueError(f'White cannot castle, it has already moved the {"rook" if self.white_king_side_castle else "king"}.')
+                self.white_queen_side_castle = False
+                self.white_king_side_castle = False
             else:
-                self.move(2**56, 2**59, track=False)
-                self.move(2**60, 2**58)
+                if self.black_queen_side_castle:
+                    self.move(2**56, 2**59, track=False)
+                    self.move(2**60, 2**58)
+                else:
+                    raise ValueError(f'Black cannot castle, it has already moved the {"rook" if self.black_king_side_castle else "king"}.')
+                self.black_queen_side_castle = False
+                self.black_king_side_castle = False
         elif "0-0" in move:
             # king side castle
             if side == "white":
-                self.move(2**7, 2**5, track=False)
-                self.move(2**4, 2**6)
+                if self.white_king_side_castle:
+                    self.move(2**7, 2**5, track=False)
+                    self.move(2**4, 2**6)
+                else:
+                    raise ValueError(f'White cannot castle, it has already moved the {"rook" if self.white_queen_side_castle else "king"}.')
+                self.white_king_side_castle = False
+                self.white_queen_side_castle = False
             else:
-                self.move(2**63, 2**61, track=False)
-                self.move(2**60, 2**62)
+                if self.black_king_side_castle:
+                    self.move(2**63, 2**61, track=False)
+                    self.move(2**60, 2**62)
+                else:
+                    raise ValueError(f'Black cannot castle, it has already moved the {"rook" if self.black_queen_side_castle else "king"}.')
+                self.black_king_side_castle = False
+                self.black_queen_side_castle = False
         else:
             # regular move
             match = SAN_MOVE_REGEX.match(move)
