@@ -20,9 +20,6 @@ Playing A Game
     * Castling -
         * Castling is accepted after the rook has moved
         * Castling is accepted after the king has moved
-    * En-passant moves -
-        * The engine does not make en-passant moves
-        * The engine does not allow the user to make en-passant moves
 
 The recommended way to play a game on the console is by using the command -
 
