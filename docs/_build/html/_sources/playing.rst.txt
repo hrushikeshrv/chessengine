@@ -17,9 +17,6 @@ Playing A Game
     * Stalemate -
         * The engine still asks for a move if the user is stalemated
         * If the engine is stalemated, it crashes
-    * SAN input by user is not verified for correctness -
-        * SAN moves that are ambiguous are accepted as valid, and a piece is chosen by the engine
-        * SAN moves that are invalid throw an error instead of giving the user a chance to enter the move again
     * Castling -
         * Castling is accepted after the rook has moved
         * Castling is accepted after the king has moved

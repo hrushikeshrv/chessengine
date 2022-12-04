@@ -543,25 +543,37 @@ class Board:
             moves = self.get_moves(side, piece_moved)
             if groups[1] is None:
                 # No file provided in the SAN
+                candidate_move = None
                 for m in moves:
                     if m[1] == end_pos:
-                        self.move(start=m[0], end=m[1])
-                        break
-                else:
+                        if candidate_move:
+                            raise ValueError(
+                                f"{move} is ambiguous for {side}. Specify a file to move from."
+                            )
+                        candidate_move = m
+                if candidate_move is None:
                     raise ValueError(f"{move} is not a valid move for {side}.")
+                else:
+                    self.move(start=candidate_move[0], end=candidate_move[1])
             else:
                 if groups[2] is None:
                     # No rank provided in the SAN
+                    candidate_move = None
                     for m in moves:
                         file = get_file(m[0])
                         if (
                             groups[1].upper() == "ABCDEFGH"[file - 1]
                             and m[1] == end_pos
                         ):
-                            self.move(start=m[0], end=m[1])
-                            break
-                    else:
+                            if candidate_move:
+                                raise ValueError(
+                                    f"{move} is ambiguous for {side}. Specify a file as well as rank to move from."
+                                )
+                            candidate_move = m
+                    if candidate_move is None:
                         raise ValueError(f"{move} is not a valid move for {side}.")
+                    else:
+                        self.move(start=candidate_move[0], end=candidate_move[1])
                 else:
                     # File and rank both present in the SAN
                     start_pos = 2 ** coords_to_pos[groups[1].upper() + groups[2]]
