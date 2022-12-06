@@ -18,11 +18,8 @@ Playing A Game
         * The engine still asks for a move if the user is stalemated
         * If the engine is stalemated, it crashes
     * Castling -
-        * Castling is accepted after the rook has moved
-        * Castling is accepted after the king has moved
-    * En-passant moves -
-        * The engine does not make en-passant moves
-        * The engine does not allow the user to make en-passant moves
+        * Castling is accepted if the king is in check or if the king moves into check
+        * Castling is accepted if the square next to the castle is being attacked
 
 The recommended way to play a game on the console is by using the command -
 
@@ -34,7 +31,7 @@ You can also invoke chessengine from python by running -
 
 .. code-block:: console
 
-    $ chessengine play
+    $ python -m chessengine.play
 
 Use the ``-p`` flag to play against another player instead of the computer -
 
@@ -54,7 +51,8 @@ Making Moves On The Board
 
 You can make moves by entering the Standard Algebraic Notation (SAN) of the move
 as the input. SAN is the standard method of recording moves in chess games. Note
-that the SAN you enter must be valid given the current state of the chessboard.
+that the SAN you enter must be valid and unambiguous given the current state of the
+chessboard.
 
 If you are not familiar with SAN, you can also make moves by describing the start
 square and the end square for the move in the following format -

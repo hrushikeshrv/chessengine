@@ -218,39 +218,140 @@ on your <code class="docutils literal notranslate"><span class="pre">Board</span
 <p>The following attributes are available on the <a class="reference internal" href="ref/chessengine.bitboard.html#board"><span class="std std-ref">chessengine.bitboard.Board</span></a> class -</p>
 <section id="attributes-for-chess-board">
 <h3>Attributes For Chess Board<a class="headerlink" href="#attributes-for-chess-board" title="Permalink to this heading">#</a></h3>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">all_pieces</span></code> - A bitboard representing the positions of all pieces on the board</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">board</span></code> - A dictionary mapping tuples of the format <code class="docutils literal notranslate"><span class="pre">(side,</span> <span class="pre">piece)</span></code> to the corresponding bitboard. For example, <code class="docutils literal notranslate"><span class="pre">board[(&quot;white&quot;,</span> <span class="pre">&quot;pawns&quot;)]</span></code> returns the bitboard corresponding to white pawns.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">moves</span></code> - A list of all moves made on the board. Moves are stored as a tuple in the format <code class="docutils literal notranslate"><span class="pre">(start,</span> <span class="pre">end,</span> <span class="pre">captured_side,</span> <span class="pre">captured_piece,</span> <span class="pre">captured_bitboard)</span></code> where start is the <a class="reference internal" href="#position-representation"><span class="std std-ref">position</span></a> the piece started from, end is the position the piece landed on, captured_side is the side of the piece captured (if any, else <code class="docutils literal notranslate"><span class="pre">None</span></code>), captured_piece is the piece captured (if any, else <code class="docutils literal notranslate"><span class="pre">None</span></code>), and captured_bitboard is the bitboard of the captured piece before it was captured (used to restore it in case we want to undo moves).</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">piece_count</span></code> - A dictionary mapping tuples of the format (side, piece) to the number of pieces of that side on the board currently. For example, at the start of the game <code class="docutils literal notranslate"><span class="pre">piece_count[(&quot;white&quot;,</span> <span class="pre">&quot;pawns&quot;)]</span></code> will be 8.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">side</span></code> - The side of the board. Can be <code class="docutils literal notranslate"><span class="pre">&quot;black&quot;</span></code> or <code class="docutils literal notranslate"><span class="pre">&quot;white&quot;</span></code>.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">opponent_side</span></code> - The side of the opponent. Can be <code class="docutils literal notranslate"><span class="pre">&quot;black&quot;</span></code> or <code class="docutils literal notranslate"><span class="pre">&quot;white&quot;</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">en_passant_position</span></code> - The position on the board to which a pawn can move to capture a pawn of the opposite side by en passant. Set to <code class="docutils literal notranslate"><span class="pre">0</span></code> if no en passant move can be made in the current turn.</p></li>
+<div class="table-wrapper colwidths-given docutils container">
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 20.0%" />
+<col style="width: 20.0%" />
+<col style="width: 60.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Attribute</p></th>
+<th class="head"><p>Type</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">Board.all_pieces</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">int</span></code></p></td>
+<td><p>A bitboard representing the positions of all pieces on the board</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">Board.board</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">dict[tuple[str,str],</span> <span class="pre">int]</span></code></p></td>
+<td><p>A dictionary mapping tuples of the format <code class="docutils literal notranslate"><span class="pre">(side,</span> <span class="pre">piece)</span></code> to the corresponding bitboard. For example, <code class="docutils literal notranslate"><span class="pre">board[(&quot;white&quot;,</span> <span class="pre">&quot;pawns&quot;)]</span></code> returns the bitboard corresponding to white pawns.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">Board.moves</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">list[tuple]</span></code></p></td>
+<td><dl class="simple">
+<dt>A list of all moves made on the board. Moves are stored as a 6-tuple in the format <code class="docutils literal notranslate"><span class="pre">(start,</span> <span class="pre">end,</span> <span class="pre">captured_side,</span> <span class="pre">captured_piece,</span> <span class="pre">captured_bitboard,</span> <span class="pre">castle_type)</span></code> where -</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">start</span></code> is the <a class="reference internal" href="#position-representation"><span class="std std-ref">position</span></a> the piece started from</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">end</span></code> is the position the piece landed on</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">captured_side</span></code> is the side of the piece captured (if any, else <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">captured_piece</span></code> is the piece captured (if any, else <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">captured_bitboard</span></code> is the bitboard of the captured piece before it was captured (used to restore it when we want to undo moves).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">castle_type</span></code> is a string representing the castle type the move was (if it was a castle), else <code class="docutils literal notranslate"><span class="pre">None</span></code>. <code class="docutils literal notranslate"><span class="pre">castle_type</span></code> can take values <code class="docutils literal notranslate"><span class="pre">&quot;white_kingside&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;white_queenside&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;black_kingside&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;black_queenside&quot;</span></code>.</p></li>
 </ul>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">Board.piece_count</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">dict[tuple[str,str],</span> <span class="pre">int]</span></code></p></td>
+<td><p>A dictionary mapping tuples of the format (side, piece) to the number of pieces of that side on the board currently. For example, at the start of the game <code class="docutils literal notranslate"><span class="pre">piece_count[(&quot;white&quot;,</span> <span class="pre">&quot;pawns&quot;)]</span></code> will be 8.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">Board.side</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">str</span></code></p></td>
+<td><p>The side of the board. Can be <code class="docutils literal notranslate"><span class="pre">&quot;black&quot;</span></code> or <code class="docutils literal notranslate"><span class="pre">&quot;white&quot;</span></code>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">Board.opponent_side</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">str</span></code></p></td>
+<td><p>The side of the opponent. Can be <code class="docutils literal notranslate"><span class="pre">&quot;black&quot;</span></code> or <code class="docutils literal notranslate"><span class="pre">&quot;white&quot;</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">Board.en_passant_position</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">int</span></code></p></td>
+<td><p>The position on the board to which a pawn can move to capture a pawn of the opposite side by en passant. Set to <code class="docutils literal notranslate"><span class="pre">0</span></code> if no en passant move can be made in the current turn.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
 </section>
 <section id="attributes-for-white-side">
 <h3>Attributes For White Side<a class="headerlink" href="#attributes-for-white-side" title="Permalink to this heading">#</a></h3>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">white_bishops</span></code> - A bitboard representing the positions of all white bishops on the board</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">white_kings</span></code> - A bitboard representing the position of the white king on the board</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">white_knights</span></code> - A bitboard representing the positions of all white knights on the board</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">white_pawns</span></code> - A bitboard representing the positions of all white pawns on the board</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">white_queens</span></code> - A bitboard representing the positions of all white queens on the board</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">white_rooks</span></code> - A bitboard representing the positions of all white rooks on the board</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">all_white</span></code> - A bitboard representing the positions of all white pieces on the board</p></li>
-</ul>
+<div class="table-wrapper colwidths-given docutils container">
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 25.0%" />
+<col style="width: 75.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Attribute</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">Board.white_bishops</span></code></p></td>
+<td><p>A bitboard representing the positions of all white bishops on the board</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">Board.white_kings</span></code></p></td>
+<td><p>A bitboard representing the position of the white king on the board</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">Board.white_knights</span></code></p></td>
+<td><p>A bitboard representing the positions of all white knights on the board</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">Board.white_pawns</span></code></p></td>
+<td><p>A bitboard representing the positions of all white pawns on the board</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">Board.white_queens</span></code></p></td>
+<td><p>A bitboard representing the positions of all white queens on the board</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">Board.white_rooks</span></code></p></td>
+<td><p>A bitboard representing the positions of all white rooks on the board</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">Board.all_white</span></code></p></td>
+<td><p>A bitboard representing the positions of all white pieces on the board</p></td>
+</tr>
+</tbody>
+</table>
+</div>
 </section>
 <section id="attributes-for-black-side">
 <h3>Attributes For Black Side<a class="headerlink" href="#attributes-for-black-side" title="Permalink to this heading">#</a></h3>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">black_bishops</span></code> - A bitboard representing the positions of all black bishops on the board</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">black_kings</span></code> - A bitboard representing the position of the black king on the board</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">black_knights</span></code> - A bitboard representing the positions of all black knights on the board</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">black_pawns</span></code> - A bitboard representing the positions of all black pawns on the board</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">black_queens</span></code> - A bitboard representing the positions of all black queens on the board</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">black_rooks</span></code> - A bitboard representing the positions of all black rooks on the board</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">all_black</span></code> - A bitboard representing the positions of all black pieces on the board</p></li>
-</ul>
+<div class="table-wrapper colwidths-given docutils container">
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 25.0%" />
+<col style="width: 75.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Attribute</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">Board.black_bishops</span></code></p></td>
+<td><p>A bitboard representing the positions of all black bishops on the board</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">Board.black_kings</span></code></p></td>
+<td><p>A bitboard representing the position of the black king on the board</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">Board.black_knights</span></code></p></td>
+<td><p>A bitboard representing the positions of all black knights on the board</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">Board.black_pawns</span></code></p></td>
+<td><p>A bitboard representing the positions of all black pawns on the board</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">Board.black_queens</span></code></p></td>
+<td><p>A bitboard representing the positions of all black queens on the board</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">Board.black_rooks</span></code></p></td>
+<td><p>A bitboard representing the positions of all black rooks on the board</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">Board.all_black</span></code></p></td>
+<td><p>A bitboard representing the positions of all black pieces on the board</p></td>
+</tr>
+</tbody>
+</table>
+</div>
 </section>
 </section>
 <section id="representing-positions-on-the-board">

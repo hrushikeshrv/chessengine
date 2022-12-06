@@ -47,7 +47,7 @@ def check_valid_position(
         return False, True
 
 
-def get_rook_moves(board, side: str, position: int) -> list[int]:
+def get_rook_moves(board, side: str, position: int) -> list[tuple[int, int]]:
     """
     Returns a list of end positions a rook of side=side can reach starting at position
 
@@ -95,7 +95,7 @@ def get_rook_moves(board, side: str, position: int) -> list[int]:
     return moves
 
 
-def get_white_rook_moves(board, position: int) -> list[int]:
+def get_white_rook_moves(board, position: int) -> list[tuple[int, int]]:
     """
     Returns a list of end positions a white rook starting at position can reach
 
@@ -105,7 +105,7 @@ def get_white_rook_moves(board, position: int) -> list[int]:
     return get_rook_moves(board, "white", position)
 
 
-def get_black_rook_moves(board, position: int) -> list[int]:
+def get_black_rook_moves(board, position: int) -> list[tuple[int, int]]:
     """
     Returns a list of end positions a black rook starting at position can reach
 
@@ -115,7 +115,7 @@ def get_black_rook_moves(board, position: int) -> list[int]:
     return get_rook_moves(board, "black", position)
 
 
-def get_bishop_moves(board, side: str, position: int) -> list[int]:
+def get_bishop_moves(board, side: str, position: int) -> list[tuple[int, int]]:
     """
     Returns a list of end positions a bishop of side=side can reach starting at position
 
@@ -158,7 +158,7 @@ def get_bishop_moves(board, side: str, position: int) -> list[int]:
     return moves
 
 
-def get_white_bishop_moves(board, position: int) -> list[int]:
+def get_white_bishop_moves(board, position: int) -> list[tuple[int, int]]:
     """
     Returns a list of end positions a white bishop starting at position can reach
 
@@ -168,7 +168,7 @@ def get_white_bishop_moves(board, position: int) -> list[int]:
     return get_bishop_moves(board, "white", position)
 
 
-def get_black_bishop_moves(board, position: int) -> list[int]:
+def get_black_bishop_moves(board, position: int) -> list[tuple[int, int]]:
     """
     Returns a list of end positions a black bishop starting at position can reach
 
@@ -178,7 +178,7 @@ def get_black_bishop_moves(board, position: int) -> list[int]:
     return get_bishop_moves(board, "black", position)
 
 
-def get_knight_moves(board, side: str, position: int) -> list[int]:
+def get_knight_moves(board, side: str, position: int) -> list[tuple[int, int]]:
     """
     Returns a list of end positions a knight starting at position can reach
 
@@ -225,7 +225,7 @@ def get_knight_moves(board, side: str, position: int) -> list[int]:
     return moves
 
 
-def get_white_knight_moves(board, position: int) -> list[int]:
+def get_white_knight_moves(board, position: int) -> list[tuple[int, int]]:
     """
     Returns a list of end positions a white knight starting at position can reach
 
@@ -235,7 +235,7 @@ def get_white_knight_moves(board, position: int) -> list[int]:
     return get_knight_moves(board, "white", position)
 
 
-def get_black_knight_moves(board, position: int) -> list[int]:
+def get_black_knight_moves(board, position: int) -> list[tuple[int, int]]:
     """
     Returns a list of end positions a black knight starting at position can reach
 
@@ -245,7 +245,7 @@ def get_black_knight_moves(board, position: int) -> list[int]:
     return get_knight_moves(board, "black", position)
 
 
-def get_king_moves(board, side: str, position: int) -> list[int]:
+def get_king_moves(board, side: str, position: int) -> list[tuple[int, int]]:
     """
     Returns a list of end positions a king starting at position can reach
 
@@ -289,10 +289,25 @@ def get_king_moves(board, side: str, position: int) -> list[int]:
     if file <= 7:
         _ = position << 1
         check_valid_position(board, side, position, _, moves)
+
+    if side == "white":
+        if board.white_queen_side_castle:
+            if (2**1 + 2**2 + 2**3) & board.all_pieces == 0:
+                moves.append((2**4, 2**2))
+        if board.white_king_side_castle:
+            if (2**5 + 2**6) & board.all_pieces == 0:
+                moves.append((2**4, 2**6))
+    elif side == "black":
+        if board.black_queen_side_castle:
+            if (2**57 + 2**58 + 2**59) & board.all_pieces == 0:
+                moves.append((2**60, 2**58))
+        if board.black_king_side_castle:
+            if (2**61 + 2**62) & board.all_pieces == 0:
+                moves.append((2**60, 2**62))
     return moves
 
 
-def get_white_king_moves(board, position: int) -> list[int]:
+def get_white_king_moves(board, position: int) -> list[tuple[int, int]]:
     """
     Returns a list of end positions a white king starting at position can reach
 
@@ -302,7 +317,7 @@ def get_white_king_moves(board, position: int) -> list[int]:
     return get_king_moves(board, "white", position)
 
 
-def get_black_king_moves(board, position: int) -> list[int]:
+def get_black_king_moves(board, position: int) -> list[tuple[int, int]]:
     """
     Returns a list of end positions a black king starting at position can reach
 
@@ -312,7 +327,7 @@ def get_black_king_moves(board, position: int) -> list[int]:
     return get_king_moves(board, "black", position)
 
 
-def get_white_queen_moves(board, position: int) -> list[int]:
+def get_white_queen_moves(board, position: int) -> list[tuple[int, int]]:
     """
     Returns a list of end positions a white queen starting at position can reach
 
@@ -324,7 +339,7 @@ def get_white_queen_moves(board, position: int) -> list[int]:
     )
 
 
-def get_black_queen_moves(board, position: int) -> list[int]:
+def get_black_queen_moves(board, position: int) -> list[tuple[int, int]]:
     """
     Returns a list of end positions a black queen starting at position can reach
 
