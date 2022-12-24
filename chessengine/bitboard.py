@@ -438,34 +438,36 @@ class Board:
 
         # Identify if the move is a castle and what type of castle it is
         castle_type = None
-        if start_piece == "kings":
-            if start_side == "white":
-                self.white_king_side_castle = False
-                self.white_queen_side_castle = False
-                if start == 2**4:
-                    if end == 2**6:
-                        castle_type = "white_kingside"
-                    if end == 2**2:
-                        castle_type = "white_queenside"
-            if start_side == "black":
-                self.black_king_side_castle = False
-                self.black_queen_side_castle = False
-                if start == 2**60:
-                    if end == 2**62:
-                        castle_type = "black_kingside"
-                    if end == 2**58:
-                        castle_type = "black_queenside"
+        # Don't set castling flags if we're not tracking this move
+        if track:
+            if start_piece == "kings":
+                if start_side == "white":
+                    self.white_king_side_castle = False
+                    self.white_queen_side_castle = False
+                    if start == 2**4:
+                        if end == 2**6:
+                            castle_type = "white_kingside"
+                        if end == 2**2:
+                            castle_type = "white_queenside"
+                if start_side == "black":
+                    self.black_king_side_castle = False
+                    self.black_queen_side_castle = False
+                    if start == 2**60:
+                        if end == 2**62:
+                            castle_type = "black_kingside"
+                        if end == 2**58:
+                            castle_type = "black_queenside"
 
-        # Set castling ability to false when rook is moved
-        if start_piece == "rooks":
-            if start_side == "white" and start == 1:
-                self.white_queen_side_castle = False
-            elif start_side == "white" and start == 2**7:
-                self.white_king_side_castle = False
-            elif start_side == "black" and start == 2**63:
-                self.black_king_side_castle = False
-            elif start_side == "black" and start == 2**56:
-                self.black_queen_side_castle = False
+            # Set castling ability to false when rook is moved
+            if start_piece == "rooks":
+                if start_side == "white" and start == 1:
+                    self.white_queen_side_castle = False
+                elif start_side == "white" and start == 2**7:
+                    self.white_king_side_castle = False
+                elif start_side == "black" and start == 2**63:
+                    self.black_king_side_castle = False
+                elif start_side == "black" and start == 2**56:
+                    self.black_queen_side_castle = False
 
         # Track moves made so we can undo
         if track:
@@ -683,11 +685,29 @@ class Board:
         """
         if not self.moves:
             raise RuntimeError("No moves have been made yet to undo.")
-        end, start, side, piece, board = self.moves.pop()
-        self.move(start=start, end=end, track=False)
-        if side is not None:
-            self.set_bitboard(side, piece, board)
-            self.piece_count[(side, piece)] += 1
+        end, start, side, piece, board, castle_type = self.moves.pop()
+
+        if castle_type is not None:
+            # TODO - if user castles when both self.white_kingside and self.white_queenside are
+            #       True, undoing this move only lets the user castle to the same side they castled
+            #       before undoing. Same for black.
+            if castle_type == "white_kingside":
+                self.move(start=start, end=end, track=False)  # Move king
+                self.move(2**5, 2**7)  # Move rook
+            elif castle_type == "white_queenside":
+                self.move(start=start, end=end, track=False)  # Move king
+                self.move(2**3, 2**0)  # Move rook
+            elif castle_type == "black_kingside":
+                self.move(start=start, end=end, track=False)  # Move king
+                self.move(2**61, 2**63)  # Move rook
+            elif castle_type == "black_queenside":
+                self.move(start=start, end=end, track=False)  # Move king
+                self.move(2**59, 2**56)  # Move rook
+        else:
+            self.move(start=start, end=end, track=False)
+            if side is not None:
+                self.set_bitboard(side, piece, board)
+                self.piece_count[(side, piece)] += 1
 
     def get_moves(
         self, side: str, piece: str = None, position: int = None
