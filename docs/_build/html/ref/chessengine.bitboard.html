@@ -447,7 +447,19 @@ Board.move on all. Tracks all moves by default in <code class="docutils literal 
 <dt class="sig sig-object py" id="chessengine.bitboard.Board.move">
 <span class="sig-name descname"><span class="pre">move</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">track</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#chessengine.bitboard.Board.move" title="Permalink to this definition">#</a></dt>
 <dd><p>Moves the piece at start to end. Doesn’t check anything, just makes
-the move (unless the start or end positions are invalid).</p>
+the move (unless the start or end positions are invalid). Also checks if move
+is a castle, moves the rook automatically on castle, and updates each
+side’s ability to castle on each move.</p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>This is the underlying function that is called by both <code class="docutils literal notranslate"><span class="pre">Board.move_san</span></code> and
+<code class="docutils literal notranslate"><span class="pre">Board.move_raw</span></code>. This function keeps track of castling status, but performs
+no validation. <code class="docutils literal notranslate"><span class="pre">Board.move_san</span></code> and <code class="docutils literal notranslate"><span class="pre">Board.move_raw</span></code> perform validation,
+but don’t keep track of castling status. In general, you should use <code class="docutils literal notranslate"><span class="pre">Board.move_san</span></code>
+or <code class="docutils literal notranslate"><span class="pre">Board.move_raw</span></code> inside the game loop to ensure both move validation and
+castling status are correctly performed/updated. Only use <code class="docutils literal notranslate"><span class="pre">Board.move</span></code> in special
+cases when you want to make arbitrary moves outside the rules and/or the game loop.</p>
+</div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">

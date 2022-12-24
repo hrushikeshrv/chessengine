@@ -234,8 +234,8 @@ chess. A few move-related bugs are also known and under development.</p>
 </li>
 <li><dl class="simple">
 <dt>Castling -</dt><dd><ul>
-<li><p>Castling is accepted after the rook has moved</p></li>
-<li><p>Castling is accepted after the king has moved</p></li>
+<li><p>Castling is accepted if the king is in check or if the king moves into check</p></li>
+<li><p>Castling is accepted if the square next to the castle is being attacked</p></li>
 </ul>
 </dd>
 </dl>
@@ -247,7 +247,7 @@ chess. A few move-related bugs are also known and under development.</p>
 </pre></div>
 </div>
 <p>You can also invoke chessengine from python by running -</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>chessengine play
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>python -m chessengine.play
 </pre></div>
 </div>
 <p>Use the <code class="docutils literal notranslate"><span class="pre">-p</span></code> flag to play against another player instead of the computer -</p>
@@ -262,7 +262,8 @@ game will start.</p>
 <span id="move-representation"></span><h2>Making Moves On The Board<a class="headerlink" href="#making-moves-on-the-board" title="Permalink to this heading">#</a></h2>
 <p>You can make moves by entering the Standard Algebraic Notation (SAN) of the move
 as the input. SAN is the standard method of recording moves in chess games. Note
-that the SAN you enter must be valid given the current state of the chessboard.</p>
+that the SAN you enter must be valid and unambiguous given the current state of the
+chessboard.</p>
 <p>If you are not familiar with SAN, you can also make moves by describing the start
 square and the end square for the move in the following format -</p>
 <p><code class="docutils literal notranslate"><span class="pre">&quot;&lt;start_square&gt;</span> <span class="pre">to</span> <span class="pre">&lt;end_square&gt;&quot;</span></code></p>
