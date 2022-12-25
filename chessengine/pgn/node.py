@@ -3,6 +3,8 @@ Defines the Game and GameNode class, used to parse PGN files and
 create the opening book.
 """
 
+from chessengine.exceptions import PGNParsingError, GameNodeError
+
 
 class Game:
     """
@@ -24,10 +26,10 @@ class Game:
         :param key: The header to be added (usually sourced from the PGN file)
         :param value: The value of the header
 
-        :raises ValueError: If the key has already been added to the Game
+        :raises PGNParsingError: If the key has already been added to the Game
         """
         if key in self.headers:
-            raise ValueError(
+            raise PGNParsingError(
                 f"{key} header has already been set on this game - {self.headers[key]}."
             )
         self.headers[key] = value
@@ -83,5 +85,5 @@ class GameNode:
         :raises ValueError: If the move passed is not a child of the GameNode
         """
         if move not in self.children:
-            raise ValueError(f"{move} is not a child of the current Game Node.")
+            raise GameNodeError(f"{move} is not a child of the current Game Node.")
         return self.children[move]

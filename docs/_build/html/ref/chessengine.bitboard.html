@@ -3,10 +3,10 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
-<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="chessengine.lookup_tables" href="chessengine.lookup_tables.html" /><link rel="prev" title="API Reference" href="../api.html" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="chessengine.exceptions" href="chessengine.exceptions.html" /><link rel="prev" title="API Reference" href="../api.html" />
 
     <meta name="generator" content="sphinx-5.1.1, furo 2022.09.15"/>
-        <title>chessengine.bitboard - chessengine 0.2.1 documentation</title>
+        <title>chessengine.bitboard - chessengine 0.3.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?digest=9ec31e2665bf879c1d47d93a8ec4893870ee1e45" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
@@ -123,7 +123,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../index.html"><div class="brand">chessengine 0.2.1 documentation</div></a>
+      <a href="../index.html"><div class="brand">chessengine 0.3.0 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -146,7 +146,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
   
   
-  <span class="sidebar-brand-text">chessengine 0.2.1 documentation</span>
+  <span class="sidebar-brand-text">chessengine 0.3.0 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
   <input class="sidebar-search" placeholder=Search name="q" aria-label="Search">
@@ -157,6 +157,7 @@
   <ul class="current">
 <li class="toctree-l1 current has-children"><a class="reference internal" href="../api.html">API Reference</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
 <li class="toctree-l2 current current-page"><a class="current reference internal" href="#">chessengine.bitboard</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chessengine.exceptions.html">chessengine.exceptions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="chessengine.lookup_tables.html">chessengine.lookup_tables</a></li>
 <li class="toctree-l2"><a class="reference internal" href="chessengine.moves.html">chessengine.moves</a></li>
 <li class="toctree-l2"><a class="reference internal" href="chessengine.utils.html">chessengine.utils</a></li>
@@ -356,15 +357,16 @@ See <a class="reference internal" href="../chessboard.html#position-representati
 <span class="sig-name descname"><span class="pre">get_self_piece_bitboard</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">piece</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#chessengine.bitboard.Board.get_self_piece_bitboard" title="Permalink to this definition">#</a></dt>
 <dd><p>Returns the bitboard corresponding to the passed piece, considering the board’s
 own side. i.e. - If the board is white, calling with piece=”king” will return
-white king, etc.
-:param piece: Can be one of - “kings”, “queens”, “bishops”, “knights”, “rooks”, “pawns”
-:return: Bitboard</p>
+white king, etc.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>piece</strong> (<em>str</em>) – </p>
+<dd class="field-odd"><p><strong>piece</strong> (<em>str</em>) – Can be one of - “kings”, “queens”, “bishops”, “knights”, “rooks”, “pawns”</p>
 </dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>int</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Bitboard</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
 </dd>
 </dl>
 </dd></dl>
@@ -468,8 +470,11 @@ cases when you want to make arbitrary moves outside the rules and/or the game lo
 <li><p><strong>track</strong> (<em>bool</em>) – If <code class="docutils literal notranslate"><span class="pre">True</span></code>, the move made will be stored in self.moves</p></li>
 </ul>
 </dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>None</p>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="chessengine.exceptions.html#chessengine.exceptions.PositionError" title="chessengine.exceptions.PositionError"><strong>PositionError</strong></a> – If an invalid position was passed.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
 </dd>
 </dl>
 </dd></dl>
@@ -487,8 +492,14 @@ to make given the current state of the board.</p>
 <li><p><strong>track</strong> (<em>bool</em>) – If <code class="docutils literal notranslate"><span class="pre">True</span></code>, the move made will be stored in self.moves</p></li>
 </ul>
 </dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>None</p>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference internal" href="chessengine.exceptions.html#chessengine.exceptions.PositionError" title="chessengine.exceptions.PositionError"><strong>PositionError</strong></a> – If there is not piece at <code class="docutils literal notranslate"><span class="pre">start</span></code> to move</p></li>
+<li><p><a class="reference internal" href="chessengine.exceptions.html#chessengine.exceptions.MoveError" title="chessengine.exceptions.MoveError"><strong>MoveError</strong></a> – If an invalid move is passed</p></li>
+</ul>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
 </dd>
 </dl>
 </dd></dl>
@@ -504,8 +515,14 @@ to make given the current state of the board.</p>
 <li><p><strong>side</strong> (<em>str</em>) – “white” or “black”</p></li>
 </ul>
 </dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>None</p>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference internal" href="chessengine.exceptions.html#chessengine.exceptions.MoveError" title="chessengine.exceptions.MoveError"><strong>MoveError</strong></a> – If an ambiguous or invalid move was passed</p></li>
+<li><p><a class="reference internal" href="chessengine.exceptions.html#chessengine.exceptions.PGNParsingError" title="chessengine.exceptions.PGNParsingError"><strong>PGNParsingError</strong></a> – If the move was invalid SAN</p></li>
+</ul>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
 </dd>
 </dl>
 </dd></dl>
@@ -620,12 +637,12 @@ bitboards attributes, otherwise it is called automatically.</p>
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="chessengine.lookup_tables.html">
+          <a class="next-page" href="chessengine.exceptions.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">chessengine.lookup_tables</div>
+                <div class="title">chessengine.exceptions</div>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>

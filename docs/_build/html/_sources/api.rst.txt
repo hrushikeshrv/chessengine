@@ -5,6 +5,7 @@ API Reference
 .. toctree::
 
     ref/chessengine.bitboard
+    ref/chessengine.exceptions
     ref/chessengine.lookup_tables
     ref/chessengine.moves
     ref/chessengine.utils
@@ -16,6 +17,7 @@ Summary
 .. autosummary::
 
     chessengine.bitboard
+    chessengine.exceptions
     chessengine.lookup_tables
     chessengine.moves
     chessengine.utils
