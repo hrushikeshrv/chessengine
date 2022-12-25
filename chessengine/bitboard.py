@@ -16,6 +16,12 @@ from math import log2
 from time import sleep
 from typing import Tuple, Iterable
 
+from chessengine.exceptions import (
+    PositionError,
+    MoveError,
+    PGNParsingError,
+    GameNodeError,
+)
 from chessengine.moves import (
     get_white_pawn_moves,
     get_white_rook_moves,
@@ -324,6 +330,7 @@ class Board:
         Returns the bitboard corresponding to the passed piece, considering the board's
         own side. i.e. - If the board is white, calling with piece="king" will return
         white king, etc.
+
         :param piece: Can be one of - "kings", "queens", "bishops", "knights", "rooks", "pawns"
         :return: Bitboard
         """
@@ -416,23 +423,25 @@ class Board:
         :param start: The start position of the move. See :ref:`position_representation`
         :param end: The end position of the move. See :ref:`position_representation`
         :param track: If ``True``, the move made will be stored in self.moves
+
+        :raises PositionError: If an invalid position was passed.
         """
         if not 1 <= start <= 2**63:
-            raise ValueError(
+            raise PositionError(
                 f"The start position is outside the board - moving from {log2(start)} to {log2(end)}"
             )
         if not 1 <= end <= 2**63:
-            raise ValueError(
+            raise PositionError(
                 f"The end position is outside the board - moving from {log2(start)} to {log2(end)}"
             )
 
         start_side, start_piece, start_board = self.identify_piece_at(start)
         if start_side is None:
-            raise ValueError(f"There is no piece at position {log2(start)} to move")
+            raise PositionError(f"There is no piece at position {log2(start)} to move")
 
         end_side, end_piece, end_board = self.identify_piece_at(end)
         if end_side == start_side:
-            raise ValueError(
+            raise PositionError(
                 f"Can't move from {log2(start)} to {log2(end)}, both positions have {end_side} pieces."
             )
 
@@ -557,15 +566,18 @@ class Board:
         :param start: The start position of the move. See :ref:`position_representation`
         :param end: The end position of the move. See :ref:`position_representation`
         :param track: If ``True``, the move made will be stored in self.moves
+
+        :raises PositionError: If there is not piece at ``start`` to move
+        :raises MoveError: If an invalid move is passed
         """
         side, piece, board = self.identify_piece_at(start)
         if side is None:
-            raise ValueError(
+            raise PositionError(
                 f"There is no piece at {pos_to_coords[int(log2(start))]} to move."
             )
         moves = self.get_moves(side=side, piece=piece)
         if (start, end) not in moves:
-            raise ValueError(
+            raise MoveError(
                 f"{pos_to_coords[int(log2(start))]} to {pos_to_coords[int(log2(end))]} is not a valid move for {side}"
             )
         self.move(start=start, end=end, track=track)
@@ -576,6 +588,9 @@ class Board:
 
         :param move: A move given in SAN
         :param side: "white" or "black"
+
+        :raises MoveError: If an ambiguous or invalid move was passed
+        :raises PGNParsingError: If the move was invalid SAN
         """
         if "0-0-0" in move:
             # queen side castle
@@ -583,7 +598,7 @@ class Board:
                 if self.white_queen_side_castle:
                     self.move(2**4, 2**2)
                 else:
-                    raise ValueError(
+                    raise MoveError(
                         f'White cannot castle, it has already moved the {"rook" if self.white_king_side_castle else "king"}.'
                     )
                 self.white_queen_side_castle = False
@@ -592,7 +607,7 @@ class Board:
                 if self.black_queen_side_castle:
                     self.move(2**60, 2**58)
                 else:
-                    raise ValueError(
+                    raise MoveError(
                         f'Black cannot castle, it has already moved the {"rook" if self.black_king_side_castle else "king"}.'
                     )
                 self.black_queen_side_castle = False
@@ -603,7 +618,7 @@ class Board:
                 if self.white_king_side_castle:
                     self.move(2**4, 2**6)
                 else:
-                    raise ValueError(
+                    raise MoveError(
                         f'White cannot castle, it has already moved the {"rook" if self.white_queen_side_castle else "king"}.'
                     )
                 self.white_king_side_castle = False
@@ -612,7 +627,7 @@ class Board:
                 if self.black_king_side_castle:
                     self.move(2**60, 2**62)
                 else:
-                    raise ValueError(
+                    raise MoveError(
                         f'Black cannot castle, it has already moved the {"rook" if self.black_queen_side_castle else "king"}.'
                     )
                 self.black_king_side_castle = False
@@ -621,7 +636,7 @@ class Board:
             # regular move
             match = SAN_MOVE_REGEX.match(move)
             if match is None:
-                raise ValueError(f'Couldn\'t parse move "{move}".')
+                raise PGNParsingError(f'Couldn\'t parse move "{move}".')
 
             groups = match.groups()
             if groups[0] is None:
@@ -637,12 +652,12 @@ class Board:
                 for m in moves:
                     if m[1] == end_pos:
                         if candidate_move:
-                            raise ValueError(
+                            raise MoveError(
                                 f"{move} is ambiguous for {side}. Specify a file to move from."
                             )
                         candidate_move = m
                 if candidate_move is None:
-                    raise ValueError(f"{move} is not a valid move for {side}.")
+                    raise MoveError(f"{move} is not a valid move for {side}.")
                 else:
                     self.move(start=candidate_move[0], end=candidate_move[1])
             else:
@@ -656,19 +671,19 @@ class Board:
                             and m[1] == end_pos
                         ):
                             if candidate_move:
-                                raise ValueError(
+                                raise MoveError(
                                     f"{move} is ambiguous for {side}. Specify a file as well as rank to move from."
                                 )
                             candidate_move = m
                     if candidate_move is None:
-                        raise ValueError(f"{move} is not a valid move for {side}.")
+                        raise MoveError(f"{move} is not a valid move for {side}.")
                     else:
                         self.move(start=candidate_move[0], end=candidate_move[1])
                 else:
                     # File and rank both present in the SAN
                     start_pos = 2 ** coords_to_pos[groups[1].upper() + groups[2]]
                     if (start_pos, end_pos) not in moves:
-                        raise ValueError(f"{move} is not a valid move for {side}.")
+                        raise MoveError(f"{move} is not a valid move for {side}.")
                     self.move(start=start_pos, end=end_pos)
 
     def make_moves(self, *moves: Iterable[tuple[int, int]]) -> None:
@@ -890,7 +905,7 @@ class Board:
                     self.move_san(move=move, side=side_to_move)
                 input_accepted = True
                 last_move = f"{side_to_move.capitalize()} moved {move}"
-            except ValueError as e:
+            except (MoveError, PositionError, PGNParsingError) as e:
                 print(e)
                 lines_added += 1
             except KeyError as e:
@@ -962,7 +977,7 @@ class Board:
                 if in_game_tree:
                     try:
                         current_node = current_node.get_child(move)
-                    except ValueError:
+                    except GameNodeError:
                         in_game_tree = False
                 print(f"You moved {move}")
                 lines_printed += 1

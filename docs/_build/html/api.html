@@ -6,7 +6,7 @@
 <link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="chessengine.bitboard" href="ref/chessengine.bitboard.html" /><link rel="prev" title="Welcome to chessengine’s documentation!" href="index.html" />
 
     <meta name="generator" content="sphinx-5.1.1, furo 2022.09.15"/>
-        <title>API Reference - chessengine 0.2.1 documentation</title>
+        <title>API Reference - chessengine 0.3.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=9ec31e2665bf879c1d47d93a8ec4893870ee1e45" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
@@ -123,7 +123,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="index.html"><div class="brand">chessengine 0.2.1 documentation</div></a>
+      <a href="index.html"><div class="brand">chessengine 0.3.0 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -146,7 +146,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
   
   
-  <span class="sidebar-brand-text">chessengine 0.2.1 documentation</span>
+  <span class="sidebar-brand-text">chessengine 0.3.0 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html" role="search">
   <input class="sidebar-search" placeholder=Search name="q" aria-label="Search">
@@ -157,6 +157,7 @@
   <ul class="current">
 <li class="toctree-l1 current has-children current-page"><a class="current reference internal" href="#">API Reference</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="ref/chessengine.bitboard.html">chessengine.bitboard</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ref/chessengine.exceptions.html">chessengine.exceptions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ref/chessengine.lookup_tables.html">chessengine.lookup_tables</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ref/chessengine.moves.html">chessengine.moves</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ref/chessengine.utils.html">chessengine.utils</a></li>
@@ -206,6 +207,7 @@
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="ref/chessengine.bitboard.html">chessengine.bitboard</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ref/chessengine.exceptions.html">chessengine.exceptions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ref/chessengine.lookup_tables.html">chessengine.lookup_tables</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ref/chessengine.moves.html">chessengine.moves</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ref/chessengine.utils.html">chessengine.utils</a></li>
@@ -221,19 +223,22 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="ref/chessengine.bitboard.html#module-chessengine.bitboard" title="chessengine.bitboard"><code class="xref py py-obj docutils literal notranslate"><span class="pre">chessengine.bitboard</span></code></a></p></td>
 <td><p>A complete bitboard representation of a chessboard, with all the methods needed to play a game of chess.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="ref/chessengine.lookup_tables.html#module-chessengine.lookup_tables" title="chessengine.lookup_tables"><code class="xref py py-obj docutils literal notranslate"><span class="pre">chessengine.lookup_tables</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="ref/chessengine.exceptions.html#module-chessengine.exceptions" title="chessengine.exceptions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">chessengine.exceptions</span></code></a></p></td>
+<td><p>Global exceptions for the engine</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="ref/chessengine.lookup_tables.html#module-chessengine.lookup_tables" title="chessengine.lookup_tables"><code class="xref py py-obj docutils literal notranslate"><span class="pre">chessengine.lookup_tables</span></code></a></p></td>
 <td><p>Lookup tables are bitboards that allow us to mask or clear specific ranks, files, or positions of the chessboard</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">chessengine.moves</span></code></p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">chessengine.moves</span></code></p></td>
 <td><p>Functions for generating moves for all supported pieces in all supported scenarios</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">chessengine.utils</span></code></p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">chessengine.utils</span></code></p></td>
 <td><p>Utility functions for common bitboard operations.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">chessengine.pgn.node</span></code></p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">chessengine.pgn.node</span></code></p></td>
 <td><p>Defines the Game and GameNode class, used to parse PGN files and create the opening book.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">chessengine.pgn.parser</span></code></p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">chessengine.pgn.parser</span></code></p></td>
 <td><p>The PGN parser class</p></td>
 </tr>
 </tbody>

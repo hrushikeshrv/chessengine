@@ -35,7 +35,7 @@ class PGNParser:
         self.pgn_files = pgn_files  # Path to the pgn_file to parse OR file object
         self.root_node: GameNode = GameNode("white")
         self.current_node = self.root_node
-        self.current_game = None
+        self.current_game: Game = None
         self.games: list[Game] = []
 
     def parse(self, pgn_file=None):
