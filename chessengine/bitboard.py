@@ -52,6 +52,7 @@ from chessengine.utils import (
     change_turn,
 )
 from chessengine.pgn.parser import PGNParser, SAN_MOVE_REGEX
+from chessengine.state import BoardState
 
 
 class Board:
@@ -96,8 +97,15 @@ class Board:
             | self.black_queens
             | self.black_kings
         )
-
+        
         self.all_pieces = self.all_black | self.all_white
+        
+        if side.lower().strip() not in ["black", "white"]:
+            raise ValueError(f'side must be one of "black" or "white". Got {side}')
+        self.side = side.lower().strip()
+        self.opponent_side = "black" if self.side == "white" else "white"
+        
+        self.state = BoardState()
 
         self.piece_count = {
             ("white", "kings"): 1,
@@ -113,11 +121,7 @@ class Board:
             ("black", "knights"): 2,
             ("black", "pawns"): 8,
         }
-
-        if side.lower().strip() not in ["black", "white"]:
-            raise ValueError(f'side must be one of "black" or "white". Got {side}')
-        self.side = side.lower().strip()
-        self.opponent_side = "black" if self.side == "white" else "white"
+        
         self.en_passant_position = 0
         self.white_king_side_castle = True
         self.white_queen_side_castle = True
@@ -125,7 +129,7 @@ class Board:
         self.black_queen_side_castle = True
 
         # A dictionary matching a side and piece to its corresponding bit board.
-        # Useful when we want to iterate through all of the bitboards of the board.
+        # Useful when we want to iterate through all the bitboards of the board.
         self.board = {
             ("white", "kings"): self.white_kings,
             ("white", "queens"): self.white_queens,
@@ -170,8 +174,8 @@ class Board:
                 if board_string[_] == "1":
                     piece_list[_] = unicode_piece[(s, p)]
 
-        for side, piece in self.board:
-            add_bitboard_to_repr(self.board[(side, piece)], side, piece)
+        for side, piece in self.state.board:
+            add_bitboard_to_repr(self.state.board[(side, piece)], side, piece)
 
         r = range(8)
         if self.side == "white":
@@ -221,7 +225,7 @@ class Board:
             ("black", "knights"),
             ("black", "pawns"),
         ]:
-            hash_str += str(self.board[(side, piece)]) + " "
+            hash_str += str(self.state.board[(side, piece)]) + " "
         return hash(hash_str)
 
     @property
@@ -230,18 +234,18 @@ class Board:
         The "score" of the board. A higher/more positive score favors white,
         a lower/more negative score favors black.
         """
-        K = self.piece_count[("white", "kings")]
-        Q = self.piece_count[("white", "queens")]
-        R = self.piece_count[("white", "rooks")]
-        B = self.piece_count[("white", "bishops")]
-        N = self.piece_count[("white", "knights")]
-        P = self.piece_count[("white", "pawns")]
-        k = self.piece_count[("black", "kings")]
-        q = self.piece_count[("black", "queens")]
-        r = self.piece_count[("black", "rooks")]
-        b = self.piece_count[("black", "bishops")]
-        n = self.piece_count[("black", "knights")]
-        p = self.piece_count[("black", "pawns")]
+        K = self.state.piece_count[("white", "kings")]
+        Q = self.state.piece_count[("white", "queens")]
+        R = self.state.piece_count[("white", "rooks")]
+        B = self.state.piece_count[("white", "bishops")]
+        N = self.state.piece_count[("white", "knights")]
+        P = self.state.piece_count[("white", "pawns")]
+        k = self.state.piece_count[("black", "kings")]
+        q = self.state.piece_count[("black", "queens")]
+        r = self.state.piece_count[("black", "rooks")]
+        b = self.state.piece_count[("black", "bishops")]
+        n = self.state.piece_count[("black", "knights")]
+        p = self.state.piece_count[("black", "pawns")]
         s = 200 * (K - k) + 9 * (Q - q) + 5 * (R - r) + 3 * (B - b + N - n) + (P - p)
         if self.side == "white":
             return s
@@ -304,11 +308,11 @@ class Board:
         Returns the bitboard containing all pieces for the given side.
 
         :param side: "white" or "black"
-        :return: If ``side == "white"``, returns ``self.all_white``, else ``self.all_black``
+        :return: If ``side == "white"``, returns ``self.state.all_white``, else ``self.state.all_black``
         """
         if side == "white":
-            return self.all_white
-        return self.all_black
+            return self.state.all_white
+        return self.state.all_black
 
     def get_bitboard(self, side: str, piece: str) -> int:
         """
@@ -323,7 +327,7 @@ class Board:
         :return: Bitboard
         """
         attrname = side + "_" + piece
-        return getattr(self, attrname)
+        return getattr(self.state, attrname)
 
     def get_self_piece_bitboard(self, piece: str) -> int:
         """
@@ -342,39 +346,39 @@ class Board:
         changes in any way. You should call this if you manually make any changes to
         bitboards attributes, otherwise it is called automatically.
         """
-        self.all_white = (
-            self.white_pawns
-            | self.white_rooks
-            | self.white_knights
-            | self.white_bishops
-            | self.white_queens
-            | self.white_kings
+        self.state.all_white = (
+            self.state.white_pawns
+            | self.state.white_rooks
+            | self.state.white_knights
+            | self.state.white_bishops
+            | self.state.white_queens
+            | self.state.white_kings
         )
 
-        self.all_black = (
-            self.black_pawns
-            | self.black_rooks
-            | self.black_knights
-            | self.black_bishops
-            | self.black_queens
-            | self.black_kings
+        self.state.all_black = (
+            self.state.black_pawns
+            | self.state.black_rooks
+            | self.state.black_knights
+            | self.state.black_bishops
+            | self.state.black_queens
+            | self.state.black_kings
         )
 
-        self.all_pieces = self.all_black | self.all_white
+        self.state.all_pieces = self.state.all_black | self.state.all_white
 
-        self.board = {
-            ("white", "kings"): self.white_kings,
-            ("white", "queens"): self.white_queens,
-            ("white", "rooks"): self.white_rooks,
-            ("white", "bishops"): self.white_bishops,
-            ("white", "knights"): self.white_knights,
-            ("white", "pawns"): self.white_pawns,
-            ("black", "kings"): self.black_kings,
-            ("black", "queens"): self.black_queens,
-            ("black", "rooks"): self.black_rooks,
-            ("black", "bishops"): self.black_bishops,
-            ("black", "knights"): self.black_knights,
-            ("black", "pawns"): self.black_pawns,
+        self.state.board = {
+            ("white", "kings"): self.state.white_kings,
+            ("white", "queens"): self.state.white_queens,
+            ("white", "rooks"): self.state.white_rooks,
+            ("white", "bishops"): self.state.white_bishops,
+            ("white", "knights"): self.state.white_knights,
+            ("white", "pawns"): self.state.white_pawns,
+            ("black", "kings"): self.state.black_kings,
+            ("black", "queens"): self.state.black_queens,
+            ("black", "rooks"): self.state.black_rooks,
+            ("black", "bishops"): self.state.black_bishops,
+            ("black", "knights"): self.state.black_knights,
+            ("black", "pawns"): self.state.black_pawns,
         }
 
     def set_bitboard(self, side: str, piece: str, board: int) -> None:
@@ -386,7 +390,7 @@ class Board:
         :param board: The bitboard to be set
         """
         attrname = side + "_" + piece
-        setattr(self, attrname, board)
+        setattr(self.state, attrname, board)
         self.update_board_state()
 
     def identify_piece_at(self, position: int) -> tuple:
@@ -398,12 +402,13 @@ class Board:
             the piece identified at position (e.g, "black"), piece is the type of piece identified
             at position (e.g, "bishops"), and bitboard is the bitboard of the piece (e.g, Board.black_bishops).
         """
-        for side, piece in self.board:
-            board = self.board[(side, piece)]
+        for side, piece in self.state.board:
+            board = self.state.board[(side, piece)]
             if board & position > 0:
                 return side, piece, board
         return None, None, None
 
+    # TODO - Update move() to push a serialized copy of the current board state to self.moves
     def move(self, start: int, end: int, track: bool = True) -> None:
         """
         Moves the piece at start to end. Doesn't check anything, just makes
@@ -451,16 +456,16 @@ class Board:
         if track:
             if start_piece == "kings":
                 if start_side == "white":
-                    self.white_king_side_castle = False
-                    self.white_queen_side_castle = False
+                    self.state.white_king_side_castle = False
+                    self.state.white_queen_side_castle = False
                     if start == 2**4:
                         if end == 2**6:
                             castle_type = "white_kingside"
                         if end == 2**2:
                             castle_type = "white_queenside"
                 if start_side == "black":
-                    self.black_king_side_castle = False
-                    self.black_queen_side_castle = False
+                    self.state.black_king_side_castle = False
+                    self.state.black_queen_side_castle = False
                     if start == 2**60:
                         if end == 2**62:
                             castle_type = "black_kingside"
@@ -470,13 +475,13 @@ class Board:
             # Set castling ability to false when rook is moved
             if start_piece == "rooks":
                 if start_side == "white" and start == 1:
-                    self.white_queen_side_castle = False
+                    self.state.white_queen_side_castle = False
                 elif start_side == "white" and start == 2**7:
-                    self.white_king_side_castle = False
+                    self.state.white_king_side_castle = False
                 elif start_side == "black" and start == 2**63:
-                    self.black_king_side_castle = False
+                    self.state.black_king_side_castle = False
                 elif start_side == "black" and start == 2**56:
-                    self.black_queen_side_castle = False
+                    self.state.black_queen_side_castle = False
 
         # Track moves made so we can undo
         if track:
@@ -488,7 +493,7 @@ class Board:
             if start_side == "white":
                 # Check en passant status
                 if get_rank(end) - get_rank(start) == 2:
-                    self.en_passant_position = start << 8
+                    self.state.en_passant_position = start << 8
 
                 # Check if a pawn captured by an en passant move
                 elif get_file(start) != get_file(end):
@@ -496,17 +501,17 @@ class Board:
                     black_pawn_bb = self.get_bitboard("black", "pawns")
                     black_pawn_bb &= clear_position[end >> 8]
                     self.set_bitboard("black", "pawns", black_pawn_bb)
-                    self.piece_count[("black", "pawns")] -= 1
-                    self.en_passant_position = 0
+                    self.state.piece_count[("black", "pawns")] -= 1
+                    self.state.en_passant_position = 0
 
-                # Clear self.en_passant_position
+                # Clear self.state.en_passant_position
                 else:
-                    self.en_passant_position = 0
+                    self.state.en_passant_position = 0
 
             else:
                 # Check en passant status
                 if get_rank(start) - get_rank(end) == 2:
-                    self.en_passant_position = start >> 8
+                    self.state.en_passant_position = start >> 8
 
                 # Check if a pawn captured by an en passant move
                 elif get_file(start) != get_file(end):
@@ -514,22 +519,22 @@ class Board:
                     white_pawn_bb = self.get_bitboard("white", "pawns")
                     white_pawn_bb &= clear_position[end << 8]
                     self.set_bitboard("white", "pawns", white_pawn_bb)
-                    self.piece_count[("white", "pawns")] -= 1
-                    self.en_passant_position = 0
+                    self.state.piece_count[("white", "pawns")] -= 1
+                    self.state.en_passant_position = 0
 
-                # Clear self.en_passant_position
+                # Clear self.state.en_passant_position
                 else:
-                    self.en_passant_position = 0
+                    self.state.en_passant_position = 0
 
         else:
-            self.en_passant_position = 0
+            self.state.en_passant_position = 0
 
         if end_piece is not None:
             # Clear the captured piece's position (set "end" to 0)
             opp_side_board = self.get_bitboard(end_side, end_piece)
             opp_side_board &= clear_position[end]
             self.set_bitboard(end_side, end_piece, opp_side_board)
-            self.piece_count[(end_side, end_piece)] -= 1
+            self.state.piece_count[(end_side, end_piece)] -= 1
 
         # Clear the moved piece's original position (set "start" to 0)
         move_side_board = self.get_bitboard(start_side, start_piece)
@@ -543,20 +548,20 @@ class Board:
         # Validity of castling is not checked
         if castle_type == "white_kingside":
             self.move(2**7, 2**5, False)  # Don't track this move
-            self.white_king_side_castle = False
-            self.white_queen_side_castle = False
+            self.state.white_king_side_castle = False
+            self.state.white_queen_side_castle = False
         elif castle_type == "white_queenside":
             self.move(2**0, 2**3, False)  # Don't track this move
-            self.white_king_side_castle = False
-            self.white_queen_side_castle = False
+            self.state.white_king_side_castle = False
+            self.state.white_queen_side_castle = False
         elif castle_type == "black_kingside":
             self.move(2**63, 2**61, False)  # Don't track this move
-            self.black_king_side_castle = False
-            self.black_queen_side_castle = False
+            self.state.black_king_side_castle = False
+            self.state.black_queen_side_castle = False
         elif castle_type == "black_queenside":
             self.move(2**56, 2**59, False)  # Don't track this move
-            self.black_king_side_castle = False
-            self.black_queen_side_castle = False
+            self.state.black_king_side_castle = False
+            self.state.black_queen_side_castle = False
 
     def move_raw(self, start: int, end: int, track: bool = True) -> None:
         """
@@ -595,43 +600,43 @@ class Board:
         if "0-0-0" in move:
             # queen side castle
             if side == "white":
-                if self.white_queen_side_castle:
+                if self.state.white_queen_side_castle:
                     self.move(2**4, 2**2)
                 else:
                     raise MoveError(
-                        f'White cannot castle, it has already moved the {"rook" if self.white_king_side_castle else "king"}.'
+                        f'White cannot castle, it has already moved the {"rook" if self.state.white_king_side_castle else "king"}.'
                     )
-                self.white_queen_side_castle = False
-                self.white_king_side_castle = False
+                self.state.white_queen_side_castle = False
+                self.state.white_king_side_castle = False
             else:
-                if self.black_queen_side_castle:
+                if self.state.black_queen_side_castle:
                     self.move(2**60, 2**58)
                 else:
                     raise MoveError(
-                        f'Black cannot castle, it has already moved the {"rook" if self.black_king_side_castle else "king"}.'
+                        f'Black cannot castle, it has already moved the {"rook" if self.state.black_king_side_castle else "king"}.'
                     )
-                self.black_queen_side_castle = False
-                self.black_king_side_castle = False
+                self.state.black_queen_side_castle = False
+                self.state.black_king_side_castle = False
         elif "0-0" in move:
             # king side castle
             if side == "white":
-                if self.white_king_side_castle:
+                if self.state.white_king_side_castle:
                     self.move(2**4, 2**6)
                 else:
                     raise MoveError(
-                        f'White cannot castle, it has already moved the {"rook" if self.white_queen_side_castle else "king"}.'
+                        f'White cannot castle, it has already moved the {"rook" if self.state.white_queen_side_castle else "king"}.'
                     )
-                self.white_king_side_castle = False
-                self.white_queen_side_castle = False
+                self.state.white_king_side_castle = False
+                self.state.white_queen_side_castle = False
             else:
-                if self.black_king_side_castle:
+                if self.state.black_king_side_castle:
                     self.move(2**60, 2**62)
                 else:
                     raise MoveError(
-                        f'Black cannot castle, it has already moved the {"rook" if self.black_queen_side_castle else "king"}.'
+                        f'Black cannot castle, it has already moved the {"rook" if self.state.black_queen_side_castle else "king"}.'
                     )
-                self.black_king_side_castle = False
-                self.black_queen_side_castle = False
+                self.state.black_king_side_castle = False
+                self.state.black_queen_side_castle = False
         else:
             # regular move
             match = SAN_MOVE_REGEX.match(move)
@@ -694,6 +699,7 @@ class Board:
         for start, end in moves:
             self.move(start, end)
 
+    # TODO - Update undo_move to pop a serialized board state and set the current state to that state
     def undo_move(self) -> None:
         """
         Undo the last tracked move.
@@ -703,7 +709,7 @@ class Board:
         end, start, side, piece, board, castle_type = self.moves.pop()
 
         if castle_type is not None:
-            # TODO - if user castles when both self.white_kingside and self.white_queenside are
+            # TODO - if user castles when both self.state.white_kingside and self.state.white_queenside are
             #       True, undoing this move only lets the user castle to the same side they castled
             #       before undoing. Same for black.
             if castle_type == "white_kingside":
@@ -722,7 +728,7 @@ class Board:
             self.move(start=start, end=end, track=False)
             if side is not None:
                 self.set_bitboard(side, piece, board)
-                self.piece_count[(side, piece)] += 1
+                self.state.piece_count[(side, piece)] += 1
 
     def get_moves(
         self, side: str, piece: str = None, position: int = None
