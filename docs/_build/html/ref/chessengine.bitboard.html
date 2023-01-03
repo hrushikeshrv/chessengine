@@ -163,6 +163,7 @@
 <li class="toctree-l2"><a class="reference internal" href="chessengine.utils.html">chessengine.utils</a></li>
 <li class="toctree-l2"><a class="reference internal" href="chessengine.pgn.node.html">chessengine.pgn.node</a></li>
 <li class="toctree-l2"><a class="reference internal" href="chessengine.pgn.parser.html">chessengine.pgn.parser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chessengine.state.html">chessengine.state</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../chessboard.html">Internal Board Representation</a></li>
@@ -380,7 +381,7 @@ white king, etc.</p>
 <dd class="field-odd"><p><strong>side</strong> (<em>str</em>) – “white” or “black”</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>If <code class="docutils literal notranslate"><span class="pre">side</span> <span class="pre">==</span> <span class="pre">&quot;white&quot;</span></code>, returns <code class="docutils literal notranslate"><span class="pre">self.all_white</span></code>, else <code class="docutils literal notranslate"><span class="pre">self.all_black</span></code></p>
+<dd class="field-even"><p>If <code class="docutils literal notranslate"><span class="pre">side</span> <span class="pre">==</span> <span class="pre">&quot;white&quot;</span></code>, returns <code class="docutils literal notranslate"><span class="pre">self.state.all_white</span></code>, else <code class="docutils literal notranslate"><span class="pre">self.state.all_black</span></code></p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>int</p>
@@ -602,6 +603,12 @@ element is the best found move as a 2 tuple containing the start position and th
 <dd class="field-even"><p>None</p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="chessengine.bitboard.Board.state">
+<span class="sig-name descname"><span class="pre">state</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="chessengine.state.html#chessengine.state.BoardState" title="chessengine.state.BoardState"><span class="pre">BoardState</span></a></em><a class="headerlink" href="#chessengine.bitboard.Board.state" title="Permalink to this definition">#</a></dt>
+<dd><p>A <code class="docutils literal notranslate"><span class="pre">BoardState</span></code> object describing the state of the chessboard.</p>
 </dd></dl>
 
 <dl class="py method">

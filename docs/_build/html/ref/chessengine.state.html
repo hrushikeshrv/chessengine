@@ -3,10 +3,10 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
-<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="chessengine.state" href="chessengine.state.html" /><link rel="prev" title="chessengine.pgn.node" href="chessengine.pgn.node.html" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Internal Board Representation" href="../chessboard.html" /><link rel="prev" title="chessengine.pgn.parser" href="chessengine.pgn.parser.html" />
 
     <meta name="generator" content="sphinx-5.1.1, furo 2022.09.15"/>
-        <title>chessengine.pgn.parser - chessengine 0.3.0 documentation</title>
+        <title>chessengine.state - chessengine 0.3.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?digest=9ec31e2665bf879c1d47d93a8ec4893870ee1e45" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
@@ -162,8 +162,8 @@
 <li class="toctree-l2"><a class="reference internal" href="chessengine.moves.html">chessengine.moves</a></li>
 <li class="toctree-l2"><a class="reference internal" href="chessengine.utils.html">chessengine.utils</a></li>
 <li class="toctree-l2"><a class="reference internal" href="chessengine.pgn.node.html">chessengine.pgn.node</a></li>
-<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">chessengine.pgn.parser</a></li>
-<li class="toctree-l2"><a class="reference internal" href="chessengine.state.html">chessengine.state</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chessengine.pgn.parser.html">chessengine.pgn.parser</a></li>
+<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">chessengine.state</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../chessboard.html">Internal Board Representation</a></li>
@@ -203,31 +203,58 @@
           </label>
         </div>
         <article role="main">
-          <section id="chessengine-pgn-parser">
-<h1>chessengine.pgn.parser<a class="headerlink" href="#chessengine-pgn-parser" title="Permalink to this heading">#</a></h1>
+          <section id="chessengine-state">
+<h1>chessengine.state<a class="headerlink" href="#chessengine-state" title="Permalink to this heading">#</a></h1>
 <dl class="py class">
-<dt class="sig sig-object py" id="chessengine.pgn.parser.PGNParser">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">chessengine.pgn.parser.</span></span><span class="sig-name descname"><span class="pre">PGNParser</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pgn_files</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chessengine.pgn.parser.PGNParser" title="Permalink to this definition">#</a></dt>
-<dd><p>A parser for parsing PGN files and constructing a tree of GameNodes</p>
+<dt class="sig sig-object py" id="chessengine.state.BoardState">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">chessengine.state.</span></span><span class="sig-name descname"><span class="pre">BoardState</span></span><a class="headerlink" href="#chessengine.state.BoardState" title="Permalink to this definition">#</a></dt>
+<dd><p>A class representing a chess board state. This class contains
+the following instance attributes -</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>pgn_files</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>) – A list of PGN files passed as strings, path-like objects, or file-like objects</p>
-</dd>
-<dt class="field-even">Variables<span class="colon">:</span></dt>
-<dd class="field-even"><ul class="simple">
-<li><p><strong>root_node</strong> – The root node of the Game tree that the opening book will start from (always corresponds to a new chess board)</p></li>
-<li><p><strong>games</strong> – A list of games parsed by the parser</p></li>
+<dt class="field-odd">Variables<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>piece_count</strong> – A dictionary mapping pieces to the number of
+such pieces on the board. The keys are 2-tuples of the format
+<code class="docutils literal notranslate"><span class="pre">(&lt;side&gt;,</span> <span class="pre">&lt;piece&gt;s)</span></code>. For example, <code class="docutils literal notranslate"><span class="pre">piece_count[('white',</span> <span class="pre">'kings')]</span></code>
+is 1.</p></li>
+<li><p><strong>en_passant_position</strong> – The position on the board which a pawn
+can take by en passant.</p></li>
+<li><p><strong>white_king_side_castle</strong> – A boolean indicating if white can castle
+king side.</p></li>
+<li><p><strong>white_queen_side_castle</strong> – A boolean indicating if white can
+castle queen side.</p></li>
+<li><p><strong>black_king_side_castle</strong> – A boolean indicating if black can castle
+king side.</p></li>
+<li><p><strong>black_queen_side_castle</strong> – A boolean indicating if black can castle
+queen side.</p></li>
+<li><p><strong>board</strong> – A dictionary mapping a piece type to its corresponding
+bitboard. The keys are 2-tuples of the format
+<code class="docutils literal notranslate"><span class="pre">(&lt;side&gt;,</span> <span class="pre">&lt;piece&gt;s)</span></code>. For example, board[(‘white’, ‘rooks’)]</p></li>
+<li><p><strong>all_white</strong> – A bitboard containing the positions of all white pieces</p></li>
+<li><p><strong>all_black</strong> – A bitboard containing the positions of all black pieces</p></li>
+<li><p><strong>all_pieces</strong> – A bitboard containing the positions of all pieces on the board</p></li>
 </ul>
 </dd>
 </dl>
+<p>Moreover, all the bitboards are accessible as class properties in the format
+<code class="docutils literal notranslate"><span class="pre">&lt;side&gt;_&lt;piece&gt;s</span></code>. For example, the bitboard for black bishops can be
+accessed as the <code class="docutils literal notranslate"><span class="pre">black_bishops</span></code> property, and the bitboard for the black king
+can be accessed as the <code class="docutils literal notranslate"><span class="pre">black_kings</span></code> property. It is recommended to assign
+values to these properties instead of modifying the <code class="docutils literal notranslate"><span class="pre">board</span></code> dictionary
+directly, as this calls a setter method that also updates the board state’s
+<code class="docutils literal notranslate"><span class="pre">all_black</span></code>, <code class="docutils literal notranslate"><span class="pre">all_white</span></code>, and <code class="docutils literal notranslate"><span class="pre">all_pieces</span></code> bitboards.</p>
 <dl class="py method">
-<dt class="sig sig-object py" id="chessengine.pgn.parser.PGNParser.parse">
-<span class="sig-name descname"><span class="pre">parse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pgn_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chessengine.pgn.parser.PGNParser.parse" title="Permalink to this definition">#</a></dt>
-<dd><p>Parse the given pgn file if pgn_file is not None.
-Otherwise, parse all the pgn files in self.pgn_files.</p>
+<dt class="sig sig-object py" id="chessengine.state.BoardState.serialize">
+<span class="sig-name descname"><span class="pre">serialize</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#chessengine.state.BoardState.serialize" title="Permalink to this definition">#</a></dt>
+<dd><p>Serializes the board state into a dictionary containing all the state
+attributes.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>pgn_file</strong> – a path to a PGN file as a string, path-like object, or file-like object</p>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A dictionary with all the documented instance variables as keys
+and their respective values as values.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>dict</p>
 </dd>
 </dl>
 </dd></dl>
@@ -241,23 +268,23 @@ Otherwise, parse all the pgn files in self.pgn_files.</p>
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="chessengine.state.html">
+          <a class="next-page" href="../chessboard.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">chessengine.state</div>
+                <div class="title">Internal Board Representation</div>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="chessengine.pgn.node.html">
+          <a class="prev-page" href="chessengine.pgn.parser.html">
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">chessengine.pgn.node</div>
+                <div class="title">chessengine.pgn.parser</div>
                 
               </div>
             </a>

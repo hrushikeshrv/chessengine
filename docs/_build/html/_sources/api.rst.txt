@@ -11,6 +11,7 @@ API Reference
     ref/chessengine.utils
     ref/chessengine.pgn.node
     ref/chessengine.pgn.parser
+    ref/chessengine.state
 
 Summary
 -------
@@ -23,3 +24,4 @@ Summary
     chessengine.utils
     chessengine.pgn.node
     chessengine.pgn.parser
+    chessengine.state

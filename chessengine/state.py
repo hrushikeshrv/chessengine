@@ -1,9 +1,43 @@
+"""
+A complete representation of the state of the chessboard
+"""
+
 import copy
 
 
 class BoardState:
     """
-    A class representing a chess board state
+    A class representing a chess board state. This class contains
+    the following instance attributes -
+    
+    :ivar piece_count: A dictionary mapping pieces to the number of
+        such pieces on the board. The keys are 2-tuples of the format
+        ``(<side>, <piece>s)``. For example, ``piece_count[('white', 'kings')]``
+        is 1.
+    :ivar en_passant_position: The position on the board which a pawn
+        can take by en passant.
+    :ivar white_king_side_castle: A boolean indicating if white can castle
+        king side.
+    :ivar white_queen_side_castle: A boolean indicating if white can
+        castle queen side.
+    :ivar black_king_side_castle: A boolean indicating if black can castle
+        king side.
+    :ivar black_queen_side_castle: A boolean indicating if black can castle
+        queen side.
+    :ivar board: A dictionary mapping a piece type to its corresponding
+        bitboard. The keys are 2-tuples of the format
+        ``(<side>, <piece>s)``. For example, board[('white', 'rooks')]
+    :ivar all_white: A bitboard containing the positions of all white pieces
+    :ivar all_black: A bitboard containing the positions of all black pieces
+    :ivar all_pieces: A bitboard containing the positions of all pieces on the board
+    
+    Moreover, all the bitboards are accessible as class properties in the format
+    ``<side>_<piece>s``. For example, the bitboard for black bishops can be
+    accessed as the ``black_bishops`` property, and the bitboard for the black king
+    can be accessed as the ``black_kings`` property. It is recommended to assign
+    values to these properties instead of modifying the ``board`` dictionary
+    directly, as this calls a setter method that also updates the board state's
+    ``all_black``, ``all_white``, and ``all_pieces`` bitboards.
     """
     piece_count = {
         ("white", "kings"): 1,
@@ -59,7 +93,14 @@ class BoardState:
     )
     all_pieces = all_white | all_black
     
-    def serialize(self):
+    def serialize(self) -> dict:
+        """
+        Serializes the board state into a dictionary containing all the state
+        attributes.
+        
+        :return: A dictionary with all the documented instance variables as keys
+            and their respective values as values.
+        """
         return {
             'piece_count': copy.copy(self.piece_count),
             'en_passant_position': self.en_passant_position,
@@ -73,10 +114,10 @@ class BoardState:
             'all_pieces': self.all_pieces,
         }
 
-    def set_state(self):
+    def set_state(self, state: dict) -> None:
         pass
     
-    def update_all_white(self):
+    def update_all_white(self) -> None:
         self.all_white = (
             self.board[('white', 'kings')]
             | self.board[('white', 'queens')]
@@ -86,7 +127,7 @@ class BoardState:
             | self.board[('white', 'pawns')]
         )
         
-    def update_all_black(self):
+    def update_all_black(self) -> None:
         self.all_black = (
             self.board[('black', 'kings')]
             | self.board[('black', 'queens')]
@@ -96,7 +137,7 @@ class BoardState:
             | self.board[('black', 'pawns')]
         )
     
-    def update_all_pieces(self):
+    def update_all_pieces(self) -> None:
         self.all_pieces = self.all_white | self.all_black
     
     # Define getters and setters for all bitboards in BoardState.board,

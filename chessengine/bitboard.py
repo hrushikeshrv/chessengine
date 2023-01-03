@@ -105,7 +105,7 @@ class Board:
         self.side = side.lower().strip()
         self.opponent_side = "black" if self.side == "white" else "white"
         
-        self.state: BoardState = BoardState()
+        self.state: BoardState = BoardState()   #: A ``BoardState`` object describing the state of the chessboard.
 
         self.piece_count = {
             ("white", "kings"): 1,
@@ -707,29 +707,8 @@ class Board:
         """
         if not self.moves:
             raise RuntimeError("No moves have been made yet to undo.")
-        end, start, side, piece, board, castle_type = self.moves.pop()
-
-        if castle_type is not None:
-            # TODO - if user castles when both self.state.white_kingside and self.state.white_queenside are
-            #       True, undoing this move only lets the user castle to the same side they castled
-            #       before undoing. Same for black.
-            if castle_type == "white_kingside":
-                self.move(start=start, end=end, track=False)  # Move king
-                self.move(2**5, 2**7)  # Move rook
-            elif castle_type == "white_queenside":
-                self.move(start=start, end=end, track=False)  # Move king
-                self.move(2**3, 2**0)  # Move rook
-            elif castle_type == "black_kingside":
-                self.move(start=start, end=end, track=False)  # Move king
-                self.move(2**61, 2**63)  # Move rook
-            elif castle_type == "black_queenside":
-                self.move(start=start, end=end, track=False)  # Move king
-                self.move(2**59, 2**56)  # Move rook
-        else:
-            self.move(start=start, end=end, track=False)
-            if side is not None:
-                self.set_bitboard(side, piece, board)
-                self.state.piece_count[(side, piece)] += 1
+        prev_state = self.moves.pop()
+        self.state.set_state(prev_state)
 
     def get_moves(
         self, side: str, piece: str = None, position: int = None
