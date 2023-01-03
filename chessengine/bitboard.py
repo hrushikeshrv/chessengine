@@ -97,15 +97,17 @@ class Board:
             | self.black_queens
             | self.black_kings
         )
-        
+
         self.all_pieces = self.all_black | self.all_white
-        
+
         if side.lower().strip() not in ["black", "white"]:
             raise ValueError(f'side must be one of "black" or "white". Got {side}')
         self.side = side.lower().strip()
         self.opponent_side = "black" if self.side == "white" else "white"
-        
-        self.state: BoardState = BoardState()   #: A ``BoardState`` object describing the state of the chessboard.
+
+        self.state: BoardState = (
+            BoardState()
+        )  #: A ``BoardState`` object describing the state of the chessboard.
 
         self.piece_count = {
             ("white", "kings"): 1,
@@ -121,7 +123,7 @@ class Board:
             ("black", "knights"): 2,
             ("black", "pawns"): 8,
         }
-        
+
         self.en_passant_position = 0
         self.white_king_side_castle = True
         self.white_queen_side_castle = True
