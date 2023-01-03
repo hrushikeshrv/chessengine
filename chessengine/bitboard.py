@@ -105,7 +105,7 @@ class Board:
         self.side = side.lower().strip()
         self.opponent_side = "black" if self.side == "white" else "white"
         
-        self.state = BoardState()
+        self.state: BoardState = BoardState()
 
         self.piece_count = {
             ("white", "kings"): 1,
@@ -346,6 +346,7 @@ class Board:
         changes in any way. You should call this if you manually make any changes to
         bitboards attributes, otherwise it is called automatically.
         """
+        return  # Board state updates are implemented in BoardState setter methods
         self.state.all_white = (
             self.state.white_pawns
             | self.state.white_rooks
@@ -450,6 +451,11 @@ class Board:
                 f"Can't move from {log2(start)} to {log2(end)}, both positions have {end_side} pieces."
             )
 
+        # Push current board state onto self.moves before changing the current state
+        if track:
+            # start_state = (start, end, end_side, end_piece, end_board, castle_type)
+            self.moves.append(self.state.serialize())
+
         # Identify if the move is a castle and what type of castle it is
         castle_type = None
         # Don't set castling flags if we're not tracking this move
@@ -482,11 +488,6 @@ class Board:
                     self.state.black_king_side_castle = False
                 elif start_side == "black" and start == 2**56:
                     self.state.black_queen_side_castle = False
-
-        # Track moves made so we can undo
-        if track:
-            start_state = (start, end, end_side, end_piece, end_board, castle_type)
-            self.moves.append(start_state)
 
         # Check en passant moves
         if start_piece == "pawns":
