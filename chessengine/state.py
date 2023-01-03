@@ -26,10 +26,11 @@ class BoardState:
         queen side.
     :ivar board: A dictionary mapping a piece type to its corresponding
         bitboard. The keys are 2-tuples of the format
-        ``(<side>, <piece>s)``. For example, board[('white', 'rooks')]
-    :ivar all_white: A bitboard containing the positions of all white pieces
-    :ivar all_black: A bitboard containing the positions of all black pieces
-    :ivar all_pieces: A bitboard containing the positions of all pieces on the board
+        ``(<side>, <piece>s)``. For example, ``board[('white', 'rooks')]``
+        returns the bitboard for white rooks.
+    :ivar all_white: A bitboard containing the positions of all white pieces.
+    :ivar all_black: A bitboard containing the positions of all black pieces.
+    :ivar all_pieces: A bitboard containing the positions of all pieces on the board.
     
     Moreover, all the bitboards are accessible as class properties in the format
     ``<side>_<piece>s``. For example, the bitboard for black bishops can be
@@ -115,9 +116,19 @@ class BoardState:
         }
 
     def set_state(self, state: dict) -> None:
-        pass
+        """
+        Given a dictionary of attributes, set the value of instance variables
+        to be corresponding values.
+        
+        :param state: A dictionary containing the attributes to set
+        """
+        for key in state:
+            setattr(self, key, state[key])
     
     def update_all_white(self) -> None:
+        """
+        Update the ``all_white`` bitboard if any white bitboard was changed
+        """
         self.all_white = (
             self.board[('white', 'kings')]
             | self.board[('white', 'queens')]
@@ -128,6 +139,9 @@ class BoardState:
         )
         
     def update_all_black(self) -> None:
+        """
+        Update the ``all_black`` bitboard if any black bitboard was changed
+        """
         self.all_black = (
             self.board[('black', 'kings')]
             | self.board[('black', 'queens')]
@@ -138,6 +152,9 @@ class BoardState:
         )
     
     def update_all_pieces(self) -> None:
+        """
+        Update the ``all_pieces`` bitboard if any bitboard was changed
+        """
         self.all_pieces = self.all_white | self.all_black
     
     # Define getters and setters for all bitboards in BoardState.board,
@@ -145,6 +162,11 @@ class BoardState:
     # and also update dependent bitboards.
     @property
     def white_pawns(self):
+        """
+        A bitboard representing the positions of all white pawns on the board.
+        When this property is assigned to, it automatically updates the ``all_white``
+        and ``all_pieces`` bitboard.
+        """
         return self.board[('white', 'pawns')]
     
     @white_pawns.setter
@@ -155,6 +177,11 @@ class BoardState:
     
     @property
     def white_rooks(self):
+        """
+            A bitboard representing the positions of all white rooks on the board.
+            When this property is assigned to, it automatically updates the ``all_white``
+            and ``all_pieces`` bitboard.
+        """
         return self.board[('white', 'rooks')]
     
     @white_rooks.setter
@@ -165,6 +192,11 @@ class BoardState:
         
     @property
     def white_knights(self):
+        """
+            A bitboard representing the positions of all white knights on the board.
+            When this property is assigned to, it automatically updates the ``all_white``
+            and ``all_pieces`` bitboard.
+        """
         return self.board[('white', 'knights')]
     
     @white_knights.setter
@@ -175,6 +207,11 @@ class BoardState:
         
     @property
     def white_bishops(self):
+        """
+            A bitboard representing the positions of all white bishops on the board.
+            When this property is assigned to, it automatically updates the ``all_white``
+            and ``all_pieces`` bitboard.
+        """
         return self.board[('white', 'bishops')]
     
     @white_bishops.setter
@@ -185,6 +222,11 @@ class BoardState:
     
     @property
     def white_queens(self):
+        """
+            A bitboard representing the positions of all white queens on the board.
+            When this property is assigned to, it automatically updates the ``all_white``
+            and ``all_pieces`` bitboard.
+        """
         return self.board[('white', 'queens')]
     
     @white_queens.setter
@@ -195,6 +237,11 @@ class BoardState:
         
     @property
     def white_kings(self):
+        """
+            A bitboard representing the positions of the white king on the board.
+            When this property is assigned to, it automatically updates the ``all_white``
+            and ``all_pieces`` bitboard.
+            """
         return self.board[('white', 'kings')]
     
     @white_kings.setter
@@ -205,6 +252,11 @@ class BoardState:
 
     @property
     def black_pawns(self):
+        """
+            A bitboard representing the positions of all black pawns on the board.
+            When this property is assigned to, it automatically updates the ``all_black``
+            and ``all_pieces`` bitboard.
+        """
         return self.board[('black', 'pawns')]
 
     @black_pawns.setter
@@ -215,6 +267,11 @@ class BoardState:
 
     @property
     def black_rooks(self):
+        """
+            A bitboard representing the positions of all black rooks on the board.
+            When this property is assigned to, it automatically updates the ``all_black``
+            and ``all_pieces`` bitboard.
+        """
         return self.board[('black', 'rooks')]
 
     @black_rooks.setter
@@ -225,6 +282,11 @@ class BoardState:
 
     @property
     def black_knights(self):
+        """
+            A bitboard representing the positions of all black knights on the board.
+            When this property is assigned to, it automatically updates the ``all_black``
+            and ``all_pieces`` bitboard.
+        """
         return self.board[('black', 'knights')]
 
     @black_knights.setter
@@ -235,6 +297,11 @@ class BoardState:
 
     @property
     def black_bishops(self):
+        """
+            A bitboard representing the positions of all black bishops on the board.
+            When this property is assigned to, it automatically updates the ``all_black``
+            and ``all_pieces`` bitboard.
+        """
         return self.board[('black', 'bishops')]
 
     @black_bishops.setter
@@ -245,6 +312,11 @@ class BoardState:
 
     @property
     def black_queens(self):
+        """
+            A bitboard representing the positions of all black queens on the board.
+            When this property is assigned to, it automatically updates the ``all_black``
+            and ``all_pieces`` bitboard.
+        """
         return self.board[('black', 'queens')]
 
     @black_queens.setter
@@ -255,6 +327,11 @@ class BoardState:
 
     @property
     def black_kings(self):
+        """
+            A bitboard representing the positions of the black king on the board.
+            When this property is assigned to, it automatically updates the ``all_black``
+            and ``all_pieces`` bitboard.
+        """
         return self.board[('black', 'kings')]
 
     @black_kings.setter

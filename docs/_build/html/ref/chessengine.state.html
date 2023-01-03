@@ -243,6 +243,54 @@ can be accessed as the <code class="docutils literal notranslate"><span class="p
 values to these properties instead of modifying the <code class="docutils literal notranslate"><span class="pre">board</span></code> dictionary
 directly, as this calls a setter method that also updates the board state’s
 <code class="docutils literal notranslate"><span class="pre">all_black</span></code>, <code class="docutils literal notranslate"><span class="pre">all_white</span></code>, and <code class="docutils literal notranslate"><span class="pre">all_pieces</span></code> bitboards.</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="chessengine.state.BoardState.black_bishops">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">black_bishops</span></span><a class="headerlink" href="#chessengine.state.BoardState.black_bishops" title="Permalink to this definition">#</a></dt>
+<dd><p>A bitboard representing the positions of all black bishops on the board.
+When this property is assigned to, it automatically updates the <code class="docutils literal notranslate"><span class="pre">all_black</span></code>
+and <code class="docutils literal notranslate"><span class="pre">all_pieces</span></code> bitboard.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="chessengine.state.BoardState.black_kings">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">black_kings</span></span><a class="headerlink" href="#chessengine.state.BoardState.black_kings" title="Permalink to this definition">#</a></dt>
+<dd><p>A bitboard representing the positions of the black king on the board.
+When this property is assigned to, it automatically updates the <code class="docutils literal notranslate"><span class="pre">all_black</span></code>
+and <code class="docutils literal notranslate"><span class="pre">all_pieces</span></code> bitboard.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="chessengine.state.BoardState.black_knights">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">black_knights</span></span><a class="headerlink" href="#chessengine.state.BoardState.black_knights" title="Permalink to this definition">#</a></dt>
+<dd><p>A bitboard representing the positions of all black knights on the board.
+When this property is assigned to, it automatically updates the <code class="docutils literal notranslate"><span class="pre">all_black</span></code>
+and <code class="docutils literal notranslate"><span class="pre">all_pieces</span></code> bitboard.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="chessengine.state.BoardState.black_pawns">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">black_pawns</span></span><a class="headerlink" href="#chessengine.state.BoardState.black_pawns" title="Permalink to this definition">#</a></dt>
+<dd><p>A bitboard representing the positions of all black pawns on the board.
+When this property is assigned to, it automatically updates the <code class="docutils literal notranslate"><span class="pre">all_black</span></code>
+and <code class="docutils literal notranslate"><span class="pre">all_pieces</span></code> bitboard.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="chessengine.state.BoardState.black_queens">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">black_queens</span></span><a class="headerlink" href="#chessengine.state.BoardState.black_queens" title="Permalink to this definition">#</a></dt>
+<dd><p>A bitboard representing the positions of all black queens on the board.
+When this property is assigned to, it automatically updates the <code class="docutils literal notranslate"><span class="pre">all_black</span></code>
+and <code class="docutils literal notranslate"><span class="pre">all_pieces</span></code> bitboard.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="chessengine.state.BoardState.black_rooks">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">black_rooks</span></span><a class="headerlink" href="#chessengine.state.BoardState.black_rooks" title="Permalink to this definition">#</a></dt>
+<dd><p>A bitboard representing the positions of all black rooks on the board.
+When this property is assigned to, it automatically updates the <code class="docutils literal notranslate"><span class="pre">all_black</span></code>
+and <code class="docutils literal notranslate"><span class="pre">all_pieces</span></code> bitboard.</p>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="chessengine.state.BoardState.serialize">
 <span class="sig-name descname"><span class="pre">serialize</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#chessengine.state.BoardState.serialize" title="Permalink to this definition">#</a></dt>
@@ -257,6 +305,102 @@ and their respective values as values.</p>
 <dd class="field-even"><p>dict</p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="chessengine.state.BoardState.set_state">
+<span class="sig-name descname"><span class="pre">set_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#chessengine.state.BoardState.set_state" title="Permalink to this definition">#</a></dt>
+<dd><p>Given a dictionary of attributes, set the value of instance variables
+to be corresponding values.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>state</strong> (<em>dict</em>) – </p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="chessengine.state.BoardState.update_all_black">
+<span class="sig-name descname"><span class="pre">update_all_black</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#chessengine.state.BoardState.update_all_black" title="Permalink to this definition">#</a></dt>
+<dd><p>Update the <code class="docutils literal notranslate"><span class="pre">all_black</span></code> bitboard if any black bitboard was changed</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="chessengine.state.BoardState.update_all_pieces">
+<span class="sig-name descname"><span class="pre">update_all_pieces</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#chessengine.state.BoardState.update_all_pieces" title="Permalink to this definition">#</a></dt>
+<dd><p>Update the <code class="docutils literal notranslate"><span class="pre">all_pieces</span></code> bitboard if any bitboard was changed</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="chessengine.state.BoardState.update_all_white">
+<span class="sig-name descname"><span class="pre">update_all_white</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#chessengine.state.BoardState.update_all_white" title="Permalink to this definition">#</a></dt>
+<dd><p>Update the <code class="docutils literal notranslate"><span class="pre">all_white</span></code> bitboard if any white bitboard was changed</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="chessengine.state.BoardState.white_bishops">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">white_bishops</span></span><a class="headerlink" href="#chessengine.state.BoardState.white_bishops" title="Permalink to this definition">#</a></dt>
+<dd><p>A bitboard representing the positions of all white bishops on the board.
+When this property is assigned to, it automatically updates the <code class="docutils literal notranslate"><span class="pre">all_white</span></code>
+and <code class="docutils literal notranslate"><span class="pre">all_pieces</span></code> bitboard.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="chessengine.state.BoardState.white_kings">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">white_kings</span></span><a class="headerlink" href="#chessengine.state.BoardState.white_kings" title="Permalink to this definition">#</a></dt>
+<dd><p>A bitboard representing the positions of the white king on the board.
+When this property is assigned to, it automatically updates the <code class="docutils literal notranslate"><span class="pre">all_white</span></code>
+and <code class="docutils literal notranslate"><span class="pre">all_pieces</span></code> bitboard.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="chessengine.state.BoardState.white_knights">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">white_knights</span></span><a class="headerlink" href="#chessengine.state.BoardState.white_knights" title="Permalink to this definition">#</a></dt>
+<dd><p>A bitboard representing the positions of all white knights on the board.
+When this property is assigned to, it automatically updates the <code class="docutils literal notranslate"><span class="pre">all_white</span></code>
+and <code class="docutils literal notranslate"><span class="pre">all_pieces</span></code> bitboard.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="chessengine.state.BoardState.white_pawns">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">white_pawns</span></span><a class="headerlink" href="#chessengine.state.BoardState.white_pawns" title="Permalink to this definition">#</a></dt>
+<dd><p>A bitboard representing the positions of all white pawns on the board.
+When this property is assigned to, it automatically updates the <code class="docutils literal notranslate"><span class="pre">all_white</span></code>
+and <code class="docutils literal notranslate"><span class="pre">all_pieces</span></code> bitboard.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="chessengine.state.BoardState.white_queens">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">white_queens</span></span><a class="headerlink" href="#chessengine.state.BoardState.white_queens" title="Permalink to this definition">#</a></dt>
+<dd><p>A bitboard representing the positions of all white queens on the board.
+When this property is assigned to, it automatically updates the <code class="docutils literal notranslate"><span class="pre">all_white</span></code>
+and <code class="docutils literal notranslate"><span class="pre">all_pieces</span></code> bitboard.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="chessengine.state.BoardState.white_rooks">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">white_rooks</span></span><a class="headerlink" href="#chessengine.state.BoardState.white_rooks" title="Permalink to this definition">#</a></dt>
+<dd><p>A bitboard representing the positions of all white rooks on the board.
+When this property is assigned to, it automatically updates the <code class="docutils literal notranslate"><span class="pre">all_white</span></code>
+and <code class="docutils literal notranslate"><span class="pre">all_pieces</span></code> bitboard.</p>
 </dd></dl>
 
 </dd></dl>
