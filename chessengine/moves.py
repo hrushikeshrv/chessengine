@@ -31,15 +31,15 @@ def check_valid_position(
         return False, True
     if end <= 0:
         return False, True
-    if end & board.all_pieces == 0:
+    if end & board.state.all_pieces == 0:
         if auto_add:
             moves.append((start, end))
         return True, False
-    elif side == "white" and end & board.all_white == 0:
+    elif side == "white" and end & board.state.all_white == 0:
         if auto_add:
             moves.append((start, end))
         return True, True
-    elif side == "black" and end & board.all_black == 0:
+    elif side == "black" and end & board.state.all_black == 0:
         if auto_add:
             moves.append((start, end))
         return True, True
@@ -291,18 +291,18 @@ def get_king_moves(board, side: str, position: int) -> list[tuple[int, int]]:
         check_valid_position(board, side, position, _, moves)
 
     if side == "white":
-        if board.white_queen_side_castle:
-            if (2**1 + 2**2 + 2**3) & board.all_pieces == 0:
+        if board.state.white_queen_side_castle:
+            if (2**1 + 2**2 + 2**3) & board.state.all_pieces == 0:
                 moves.append((2**4, 2**2))
-        if board.white_king_side_castle:
-            if (2**5 + 2**6) & board.all_pieces == 0:
+        if board.state.white_king_side_castle:
+            if (2**5 + 2**6) & board.state.all_pieces == 0:
                 moves.append((2**4, 2**6))
     elif side == "black":
-        if board.black_queen_side_castle:
-            if (2**57 + 2**58 + 2**59) & board.all_pieces == 0:
+        if board.state.black_queen_side_castle:
+            if (2**57 + 2**58 + 2**59) & board.state.all_pieces == 0:
                 moves.append((2**60, 2**58))
-        if board.black_king_side_castle:
-            if (2**61 + 2**62) & board.all_pieces == 0:
+        if board.state.black_king_side_castle:
+            if (2**61 + 2**62) & board.state.all_pieces == 0:
                 moves.append((2**60, 2**62))
     return moves
 
@@ -364,23 +364,23 @@ def get_white_pawn_moves(board, position: int) -> list[tuple[int, int]]:
 
     moves = []
     _ = position << 8
-    if board.all_pieces & _ == 0:
+    if board.state.all_pieces & _ == 0:
         moves.append((position, _))
         if rank == 2:
             _ = position << 16
-            if board.all_pieces & _ == 0:
+            if board.state.all_pieces & _ == 0:
                 moves.append((position, _))
     file = get_file(position)
     if file >= 2:
         _ = position << 7
-        if board.all_black & _ > 0:
+        if board.state.all_black & _ > 0:
             moves.append((position, _))
     if file <= 7:
         _ = position << 9
-        if board.all_black & _ > 0:
+        if board.state.all_black & _ > 0:
             moves.append((position, _))
 
-    en_passant_position = board.en_passant_position
+    en_passant_position = board.state.en_passant_position
     if en_passant_position == position << 7 and file >= 2:
         _ = position << 7
         check_valid_position(board, "white", position, _, moves)
@@ -404,23 +404,23 @@ def get_black_pawn_moves(board, position: int) -> list[tuple[int, int]]:
 
     moves = []
     _ = position >> 8
-    if board.all_pieces & _ == 0:
+    if board.state.all_pieces & _ == 0:
         moves.append((position, _))
         if rank == 7:
             _ = position >> 16
-            if board.all_pieces & _ == 0:
+            if board.state.all_pieces & _ == 0:
                 moves.append((position, _))
     file = get_file(position)
     if file >= 2:
         _ = position >> 9
-        if board.all_white & _ > 0:
+        if board.state.all_white & _ > 0:
             moves.append((position, _))
     if file <= 7:
         _ = position >> 7
-        if board.all_white & _ > 0:
+        if board.state.all_white & _ > 0:
             moves.append((position, _))
 
-    en_passant_position = board.en_passant_position
+    en_passant_position = board.state.en_passant_position
     if en_passant_position == position >> 9 and file >= 2:
         _ = position >> 9
         check_valid_position(board, "black", position, _, moves)

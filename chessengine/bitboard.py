@@ -66,84 +66,86 @@ class Board:
     """
 
     def __init__(self, side: str):
-        self.white_pawns = 65280  # (A2 to H2)
-        self.white_rooks = 129  # (A1 and H1)
-        self.white_knights = 66  # (B1 and G1)
-        self.white_bishops = 36  # (C1 and F1)
-        self.white_queens = 8  # (D1)
-        self.white_kings = 16  # (E1)
+        # self.white_pawns = 65280  # (A2 to H2)
+        # self.white_rooks = 129  # (A1 and H1)
+        # self.white_knights = 66  # (B1 and G1)
+        # self.white_bishops = 36  # (C1 and F1)
+        # self.white_queens = 8  # (D1)
+        # self.white_kings = 16  # (E1)
+        #
+        # self.black_pawns = 71776119061217280  # (A7 to H7)
+        # self.black_rooks = 9295429630892703744  # (A8 and H8)
+        # self.black_knights = 4755801206503243776  # (B8 and G8)
+        # self.black_bishops = 2594073385365405696  # (C8 and F8)
+        # self.black_queens = 576460752303423488  # (D8)
+        # self.black_kings = 1152921504606846976  # (E8)
+        #
+        # self.all_white = (
+        #     self.white_pawns
+        #     | self.white_rooks
+        #     | self.white_knights
+        #     | self.white_bishops
+        #     | self.white_queens
+        #     | self.white_kings
+        # )
+        #
+        # self.all_black = (
+        #     self.black_pawns
+        #     | self.black_rooks
+        #     | self.black_knights
+        #     | self.black_bishops
+        #     | self.black_queens
+        #     | self.black_kings
+        # )
+        #
+        # self.all_pieces = self.all_black | self.all_white
 
-        self.black_pawns = 71776119061217280  # (A7 to H7)
-        self.black_rooks = 9295429630892703744  # (A8 and H8)
-        self.black_knights = 4755801206503243776  # (B8 and G8)
-        self.black_bishops = 2594073385365405696  # (C8 and F8)
-        self.black_queens = 576460752303423488  # (D8)
-        self.black_kings = 1152921504606846976  # (E8)
-
-        self.all_white = (
-            self.white_pawns
-            | self.white_rooks
-            | self.white_knights
-            | self.white_bishops
-            | self.white_queens
-            | self.white_kings
-        )
-
-        self.all_black = (
-            self.black_pawns
-            | self.black_rooks
-            | self.black_knights
-            | self.black_bishops
-            | self.black_queens
-            | self.black_kings
-        )
-        
-        self.all_pieces = self.all_black | self.all_white
-        
         if side.lower().strip() not in ["black", "white"]:
             raise ValueError(f'side must be one of "black" or "white". Got {side}')
         self.side = side.lower().strip()
         self.opponent_side = "black" if self.side == "white" else "white"
-        
-        self.state: BoardState = BoardState()   #: A ``BoardState`` object describing the state of the chessboard.
 
-        self.piece_count = {
-            ("white", "kings"): 1,
-            ("white", "queens"): 1,
-            ("white", "rooks"): 2,
-            ("white", "bishops"): 2,
-            ("white", "knights"): 2,
-            ("white", "pawns"): 8,
-            ("black", "kings"): 1,
-            ("black", "queens"): 1,
-            ("black", "rooks"): 2,
-            ("black", "bishops"): 2,
-            ("black", "knights"): 2,
-            ("black", "pawns"): 8,
-        }
-        
-        self.en_passant_position = 0
-        self.white_king_side_castle = True
-        self.white_queen_side_castle = True
-        self.black_king_side_castle = True
-        self.black_queen_side_castle = True
+        self.state: BoardState = (
+            BoardState()
+        )  #: A ``BoardState`` object describing the state of the chessboard.
+
+        # self.piece_count = {
+        #     ("white", "kings"): 1,
+        #     ("white", "queens"): 1,
+        #     ("white", "rooks"): 2,
+        #     ("white", "bishops"): 2,
+        #     ("white", "knights"): 2,
+        #     ("white", "pawns"): 8,
+        #     ("black", "kings"): 1,
+        #     ("black", "queens"): 1,
+        #     ("black", "rooks"): 2,
+        #     ("black", "bishops"): 2,
+        #     ("black", "knights"): 2,
+        #     ("black", "pawns"): 8,
+        # }
+
+        # self.en_passant_position = 0
+        # self.white_king_side_castle = True
+        # self.white_queen_side_castle = True
+        # self.black_king_side_castle = True
+        # self.black_queen_side_castle = True
 
         # A dictionary matching a side and piece to its corresponding bit board.
         # Useful when we want to iterate through all the bitboards of the board.
-        self.board = {
-            ("white", "kings"): self.white_kings,
-            ("white", "queens"): self.white_queens,
-            ("white", "rooks"): self.white_rooks,
-            ("white", "bishops"): self.white_bishops,
-            ("white", "knights"): self.white_knights,
-            ("white", "pawns"): self.white_pawns,
-            ("black", "kings"): self.black_kings,
-            ("black", "queens"): self.black_queens,
-            ("black", "rooks"): self.black_rooks,
-            ("black", "bishops"): self.black_bishops,
-            ("black", "knights"): self.black_knights,
-            ("black", "pawns"): self.black_pawns,
-        }
+        # self.board = {
+        #     ("white", "kings"): self.white_kings,
+        #     ("white", "queens"): self.white_queens,
+        #     ("white", "rooks"): self.white_rooks,
+        #     ("white", "bishops"): self.white_bishops,
+        #     ("white", "knights"): self.white_knights,
+        #     ("white", "pawns"): self.white_pawns,
+        #     ("black", "kings"): self.black_kings,
+        #     ("black", "queens"): self.black_queens,
+        #     ("black", "rooks"): self.black_rooks,
+        #     ("black", "bishops"): self.black_bishops,
+        #     ("black", "knights"): self.black_knights,
+        #     ("black", "pawns"): self.black_pawns,
+        # }
 
         # Keep track of all moves made
         self.moves = []
@@ -392,7 +394,6 @@ class Board:
         """
         attrname = side + "_" + piece
         setattr(self.state, attrname, board)
-        self.update_board_state()
 
     def identify_piece_at(self, position: int) -> tuple:
         """
