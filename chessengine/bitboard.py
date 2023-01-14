@@ -398,11 +398,12 @@ class Board:
             the piece identified at position (e.g, "black"), piece is the type of piece identified
             at position (e.g, "bishops"), and bitboard is the bitboard of the piece (e.g, Board.black_bishops).
         """
+        if not position & self.all_pieces:
+            return None, None, None
         for side, piece in self.board:
             board = self.board[(side, piece)]
             if board & position > 0:
                 return side, piece, board
-        return None, None, None
 
     def move(self, start: int, end: int, track: bool = True) -> None:
         """
