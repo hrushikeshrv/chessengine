@@ -42,6 +42,7 @@ from chessengine.lookup_tables import (
     coords_to_pos,
     pos_to_coords,
     san_piece_map,
+    piece_square_table
 )
 from chessengine.utils import (
     get_bit_positions,
@@ -230,20 +231,25 @@ class Board:
         The "score" of the board. A higher/more positive score favors white,
         a lower/more negative score favors black.
         """
-        K = self.piece_count[("white", "kings")]
-        Q = self.piece_count[("white", "queens")]
-        R = self.piece_count[("white", "rooks")]
-        B = self.piece_count[("white", "bishops")]
-        N = self.piece_count[("white", "knights")]
-        P = self.piece_count[("white", "pawns")]
-        k = self.piece_count[("black", "kings")]
-        q = self.piece_count[("black", "queens")]
-        r = self.piece_count[("black", "rooks")]
-        b = self.piece_count[("black", "bishops")]
-        n = self.piece_count[("black", "knights")]
-        p = self.piece_count[("black", "pawns")]
-        s = 200 * (K - k) + 9 * (Q - q) + 5 * (R - r) + 3 * (B - b + N - n) + (P - p)
-        if self.side == "white":
+        s = 0
+        piece_values = {
+            'pawns': 100,
+            'rooks': 500,
+            'knights': 320,
+            'bishops': 330,
+            'queens': 900,
+            'kings': 20000
+        }
+        for i in range(64):
+            pos = 2 ** i
+            side, piece, _ = self.identify_piece_at(pos)
+            if side is None:
+                continue
+            elif side == 'white':
+                s += piece_values[piece] + piece_square_table[(side, piece)][i]
+            else:
+                s -= piece_values[piece] + piece_square_table[(side, piece)][i]
+        if self.side == 'white':
             return s
         return -s
 
