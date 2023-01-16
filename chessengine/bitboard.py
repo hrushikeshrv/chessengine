@@ -183,7 +183,6 @@ class Board:
         board_repr += " " + " ".join(files) + "\n"
 
         for i in r:
-            # board_repr += "   +---+---+---+---+---+---+---+---+   \n"
             board_repr += ranks[i] + "  "
 
             if self.side == "white":
@@ -194,7 +193,6 @@ class Board:
             board_repr += "  " + ranks[i]
             board_repr += "\n"
 
-        # board_repr += "   +---+---+---+---+---+---+---+---+   \n"
         board_repr += " " + " ".join(files) + "\n"
         return board_repr
 
