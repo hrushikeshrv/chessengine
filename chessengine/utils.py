@@ -26,7 +26,7 @@ piece_characters = {
 def get_bit_positions(bitboard: int) -> List[int]:
     """
     Returns a list of positions in the bitboard which have a 1.
-    For e.g. - 1001100 returns [100, 1000, 1000000]
+    For e.g. - 1001100 returns [100, 1000, 1000000] (all numbers in binary)
 
     :param bitboard: A bitboard.
     """

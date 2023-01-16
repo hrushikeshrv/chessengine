@@ -42,6 +42,7 @@ from chessengine.lookup_tables import (
     coords_to_pos,
     pos_to_coords,
     san_piece_map,
+    piece_square_table,
 )
 from chessengine.utils import (
     get_bit_positions,
@@ -230,19 +231,24 @@ class Board:
         The "score" of the board. A higher/more positive score favors white,
         a lower/more negative score favors black.
         """
-        K = self.piece_count[("white", "kings")]
-        Q = self.piece_count[("white", "queens")]
-        R = self.piece_count[("white", "rooks")]
-        B = self.piece_count[("white", "bishops")]
-        N = self.piece_count[("white", "knights")]
-        P = self.piece_count[("white", "pawns")]
-        k = self.piece_count[("black", "kings")]
-        q = self.piece_count[("black", "queens")]
-        r = self.piece_count[("black", "rooks")]
-        b = self.piece_count[("black", "bishops")]
-        n = self.piece_count[("black", "knights")]
-        p = self.piece_count[("black", "pawns")]
-        s = 200 * (K - k) + 9 * (Q - q) + 5 * (R - r) + 3 * (B - b + N - n) + (P - p)
+        s = 0
+        piece_values = {
+            "pawns": 100,
+            "rooks": 500,
+            "knights": 320,
+            "bishops": 330,
+            "queens": 900,
+            "kings": 20000,
+        }
+        for i in range(64):
+            pos = 2**i
+            side, piece, _ = self.identify_piece_at(pos)
+            if side is None:
+                continue
+            elif side == "white":
+                s += piece_values[piece] + piece_square_table[(side, piece)][i]
+            else:
+                s -= piece_values[piece] + piece_square_table[(side, piece)][i]
         if self.side == "white":
             return s
         return -s
@@ -398,11 +404,12 @@ class Board:
             the piece identified at position (e.g, "black"), piece is the type of piece identified
             at position (e.g, "bishops"), and bitboard is the bitboard of the piece (e.g, Board.black_bishops).
         """
+        if not position & self.all_pieces:
+            return None, None, None
         for side, piece in self.board:
             board = self.board[(side, piece)]
             if board & position > 0:
                 return side, piece, board
-        return None, None, None
 
     def move(self, start: int, end: int, track: bool = True) -> None:
         """
@@ -487,11 +494,11 @@ class Board:
         if start_piece == "pawns":
             if start_side == "white":
                 # Check en passant status
-                if get_rank(end) - get_rank(start) == 2:
+                if get_rank(start) == 2 and get_rank(end) == 4:
                     self.en_passant_position = start << 8
 
                 # Check if a pawn captured by an en passant move
-                elif get_file(start) != get_file(end):
+                elif end == self.en_passant_position:
                     # White pawn made an en passant move
                     black_pawn_bb = self.get_bitboard("black", "pawns")
                     black_pawn_bb &= clear_position[end >> 8]
@@ -505,11 +512,11 @@ class Board:
 
             else:
                 # Check en passant status
-                if get_rank(start) - get_rank(end) == 2:
+                if get_rank(start) == 7 and get_rank(end) == 5:
                     self.en_passant_position = start >> 8
 
                 # Check if a pawn captured by an en passant move
-                elif get_file(start) != get_file(end):
+                elif end == self.en_passant_position:
                     # Black pawn made an en passant move
                     white_pawn_bb = self.get_bitboard("white", "pawns")
                     white_pawn_bb &= clear_position[end << 8]
@@ -768,7 +775,6 @@ class Board:
                     ("black", "knights"): get_black_knight_moves,
                     ("black", "pawns"): get_black_pawn_moves,
                 }
-                # TODO - Add support for en passant move detection
                 return move_gens[(side, piece)](self, position)
         else:
             moves = []
