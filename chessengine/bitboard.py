@@ -146,7 +146,7 @@ class Board:
         self.moves = []
 
     def __repr__(self):
-        piece_list = [" " for _ in range(64)]
+        piece_list = ["." for _ in range(64)]
         unicode_piece = {
             ("white", "kings"): "\u2654",
             ("white", "queens"): "\u2655",
@@ -180,22 +180,22 @@ class Board:
             files = list(reversed(files))
 
         board_repr = ""
-        board_repr += " " + "   ".join(files) + "\n"
+        board_repr += " " + " ".join(files) + "\n"
 
         for i in r:
-            board_repr += "   +---+---+---+---+---+---+---+---+   \n"
-            board_repr += ranks[i] + "  | "
+            # board_repr += "   +---+---+---+---+---+---+---+---+   \n"
+            board_repr += ranks[i] + "  "
 
             if self.side == "white":
-                board_repr += " | ".join(piece_list[8 * i : 8 * i + 8])
+                board_repr += " ".join(piece_list[8 * i : 8 * i + 8])
             else:
-                board_repr += " | ".join(piece_list[8 * i : 8 * i + 8][::-1])
+                board_repr += " ".join(piece_list[8 * i : 8 * i + 8][::-1])
 
-            board_repr += " |  " + ranks[i]
+            board_repr += "  " + ranks[i]
             board_repr += "\n"
 
-        board_repr += "   +---+---+---+---+---+---+---+---+   \n"
-        board_repr += " " + "   ".join(files) + "\n"
+        # board_repr += "   +---+---+---+---+---+---+---+---+   \n"
+        board_repr += " " + " ".join(files) + "\n"
         return board_repr
 
     def __str__(self):
