@@ -247,9 +247,8 @@ class Board:
                 s += piece_values[piece] + piece_square_table[(side, piece)][i]
             else:
                 s -= piece_values[piece] + piece_square_table[(side, piece)][i]
-        if self.side == "white":
-            return s
-        return -s
+
+        return s
 
     @property
     def board_pieces(self):
@@ -819,8 +818,8 @@ class Board:
     def alpha_beta_search(
         self,
         depth: int = 4,
-        alpha: int = -1000,
-        beta: int = 1000,
+        alpha: int = -100000,
+        beta: int = 100000,
         maximizing_player: bool = True,
     ) -> int:
         """
@@ -838,7 +837,7 @@ class Board:
             return self.score
 
         if maximizing_player:
-            value = -1000
+            value = -100000
             moves = self.get_moves(self.side)
             for move in moves:
                 self.move(start=move[0], end=move[1])
@@ -850,7 +849,7 @@ class Board:
                 alpha = max(alpha, value)
             return value
         else:
-            value = 1000
+            value = 100000
             moves = self.get_moves(self.opponent_side)
             for move in moves:
                 self.move(start=move[0], end=move[1])
