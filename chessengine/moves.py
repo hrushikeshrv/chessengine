@@ -3,7 +3,7 @@ Functions for generating moves for all supported pieces in all supported scenari
 """
 
 
-from chessengine.utils import get_rank, get_file
+from chessengine.utils import get_rank, get_file, score_from_move
 
 HIGHEST_SQUARE = 2**63
 

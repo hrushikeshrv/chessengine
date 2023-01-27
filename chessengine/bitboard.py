@@ -63,6 +63,8 @@ class Board:
     ``black_bishops``, ``white_queens``, ``black_kings``.
 
     :param side: The side that the _board_ will play. Should be one of "white" or "black"
+    :var score: The score/evaluation of the current board positions. A higher/more positive score favors
+        white, a lower/more negative score favors black
     """
 
     def __init__(self, side: str):
@@ -100,6 +102,7 @@ class Board:
 
         self.all_pieces = self.all_black | self.all_white
 
+        self.score = 0
         self.piece_count = {
             ("white", "kings"): 1,
             ("white", "queens"): 1,
@@ -224,33 +227,6 @@ class Board:
         return hash(hash_str)
 
     @property
-    def score(self):
-        """
-        The "score" of the board. A higher/more positive score favors white,
-        a lower/more negative score favors black.
-        """
-        s = 0
-        piece_values = {
-            "pawns": 100,
-            "rooks": 500,
-            "knights": 320,
-            "bishops": 330,
-            "queens": 900,
-            "kings": 20000,
-        }
-        for i in range(64):
-            pos = 2**i
-            side, piece, _ = self.identify_piece_at(pos)
-            if side is None:
-                continue
-            elif side == "white":
-                s += piece_values[piece] + piece_square_table[(side, piece)][i]
-            else:
-                s -= piece_values[piece] + piece_square_table[(side, piece)][i]
-
-        return s
-
-    @property
     def board_pieces(self):
         """
         A list of all bitboards of the pieces that belong to the Board.
@@ -301,6 +277,35 @@ class Board:
         Create and return a copy of the board.
         """
         return copy(self)
+    
+    def evaluate_score(self) -> int:
+        """
+        Evaluate the current score/evaluation of the board state. Use this method to
+        reset the board score to the correct value if the game starts from an intermediate
+        stage.
+        
+        :return: The score/evaluation of the current board state.
+        """
+        s = 0
+        piece_values = {
+            "pawns": 100,
+            "rooks": 500,
+            "knights": 320,
+            "bishops": 330,
+            "queens": 900,
+            "kings": 20000,
+        }
+        for i in range(64):
+            pos = 2 ** i
+            side, piece, _ = self.identify_piece_at(pos)
+            if side is None:
+                continue
+            elif side == "white":
+                s += piece_values[piece] + piece_square_table[(side, piece)][i]
+            else:
+                s -= piece_values[piece] + piece_square_table[(side, piece)][i]
+
+        return s
 
     def get_side_bitboard(self, side: str) -> int:
         """
@@ -408,7 +413,7 @@ class Board:
             if board & position > 0:
                 return side, piece, board
 
-    def move(self, start: int, end: int, track: bool = True) -> None:
+    def move(self, start: int, end: int, score: int = None, track: bool = True) -> None:
         """
         Moves the piece at start to end. Doesn't check anything, just makes
         the move (unless the start or end positions are invalid). Also checks if move
@@ -426,6 +431,7 @@ class Board:
 
         :param start: The start position of the move. See :ref:`position_representation`
         :param end: The end position of the move. See :ref:`position_representation`
+        :param score: The new score/evaluation of the board after the move is made
         :param track: If ``True``, the move made will be stored in self.moves
 
         :raises PositionError: If an invalid position was passed.
@@ -484,7 +490,7 @@ class Board:
 
         # Track moves made so we can undo
         if track:
-            start_state = (start, end, end_side, end_piece, end_board, castle_type)
+            start_state = (start, end, end_side, end_piece, end_board, castle_type, self.score)
             self.moves.append(start_state)
 
         # Check en passant moves
@@ -561,6 +567,12 @@ class Board:
             self.move(2**56, 2**59, False)  # Don't track this move
             self.black_king_side_castle = False
             self.black_queen_side_castle = False
+        
+        # Update the board evaluation
+        if track:
+            if score is None:
+                score = self.evaluate_score()
+            self.score = score
 
     def move_raw(self, start: int, end: int, track: bool = True) -> None:
         """
@@ -704,24 +716,25 @@ class Board:
         """
         if not self.moves:
             raise RuntimeError("No moves have been made yet to undo.")
-        end, start, side, piece, board, castle_type = self.moves.pop()
-
+        end, start, side, piece, board, castle_type, prev_score = self.moves.pop()
+        self.score = prev_score
+        
         if castle_type is not None:
             # TODO - if user castles when both self.white_kingside and self.white_queenside are
             #       True, undoing this move only lets the user castle to the same side they castled
             #       before undoing. Same for black.
             if castle_type == "white_kingside":
                 self.move(start=start, end=end, track=False)  # Move king
-                self.move(2**5, 2**7)  # Move rook
+                self.move(2**5, 2**7, track=False)  # Move rook
             elif castle_type == "white_queenside":
                 self.move(start=start, end=end, track=False)  # Move king
-                self.move(2**3, 2**0)  # Move rook
+                self.move(2**3, 2**0, track=False)  # Move rook
             elif castle_type == "black_kingside":
                 self.move(start=start, end=end, track=False)  # Move king
-                self.move(2**61, 2**63)  # Move rook
+                self.move(2**61, 2**63, track=False)  # Move rook
             elif castle_type == "black_queenside":
                 self.move(start=start, end=end, track=False)  # Move king
-                self.move(2**59, 2**56)  # Move rook
+                self.move(2**59, 2**56, track=False)  # Move rook
         else:
             self.move(start=start, end=end, track=False)
             if side is not None:
