@@ -795,7 +795,7 @@ class Board:
             element is the best found move as a 2 tuple containing the start position and the end position
         """
         maximize = self.side == "white"
-        best_score = -1000 if maximize else 1000
+        best_score = -100000 if maximize else 100000
 
         moves = self.get_moves(self.side)
         best_move = moves[0]
