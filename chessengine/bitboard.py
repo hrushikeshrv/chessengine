@@ -814,7 +814,7 @@ class Board:
         best_move = moves[0]
 
         for move in moves:
-            self.move(start=move[0], end=move[1])
+            self.move(start=move[0], end=move[1], score=move[2])
             value = self.alpha_beta_search(
                 depth=depth - 1, maximizing_player=not maximize
             )
@@ -853,7 +853,7 @@ class Board:
             value = -100000
             moves = self.get_moves(self.side)
             for move in moves:
-                self.move(start=move[0], end=move[1])
+                self.move(start=move[0], end=move[1], score=move[2])
                 final_score = self.alpha_beta_search(depth - 1, alpha, beta, False)
                 value = max(value, final_score)
                 self.undo_move()
@@ -865,7 +865,7 @@ class Board:
             value = 100000
             moves = self.get_moves(self.opponent_side)
             for move in moves:
-                self.move(start=move[0], end=move[1])
+                self.move(start=move[0], end=move[1], score=move[2])
                 final_score = self.alpha_beta_search(depth - 1, alpha, beta, True)
                 value = min(value, final_score)
                 self.undo_move()
