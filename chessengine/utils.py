@@ -1,6 +1,7 @@
 """
 Utility functions for common bitboard operations.
 """
+from chessengine.lookup_tables import piece_square_table
 
 
 from typing import List
@@ -118,3 +119,57 @@ def get_input(prompt: str) -> str:
     Simple wrapper for input to allow testing
     """
     return input(prompt).strip()
+
+
+def score_from_move(
+    side: str, piece: str, start: int, end: int, end_piece: str, prev_score: int
+) -> int:
+    """
+    Takes the previous board evaluation, and a move to be made, and returns the new
+    board evaluation.
+
+    :param side: The side that is making the move. Should be one of "white" or "black"
+    :param piece: The piece that is making the move. Should be one of
+        ["kings", "queens", "rooks", "bishops", "knights", "pawns"]
+    :param start: The start position of the move. See :ref:`position_representation`
+    :param end: The end position of the move. See :ref:`position_representation`
+    :param end_piece: The piece that was captured (if any)
+    :param prev_score: The previous score/evaluation of the board before the move was made
+
+    :return: The new score/evaluation of the board after the move is made
+    """
+    # TODO - Doesn't take into account pawn promotions. Add support for pawn promotions
+    piece_values = {
+        "pawns": 100,
+        "rooks": 500,
+        "knights": 320,
+        "bishops": 330,
+        "queens": 900,
+        "kings": 20000,
+    }
+    if side == "white":
+        new_score = (
+            prev_score
+            - piece_square_table[(side, piece)][int(log2(start))]
+            + piece_square_table[(side, piece)][int(log2(end))]
+        )
+    else:
+        new_score = (
+            prev_score
+            + piece_square_table[(side, piece)][int(log2(start))]
+            - piece_square_table[(side, piece)][int(log2(end))]
+        )
+    if end_piece is not None:
+        if side == "white":
+            # Captured side was black
+            new_score += (
+                piece_values[end_piece]
+                + piece_square_table[("black", end_piece)][int(log2(end))]
+            )
+        else:
+            # Captured side was white
+            new_score -= (
+                piece_values[end_piece]
+                + piece_square_table[("white", end_piece)][int(log2(end))]
+            )
+    return new_score
