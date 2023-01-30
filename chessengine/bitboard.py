@@ -277,13 +277,13 @@ class Board:
         Create and return a copy of the board.
         """
         return copy(self)
-    
+
     def evaluate_score(self) -> int:
         """
         Evaluate the current score/evaluation of the board state. Use this method to
         reset the board score to the correct value if the game starts from an intermediate
         stage.
-        
+
         :return: The score/evaluation of the current board state.
         """
         s = 0
@@ -296,7 +296,7 @@ class Board:
             "kings": 20000,
         }
         for i in range(64):
-            pos = 2 ** i
+            pos = 2**i
             side, piece, _ = self.identify_piece_at(pos)
             if side is None:
                 continue
@@ -490,7 +490,15 @@ class Board:
 
         # Track moves made so we can undo
         if track:
-            start_state = (start, end, end_side, end_piece, end_board, castle_type, self.score)
+            start_state = (
+                start,
+                end,
+                end_side,
+                end_piece,
+                end_board,
+                castle_type,
+                self.score,
+            )
             self.moves.append(start_state)
 
         # Check en passant moves
@@ -567,7 +575,7 @@ class Board:
             self.move(2**56, 2**59, False)  # Don't track this move
             self.black_king_side_castle = False
             self.black_queen_side_castle = False
-        
+
         # Update the board evaluation
         if track:
             if score is None:
@@ -718,7 +726,7 @@ class Board:
             raise RuntimeError("No moves have been made yet to undo.")
         end, start, side, piece, board, castle_type, prev_score = self.moves.pop()
         self.score = prev_score
-        
+
         if castle_type is not None:
             # TODO - if user castles when both self.white_kingside and self.white_queenside are
             #       True, undoing this move only lets the user castle to the same side they castled

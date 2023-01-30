@@ -13,7 +13,7 @@ sys.path.insert(1, dirname(dirname(abspath(__file__))))
 project = "chessengine"
 copyright = "2022, Hrushikesh Vaidya"
 author = "Hrushikesh Vaidya"
-release = "0.3.1"
+release = "0.3.2"
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration

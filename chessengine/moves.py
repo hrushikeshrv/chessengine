@@ -68,7 +68,9 @@ def get_rook_moves(board, side: str, position: int) -> list[tuple[int, int, int]
     while True:
         # Move rank up
         _ = _ << 8
-        valid, should_break = check_valid_position(board, side, 'rooks', position, _, moves)
+        valid, should_break = check_valid_position(
+            board, side, "rooks", position, _, moves
+        )
         if should_break:
             break
 
@@ -76,7 +78,9 @@ def get_rook_moves(board, side: str, position: int) -> list[tuple[int, int, int]
     while True:
         # Move rank down
         _ = _ >> 8
-        valid, should_break = check_valid_position(board, side, 'rooks', position, _, moves)
+        valid, should_break = check_valid_position(
+            board, side, "rooks", position, _, moves
+        )
         if should_break:
             break
 
@@ -86,7 +90,9 @@ def get_rook_moves(board, side: str, position: int) -> list[tuple[int, int, int]
     for i in range(max_right):
         # Move right
         _ = _ << 1
-        valid, should_break = check_valid_position(board, side, 'rooks', position, _, moves)
+        valid, should_break = check_valid_position(
+            board, side, "rooks", position, _, moves
+        )
         if should_break:
             break
 
@@ -95,7 +101,9 @@ def get_rook_moves(board, side: str, position: int) -> list[tuple[int, int, int]
     for i in range(max_left):
         # Move left
         _ = _ >> 1
-        valid, should_break = check_valid_position(board, side, 'rooks', position, _, moves)
+        valid, should_break = check_valid_position(
+            board, side, "rooks", position, _, moves
+        )
         if should_break:
             break
 
@@ -136,14 +144,18 @@ def get_bishop_moves(board, side: str, position: int) -> list[tuple[int, int, in
     _ = position
     for i in range(max_right):
         _ = _ << 9
-        valid, should_break = check_valid_position(board, side, 'bishops', position, _, moves)
+        valid, should_break = check_valid_position(
+            board, side, "bishops", position, _, moves
+        )
         if should_break:
             break
 
     _ = position
     for i in range(max_right):
         _ = _ >> 7
-        valid, should_break = check_valid_position(board, side, 'bishops', position, _, moves)
+        valid, should_break = check_valid_position(
+            board, side, "bishops", position, _, moves
+        )
         if should_break:
             break
 
@@ -151,14 +163,18 @@ def get_bishop_moves(board, side: str, position: int) -> list[tuple[int, int, in
     _ = position
     for i in range(max_left):
         _ = _ << 7
-        valid, should_break = check_valid_position(board, side, 'bishops', position, _, moves)
+        valid, should_break = check_valid_position(
+            board, side, "bishops", position, _, moves
+        )
         if should_break:
             break
 
     _ = position
     for i in range(max_left):
         _ = _ >> 9
-        valid, should_break = check_valid_position(board, side, 'bishops', position, _, moves)
+        valid, should_break = check_valid_position(
+            board, side, "bishops", position, _, moves
+        )
         if should_break:
             break
 
@@ -200,34 +216,34 @@ def get_knight_moves(board, side: str, position: int) -> list[tuple[int, int, in
     if rank >= 3:
         if file >= 2:
             _ = position >> 17
-            check_valid_position(board, side, 'knights', position, _, moves)
+            check_valid_position(board, side, "knights", position, _, moves)
         if file <= 7:
             _ = position >> 15
-            check_valid_position(board, side, 'knights', position, _, moves)
+            check_valid_position(board, side, "knights", position, _, moves)
 
     if rank >= 2:
         if file >= 3:
             _ = position >> 10
-            check_valid_position(board, side, 'knights', position, _, moves)
+            check_valid_position(board, side, "knights", position, _, moves)
         if file <= 6:
             _ = position >> 6
-            check_valid_position(board, side, 'knights', position, _, moves)
+            check_valid_position(board, side, "knights", position, _, moves)
 
     if rank <= 6:
         if file >= 2:
             _ = position << 15
-            check_valid_position(board, side, 'knights', position, _, moves)
+            check_valid_position(board, side, "knights", position, _, moves)
         if file <= 7:
             _ = position << 17
-            check_valid_position(board, side, 'knights', position, _, moves)
+            check_valid_position(board, side, "knights", position, _, moves)
 
     if rank <= 7:
         if file >= 3:
             _ = position << 6
-            check_valid_position(board, side, 'knights', position, _, moves)
+            check_valid_position(board, side, "knights", position, _, moves)
         if file <= 6:
             _ = position << 10
-            check_valid_position(board, side, 'knights', position, _, moves)
+            check_valid_position(board, side, "knights", position, _, moves)
 
     return moves
 
@@ -267,35 +283,35 @@ def get_king_moves(board, side: str, position: int) -> list[tuple[int, int, int]
 
     if rank >= 2:
         _ = position >> 8
-        check_valid_position(board, side, 'kings', position, _, moves)
+        check_valid_position(board, side, "kings", position, _, moves)
 
         if file >= 2:
             _ = position >> 9
-            check_valid_position(board, side, 'kings', position, _, moves)
+            check_valid_position(board, side, "kings", position, _, moves)
 
         if file <= 7:
             _ = position >> 7
-            check_valid_position(board, side, 'kings', position, _, moves)
+            check_valid_position(board, side, "kings", position, _, moves)
 
     if rank <= 7:
         _ = position << 8
-        check_valid_position(board, side, 'kings', position, _, moves)
+        check_valid_position(board, side, "kings", position, _, moves)
 
         if file >= 2:
             _ = position << 7
-            check_valid_position(board, side, 'kings', position, _, moves)
+            check_valid_position(board, side, "kings", position, _, moves)
 
         if file <= 7:
             _ = position << 9
-            check_valid_position(board, side, 'kings', position, _, moves)
+            check_valid_position(board, side, "kings", position, _, moves)
 
     if file >= 2:
         _ = position >> 1
-        check_valid_position(board, side, 'kings', position, _, moves)
+        check_valid_position(board, side, "kings", position, _, moves)
 
     if file <= 7:
         _ = position << 1
-        check_valid_position(board, side, 'kings', position, _, moves)
+        check_valid_position(board, side, "kings", position, _, moves)
 
     if side == "white":
         if board.white_queen_side_castle:
@@ -373,35 +389,41 @@ def get_white_pawn_moves(board, position: int) -> list[tuple[int, int, int]]:
     _ = position << 8
     if board.all_pieces & _ == 0:
         end_side, end_piece, end_board = board.identify_piece_at(_)
-        score = score_from_move('white', 'pawns', position, _, end_piece, board.score)
+        score = score_from_move("white", "pawns", position, _, end_piece, board.score)
         moves.append((position, _, score))
         if rank == 2:
             _ = position << 16
             if board.all_pieces & _ == 0:
                 end_side, end_piece, end_board = board.identify_piece_at(_)
-                score = score_from_move('white', 'pawns', position, _, end_piece, board.score)
+                score = score_from_move(
+                    "white", "pawns", position, _, end_piece, board.score
+                )
                 moves.append((position, _, score))
     file = get_file(position)
     if file >= 2:
         _ = position << 7
         if board.all_black & _ > 0:
             end_side, end_piece, end_board = board.identify_piece_at(_)
-            score = score_from_move('white', 'pawns', position, _, end_piece, board.score)
+            score = score_from_move(
+                "white", "pawns", position, _, end_piece, board.score
+            )
             moves.append((position, _, score))
     if file <= 7:
         _ = position << 9
         if board.all_black & _ > 0:
             end_side, end_piece, end_board = board.identify_piece_at(_)
-            score = score_from_move('white', 'pawns', position, _, end_piece, board.score)
+            score = score_from_move(
+                "white", "pawns", position, _, end_piece, board.score
+            )
             moves.append((position, _, score))
 
     en_passant_position = board.en_passant_position
     if en_passant_position == position << 7 and file >= 2:
         _ = position << 7
-        check_valid_position(board, "white", 'pawns', position, _, moves)
+        check_valid_position(board, "white", "pawns", position, _, moves)
     if en_passant_position == position << 9 and file <= 7:
         _ = position << 9
-        check_valid_position(board, "white", 'pawns', position, _, moves)
+        check_valid_position(board, "white", "pawns", position, _, moves)
 
     return moves
 
@@ -421,32 +443,38 @@ def get_black_pawn_moves(board, position: int) -> list[tuple[int, int, int]]:
     _ = position >> 8
     if board.all_pieces & _ == 0:
         end_side, end_piece, end_board = board.identify_piece_at(_)
-        score = score_from_move('black', 'pawns', position, _, end_piece, board.score)
+        score = score_from_move("black", "pawns", position, _, end_piece, board.score)
         moves.append((position, _, score))
         if rank == 7:
             _ = position >> 16
             if board.all_pieces & _ == 0:
                 end_side, end_piece, end_board = board.identify_piece_at(_)
-                score = score_from_move('black', 'pawns', position, _, end_piece, board.score)
+                score = score_from_move(
+                    "black", "pawns", position, _, end_piece, board.score
+                )
                 moves.append((position, _, score))
     file = get_file(position)
     if file >= 2:
         _ = position >> 9
         if board.all_white & _ > 0:
             end_side, end_piece, end_board = board.identify_piece_at(_)
-            score = score_from_move('black', 'pawns', position, _, end_piece, board.score)
+            score = score_from_move(
+                "black", "pawns", position, _, end_piece, board.score
+            )
             moves.append((position, _, score))
     if file <= 7:
         _ = position >> 7
         if board.all_white & _ > 0:
             end_side, end_piece, end_board = board.identify_piece_at(_)
-            score = score_from_move('black', 'pawns', position, _, end_piece, board.score)
+            score = score_from_move(
+                "black", "pawns", position, _, end_piece, board.score
+            )
             moves.append((position, _, score))
 
     en_passant_position = board.en_passant_position
     if en_passant_position == position >> 9 and file >= 2:
         _ = position >> 9
-        check_valid_position(board, "black", 'pawns', position, _, moves)
+        check_valid_position(board, "black", "pawns", position, _, moves)
     if en_passant_position == position >> 7 and file <= 7:
         _ = position >> 7
         check_valid_position(board, "black", "pawns", position, _, moves)
