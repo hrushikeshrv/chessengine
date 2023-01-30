@@ -6,7 +6,7 @@
 <link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="chessengine.pgn.node" href="chessengine.pgn.node.html" /><link rel="prev" title="chessengine.moves" href="chessengine.moves.html" />
 
     <meta name="generator" content="sphinx-5.1.1, furo 2022.09.15"/>
-        <title>chessengine.utils - chessengine 0.3.1 documentation</title>
+        <title>chessengine.utils - chessengine 0.3.2 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?digest=9ec31e2665bf879c1d47d93a8ec4893870ee1e45" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
@@ -123,7 +123,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../index.html"><div class="brand">chessengine 0.3.1 documentation</div></a>
+      <a href="../index.html"><div class="brand">chessengine 0.3.2 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -146,7 +146,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
   
   
-  <span class="sidebar-brand-text">chessengine 0.3.1 documentation</span>
+  <span class="sidebar-brand-text">chessengine 0.3.2 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
   <input class="sidebar-search" placeholder=Search name="q" aria-label="Search">
@@ -284,6 +284,46 @@ i.e. - Returns 0000100 for 1010100</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="chessengine.utils.change_turn">
+<span class="sig-prename descclassname"><span class="pre">chessengine.utils.</span></span><span class="sig-name descname"><span class="pre">change_turn</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">side_to_move</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#chessengine.utils.change_turn" title="Permalink to this definition">#</a></dt>
+<dd><p>Returns “black” if <code class="docutils literal notranslate"><span class="pre">side_to_move</span></code> is “white”, and “white” otherwise.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>side_to_move</strong> (<em>str</em>) – The current side</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="chessengine.utils.score_from_move">
+<span class="sig-prename descclassname"><span class="pre">chessengine.utils.</span></span><span class="sig-name descname"><span class="pre">score_from_move</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">side</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">piece</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_piece</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prev_score</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#chessengine.utils.score_from_move" title="Permalink to this definition">#</a></dt>
+<dd><p>Takes the previous board evaluation, and a move to be made, and returns the new
+board evaluation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>side</strong> (<em>str</em>) – The side that is making the move. Should be one of “white” or “black”</p></li>
+<li><p><strong>piece</strong> (<em>str</em>) – The piece that is making the move. Should be one of
+[“kings”, “queens”, “rooks”, “bishops”, “knights”, “pawns”]</p></li>
+<li><p><strong>start</strong> (<em>int</em>) – The start position of the move. See <a class="reference internal" href="../chessboard.html#position-representation"><span class="std std-ref">Representing Positions On The Board</span></a></p></li>
+<li><p><strong>end</strong> (<em>int</em>) – The end position of the move. See <a class="reference internal" href="../chessboard.html#position-representation"><span class="std std-ref">Representing Positions On The Board</span></a></p></li>
+<li><p><strong>end_piece</strong> (<em>str</em>) – The piece that was captured (if any)</p></li>
+<li><p><strong>prev_score</strong> (<em>int</em>) – The previous score/evaluation of the board before the move was made</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The new score/evaluation of the board after the move is made</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
 </dd>
 </dl>
 </dd></dl>

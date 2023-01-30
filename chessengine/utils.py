@@ -105,7 +105,7 @@ def clear_lines(n: int) -> None:
 
 def change_turn(side_to_move: str) -> str:
     """
-    Returns "black" if side_to_move is "white", and "white" otherwise.
+    Returns "black" if ``side_to_move`` is "white", and "white" otherwise.
 
     :param side_to_move: The current side
     """
