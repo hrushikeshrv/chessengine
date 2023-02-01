@@ -972,12 +972,12 @@ class Board:
         side_to_move = "white"
         in_game_tree = parser is not None
         current_node = parser.root_node if in_game_tree else None
-        lines_printed = 20
+        lines_printed = 11
         last_move = ""
         while True:
             clear_lines(lines_printed)
             print(self)
-            lines_printed = 20
+            lines_printed = 11
             if side_to_move == self.side:
                 if in_game_tree:
                     move, node = random.choice(list(current_node.children.items()))
