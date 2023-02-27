@@ -53,6 +53,13 @@ from chessengine.utils import (
     change_turn,
 )
 from chessengine.pgn.parser import PGNParser, SAN_MOVE_REGEX
+from chessengine.pgn.utils import best_move_from_tree
+
+import logging
+
+logging.basicConfig(
+    filename="log/debug_opening_book.log", filemode="w", level=logging.DEBUG
+)
 
 
 class Board:
@@ -616,7 +623,7 @@ class Board:
         :raises MoveError: If an ambiguous or invalid move was passed
         :raises PGNParsingError: If the move was invalid SAN
         """
-        if "0-0-0" in move:
+        if "0-0-0" in move or "O-O-O" in move:
             # queen side castle
             if side == "white":
                 if self.white_queen_side_castle:
@@ -636,7 +643,7 @@ class Board:
                     )
                 self.black_queen_side_castle = False
                 self.black_king_side_castle = False
-        elif "0-0" in move:
+        elif "0-0" in move or "O-O" in move:
             # king side castle
             if side == "white":
                 if self.white_king_side_castle:
@@ -751,7 +758,7 @@ class Board:
 
     def get_moves(
         self, side: str, piece: str = None, position: int = None
-    ) -> list[tuple[int, int]]:
+    ) -> list[tuple[int, int, int]]:
         """
         Get all end positions a piece of side can reach starting from position.
         ``side`` is always required, piece and position are optional.
@@ -806,7 +813,7 @@ class Board:
                     moves.extend(self.get_moves(side, piece, position))
             return moves
 
-    def search_forward(self, depth: int = 4) -> tuple[int, tuple[int, int]]:
+    def search_forward(self, depth: int = 4) -> tuple[int, tuple[int, int, int]]:
         """
         Execute an alpha-beta pruned depth-first search to find the optimal move from
         the current board state.
@@ -981,10 +988,15 @@ class Board:
             if side_to_move == self.side:
                 if in_game_tree:
                     move, node = random.choice(list(current_node.children.items()))
+                    best_move, best_score = best_move_from_tree(self, current_node)
+                    logging.debug(
+                        f"Found best move {best_move}. Best score {best_score}"
+                    )
                     self.move_san(move=move, side=side_to_move)
                     current_node = node
                     last_move = f"Board moves {move}"
                 else:
+                    logging.debug("Not in game tree")
                     best_score, best_move = self.search_forward(search_depth)
                     self.move(best_move[0], best_move[1])
                     last_move = f"Board moves from {pos_to_coords[log2(best_move[0])]} to {pos_to_coords[log2(best_move[1])]}"

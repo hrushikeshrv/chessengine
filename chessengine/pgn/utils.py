@@ -13,7 +13,7 @@ def best_move_from_tree(board, tree: GameNode) -> tuple[str, int]:
     the entire move space, and will only contain "good" moves, and hence
     complete depth-first search will be possible.
 
-    This is a reasonable assumption only when the passed tree is
+    This is a reasonable assumption only when tree is
     from the engine's opening book.
 
     :param board: A ``chessengine.bitboard.Board`` object
@@ -21,7 +21,7 @@ def best_move_from_tree(board, tree: GameNode) -> tuple[str, int]:
     """
     if not tree.children:
         return "", board.evaluate_score()
-    moves = tree.children.keys()
+    moves = list(tree.children.keys())
     best_move = moves[0]
     best_score = -100000 if board.side == "white" else 100000
     for move in moves:
@@ -31,4 +31,8 @@ def best_move_from_tree(board, tree: GameNode) -> tuple[str, int]:
         if new_node.children:
             _, new_score = best_move_from_tree(board, new_node)
         board.undo_move()
+        if new_score > best_score:
+            best_score = new_score
+            best_move = move
+
     return best_move, best_score
