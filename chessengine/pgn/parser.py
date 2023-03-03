@@ -7,12 +7,11 @@ import re
 from chessengine.pgn.node import GameNode, Game
 
 # groups()[0] = The piece moved, one of {K, Q, N, R, B}, None if a pawn was moved
-# groups()[1] = The file the piece was moved from. Present to resolve ambiguity, if any
-# groups()[2] = The rank the piece was moved from. Present to resolve ambiguity, if any
-# groups()[3] = The square the piece was moved to. Always non-null
-# groups()[4] = The piece a pawn was promoted to, if a pawn reached the last rank
+# groups()[1] = The file and/or the rank the piece was moved from. Present to resolve ambiguity, if any
+# groups()[2] = The square the piece was moved to. Always non-null
+# groups()[3] = The piece a pawn was promoted to, if a pawn reached the last rank
 SAN_MOVE_REGEX = re.compile(
-    "([KQNRB\u2654\u2655\u2656\u2657\u2658\u2659\u265A\u265B\u265C\u265D\u265E\u265F])?([a-h])?([1-8])?x?([a-h][1-8])=?([QNRB])?"
+    "([KQNRB\u2654\u2655\u2656\u2657\u2658\u2659\u265A\u265B\u265C\u265D\u265E\u265F])?([a-h1-8]{1,2})?x?([a-h][1-8])=?([QNRB])?"
 )
 MOVE_TEXT_COMMENT_REGEX = re.compile(
     r"\s*{.*?}\s*"
