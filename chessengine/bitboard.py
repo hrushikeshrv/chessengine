@@ -675,13 +675,50 @@ class Board:
             else:
                 piece_moved = san_piece_map[groups[0].upper()]
 
-            end_pos = 2 ** coords_to_pos[groups[3].upper()]
+            end_pos = 2 ** coords_to_pos[groups[2].upper()]
             moves = self.get_moves(side, piece_moved)
+
             if groups[1] is None:
-                # No file provided in the SAN
+                # No rank or file provided in the SAN
                 candidate_move = None
                 for m in moves:
                     if m[1] == end_pos:
+                        if candidate_move:
+                            raise MoveError(
+                                f"{move} is ambiguous for {side}. Specify a file or rank to move from."
+                            )
+                        candidate_move = m
+                if candidate_move is None:
+                    raise MoveError(f"{move} is not a valid move for {side}.")
+                self.move(
+                    start=candidate_move[0],
+                    end=candidate_move[1],
+                    score=candidate_move[2],
+                )
+            elif groups[1].isalpha():
+                # File provided in the SAN
+                candidate_move = None
+                for m in moves:
+                    file = get_file(m[0])
+                    if groups[1].upper() == "ABCDEFGH"[file - 1] and m[1] == end_pos:
+                        if candidate_move:
+                            raise MoveError(
+                                f"{move} is ambiguous for {side}. Specify a rank to move from."
+                            )
+                        candidate_move = m
+                if candidate_move is None:
+                    raise MoveError(f"{move} is not valid for {side}.")
+                self.move(
+                    start=candidate_move[0],
+                    end=candidate_move[1],
+                    score=candidate_move[2],
+                )
+            elif groups[1].isnumeric():
+                # Rank provided in the SAN
+                candidate_move = None
+                for m in moves:
+                    rank = get_rank(m[0])
+                    if groups[1] == "12345678"[rank - 1] and m[1] == end_pos:
                         if candidate_move:
                             raise MoveError(
                                 f"{move} is ambiguous for {side}. Specify a file to move from."
@@ -689,33 +726,20 @@ class Board:
                         candidate_move = m
                 if candidate_move is None:
                     raise MoveError(f"{move} is not a valid move for {side}.")
+                self.move(
+                    start=candidate_move[0],
+                    end=candidate_move[1],
+                    score=candidate_move[2],
+                )
+            elif groups[1].isalnum():
+                # Both rank and file provided in the SAN
+                start_pos = 2 ** coords_to_pos[groups[1].upper()]
+                for m in moves:
+                    if m[0] == start_pos and m[1] == end_pos:
+                        self.move(start=start_pos, end=end_pos, score=m[2])
+                        break
                 else:
-                    self.move(start=candidate_move[0], end=candidate_move[1])
-            else:
-                if groups[2] is None:
-                    # No rank provided in the SAN
-                    candidate_move = None
-                    for m in moves:
-                        file = get_file(m[0])
-                        if (
-                            groups[1].upper() == "ABCDEFGH"[file - 1]
-                            and m[1] == end_pos
-                        ):
-                            if candidate_move:
-                                raise MoveError(
-                                    f"{move} is ambiguous for {side}. Specify a file as well as rank to move from."
-                                )
-                            candidate_move = m
-                    if candidate_move is None:
-                        raise MoveError(f"{move} is not a valid move for {side}.")
-                    else:
-                        self.move(start=candidate_move[0], end=candidate_move[1])
-                else:
-                    # File and rank both present in the SAN
-                    start_pos = 2 ** coords_to_pos[groups[1].upper() + groups[2]]
-                    if (start_pos, end_pos) not in moves:
-                        raise MoveError(f"{move} is not a valid move for {side}.")
-                    self.move(start=start_pos, end=end_pos)
+                    raise MoveError(f"{move} is not a valid move for {side}.")
 
     def make_moves(self, *moves: Iterable[tuple[int, int]]) -> None:
         """

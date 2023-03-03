@@ -325,6 +325,18 @@ san_piece_map = {
     "B": "bishops",
     "N": "knights",
     "R": "rooks",
+    "\u2654": "kings",
+    "\u2655": "queens",
+    "\u2656": "rooks",
+    "\u2657": "bishops",
+    "\u2658": "knights",
+    "\u2659": "pawns",
+    "\u265A": "kings",
+    "\u265B": "queens",
+    "\u265C": "rooks",
+    "\u265D": "bishops",
+    "\u265E": "knights",
+    "\u265F": "pawns",
 }
 
 # fmt: off
