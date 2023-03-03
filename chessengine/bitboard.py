@@ -55,12 +55,6 @@ from chessengine.utils import (
 from chessengine.pgn.parser import PGNParser, SAN_MOVE_REGEX
 from chessengine.pgn.utils import best_move_from_tree
 
-import logging
-
-logging.basicConfig(
-    filename="log/debug_opening_book.log", filemode="w", level=logging.DEBUG
-)
-
 
 class Board:
     """
@@ -1012,15 +1006,10 @@ class Board:
             if side_to_move == self.side:
                 if in_game_tree:
                     move, node = random.choice(list(current_node.children.items()))
-                    best_move, best_score = best_move_from_tree(self, current_node)
-                    logging.debug(
-                        f"Found best move {best_move}. Best score {best_score}"
-                    )
                     self.move_san(move=move, side=side_to_move)
                     current_node = node
                     last_move = f"Board moves {move}"
                 else:
-                    logging.debug("Not in game tree")
                     best_score, best_move = self.search_forward(search_depth)
                     self.move(best_move[0], best_move[1])
                     last_move = f"Board moves from {pos_to_coords[log2(best_move[0])]} to {pos_to_coords[log2(best_move[1])]}"
