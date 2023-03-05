@@ -83,26 +83,6 @@ class Board:
         self.black_queens = 576460752303423488  # (D8)
         self.black_kings = 1152921504606846976  # (E8)
 
-        self.all_white = (
-            self.white_pawns
-            | self.white_rooks
-            | self.white_knights
-            | self.white_bishops
-            | self.white_queens
-            | self.white_kings
-        )
-
-        self.all_black = (
-            self.black_pawns
-            | self.black_rooks
-            | self.black_knights
-            | self.black_bishops
-            | self.black_queens
-            | self.black_kings
-        )
-
-        self.all_pieces = self.all_black | self.all_white
-
         self.score = 0
         self.piece_count = {
             ("white", "kings"): 1,
@@ -129,9 +109,16 @@ class Board:
         self.black_king_side_castle = True
         self.black_queen_side_castle = True
 
-        # A dictionary matching a side and piece to its corresponding bit board.
-        # Useful when we want to iterate through all of the bitboards of the board.
-        self.board = {
+        # Keep track of all moves made
+        self.moves = []
+
+    @property
+    def board(self):
+        """
+        A dictionary mapping a side and piece to its corresponding bitboard.
+        Useful when we want to iterate over all the bitboards of the board
+        """
+        return {
             ("white", "kings"): self.white_kings,
             ("white", "queens"): self.white_queens,
             ("white", "rooks"): self.white_rooks,
@@ -146,8 +133,44 @@ class Board:
             ("black", "pawns"): self.black_pawns,
         }
 
-        # Keep track of all moves made
-        self.moves = []
+    @property
+    def all_white(self):
+        return (
+            self.white_pawns
+            | self.white_rooks
+            | self.white_knights
+            | self.white_bishops
+            | self.white_queens
+            | self.white_kings
+        )
+
+    @property
+    def all_black(self):
+        return (
+            self.black_pawns
+            | self.black_rooks
+            | self.black_knights
+            | self.black_bishops
+            | self.black_queens
+            | self.black_kings
+        )
+
+    @property
+    def all_pieces(self):
+        return (
+            self.black_pawns
+            | self.black_rooks
+            | self.black_knights
+            | self.black_bishops
+            | self.black_queens
+            | self.black_kings
+            | self.white_pawns
+            | self.white_rooks
+            | self.white_knights
+            | self.white_bishops
+            | self.white_queens
+            | self.white_kings
+        )
 
     def __repr__(self):
         piece_list = ["." for _ in range(64)]
@@ -345,47 +368,6 @@ class Board:
         """
         return self.get_bitboard(side=self.side, piece=piece)
 
-    def update_board_state(self) -> None:
-        """
-        Updates all Board attributes when a move is made or the state of the Board
-        changes in any way. You should call this if you manually make any changes to
-        bitboards attributes, otherwise it is called automatically.
-        """
-        self.all_white = (
-            self.white_pawns
-            | self.white_rooks
-            | self.white_knights
-            | self.white_bishops
-            | self.white_queens
-            | self.white_kings
-        )
-
-        self.all_black = (
-            self.black_pawns
-            | self.black_rooks
-            | self.black_knights
-            | self.black_bishops
-            | self.black_queens
-            | self.black_kings
-        )
-
-        self.all_pieces = self.all_black | self.all_white
-
-        self.board = {
-            ("white", "kings"): self.white_kings,
-            ("white", "queens"): self.white_queens,
-            ("white", "rooks"): self.white_rooks,
-            ("white", "bishops"): self.white_bishops,
-            ("white", "knights"): self.white_knights,
-            ("white", "pawns"): self.white_pawns,
-            ("black", "kings"): self.black_kings,
-            ("black", "queens"): self.black_queens,
-            ("black", "rooks"): self.black_rooks,
-            ("black", "bishops"): self.black_bishops,
-            ("black", "knights"): self.black_knights,
-            ("black", "pawns"): self.black_pawns,
-        }
-
     def set_bitboard(self, side: str, piece: str, board: int) -> None:
         """
         Sets the bitboard for the passed arguments to the passed bitboard
@@ -396,7 +378,6 @@ class Board:
         """
         attrname = side + "_" + piece
         setattr(self, attrname, board)
-        self.update_board_state()
 
     def identify_piece_at(self, position: int) -> tuple:
         """
