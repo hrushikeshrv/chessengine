@@ -5,10 +5,10 @@
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 <link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="chessengine.bitboard" href="ref/chessengine.bitboard.html" /><link rel="prev" title="Welcome to chessengine’s documentation!" href="index.html" />
 
-    <meta name="generator" content="sphinx-5.1.1, furo 2022.09.15"/>
+    <!-- Generated with Sphinx 5.3.0 and Furo 2022.12.07 -->
         <title>API Reference - chessengine 0.3.2 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=9ec31e2665bf879c1d47d93a8ec4893870ee1e45" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=91d0f0d1c444bdcb17a68e833c7a53903343c195" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
     
     
@@ -149,7 +149,7 @@
   <span class="sidebar-brand-text">chessengine 0.3.2 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html" role="search">
-  <input class="sidebar-search" placeholder=Search name="q" aria-label="Search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
   <input type="hidden" name="check_keywords" value="yes">
   <input type="hidden" name="area" value="default">
 </form>
@@ -188,7 +188,8 @@
           <span>Back to top</span>
         </a>
         <div class="content-icon-container">
-          <div class="theme-toggle-container theme-toggle-content">
+          
+<div class="theme-toggle-container theme-toggle-content">
             <button class="theme-toggle">
               <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
               <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
@@ -206,13 +207,102 @@
 <h1>API Reference<a class="headerlink" href="#api-reference" title="Permalink to this heading">#</a></h1>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="ref/chessengine.bitboard.html">chessengine.bitboard</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ref/chessengine.exceptions.html">chessengine.exceptions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ref/chessengine.lookup_tables.html">chessengine.lookup_tables</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ref/chessengine.moves.html">chessengine.moves</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ref/chessengine.utils.html">chessengine.utils</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ref/chessengine.pgn.node.html">chessengine.pgn.node</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ref/chessengine.pgn.parser.html">chessengine.pgn.parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ref/chessengine.bitboard.html">chessengine.bitboard</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ref/chessengine.bitboard.html#chessengine.bitboard.Board"><code class="docutils literal notranslate"><span class="pre">Board</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="ref/chessengine.bitboard.html#chessengine.bitboard.Board.__eq__"><code class="docutils literal notranslate"><span class="pre">Board.__eq__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="ref/chessengine.bitboard.html#chessengine.bitboard.Board.__hash__"><code class="docutils literal notranslate"><span class="pre">Board.__hash__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="ref/chessengine.bitboard.html#chessengine.bitboard.Board.__init__"><code class="docutils literal notranslate"><span class="pre">Board.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="ref/chessengine.bitboard.html#chessengine.bitboard.Board.__repr__"><code class="docutils literal notranslate"><span class="pre">Board.__repr__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="ref/chessengine.bitboard.html#chessengine.bitboard.Board.__str__"><code class="docutils literal notranslate"><span class="pre">Board.__str__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="ref/chessengine.bitboard.html#chessengine.bitboard.Board.__weakref__"><code class="docutils literal notranslate"><span class="pre">Board.__weakref__</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="ref/chessengine.bitboard.html#chessengine.bitboard.Board.alpha_beta_search"><code class="docutils literal notranslate"><span class="pre">Board.alpha_beta_search()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="ref/chessengine.bitboard.html#chessengine.bitboard.Board.board"><code class="docutils literal notranslate"><span class="pre">Board.board</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="ref/chessengine.bitboard.html#chessengine.bitboard.Board.board_pieces"><code class="docutils literal notranslate"><span class="pre">Board.board_pieces</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="ref/chessengine.bitboard.html#chessengine.bitboard.Board.copy"><code class="docutils literal notranslate"><span class="pre">Board.copy()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="ref/chessengine.bitboard.html#chessengine.bitboard.Board.evaluate_score"><code class="docutils literal notranslate"><span class="pre">Board.evaluate_score()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="ref/chessengine.bitboard.html#chessengine.bitboard.Board.get_bitboard"><code class="docutils literal notranslate"><span class="pre">Board.get_bitboard()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="ref/chessengine.bitboard.html#chessengine.bitboard.Board.get_moves"><code class="docutils literal notranslate"><span class="pre">Board.get_moves()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="ref/chessengine.bitboard.html#chessengine.bitboard.Board.get_self_piece_bitboard"><code class="docutils literal notranslate"><span class="pre">Board.get_self_piece_bitboard()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="ref/chessengine.bitboard.html#chessengine.bitboard.Board.get_side_bitboard"><code class="docutils literal notranslate"><span class="pre">Board.get_side_bitboard()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="ref/chessengine.bitboard.html#chessengine.bitboard.Board.handle_player_move"><code class="docutils literal notranslate"><span class="pre">Board.handle_player_move()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="ref/chessengine.bitboard.html#chessengine.bitboard.Board.identify_piece_at"><code class="docutils literal notranslate"><span class="pre">Board.identify_piece_at()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="ref/chessengine.bitboard.html#chessengine.bitboard.Board.make_moves"><code class="docutils literal notranslate"><span class="pre">Board.make_moves()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="ref/chessengine.bitboard.html#chessengine.bitboard.Board.move"><code class="docutils literal notranslate"><span class="pre">Board.move()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="ref/chessengine.bitboard.html#chessengine.bitboard.Board.move_raw"><code class="docutils literal notranslate"><span class="pre">Board.move_raw()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="ref/chessengine.bitboard.html#chessengine.bitboard.Board.move_san"><code class="docutils literal notranslate"><span class="pre">Board.move_san()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="ref/chessengine.bitboard.html#chessengine.bitboard.Board.opponent_pieces"><code class="docutils literal notranslate"><span class="pre">Board.opponent_pieces</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="ref/chessengine.bitboard.html#chessengine.bitboard.Board.play"><code class="docutils literal notranslate"><span class="pre">Board.play()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="ref/chessengine.bitboard.html#chessengine.bitboard.Board.play_pvp"><code class="docutils literal notranslate"><span class="pre">Board.play_pvp()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="ref/chessengine.bitboard.html#chessengine.bitboard.Board.search_forward"><code class="docutils literal notranslate"><span class="pre">Board.search_forward()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="ref/chessengine.bitboard.html#chessengine.bitboard.Board.set_bitboard"><code class="docutils literal notranslate"><span class="pre">Board.set_bitboard()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="ref/chessengine.bitboard.html#chessengine.bitboard.Board.undo_move"><code class="docutils literal notranslate"><span class="pre">Board.undo_move()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ref/chessengine.exceptions.html">chessengine.exceptions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ref/chessengine.exceptions.html#chessengine.exceptions.GameNodeError"><code class="docutils literal notranslate"><span class="pre">GameNodeError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ref/chessengine.exceptions.html#chessengine.exceptions.MoveError"><code class="docutils literal notranslate"><span class="pre">MoveError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ref/chessengine.exceptions.html#chessengine.exceptions.PGNParsingError"><code class="docutils literal notranslate"><span class="pre">PGNParsingError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ref/chessengine.exceptions.html#chessengine.exceptions.PositionError"><code class="docutils literal notranslate"><span class="pre">PositionError</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ref/chessengine.lookup_tables.html">chessengine.lookup_tables</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ref/chessengine.lookup_tables.html#chessengine.lookup_tables.pos_to_coords"><code class="docutils literal notranslate"><span class="pre">pos_to_coords</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ref/chessengine.lookup_tables.html#chessengine.lookup_tables.coords_to_pos"><code class="docutils literal notranslate"><span class="pre">coords_to_pos</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ref/chessengine.lookup_tables.html#chessengine.lookup_tables.clear_rank"><code class="docutils literal notranslate"><span class="pre">clear_rank</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ref/chessengine.lookup_tables.html#chessengine.lookup_tables.mask_rank"><code class="docutils literal notranslate"><span class="pre">mask_rank</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ref/chessengine.lookup_tables.html#chessengine.lookup_tables.clear_file"><code class="docutils literal notranslate"><span class="pre">clear_file</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ref/chessengine.moves.html">chessengine.moves</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ref/chessengine.moves.html#chessengine.moves.get_bishop_moves"><code class="docutils literal notranslate"><span class="pre">get_bishop_moves()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ref/chessengine.moves.html#chessengine.moves.get_black_bishop_moves"><code class="docutils literal notranslate"><span class="pre">get_black_bishop_moves()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ref/chessengine.moves.html#chessengine.moves.get_black_king_moves"><code class="docutils literal notranslate"><span class="pre">get_black_king_moves()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ref/chessengine.moves.html#chessengine.moves.get_black_knight_moves"><code class="docutils literal notranslate"><span class="pre">get_black_knight_moves()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ref/chessengine.moves.html#chessengine.moves.get_black_pawn_moves"><code class="docutils literal notranslate"><span class="pre">get_black_pawn_moves()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ref/chessengine.moves.html#chessengine.moves.get_black_queen_moves"><code class="docutils literal notranslate"><span class="pre">get_black_queen_moves()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ref/chessengine.moves.html#chessengine.moves.get_black_rook_moves"><code class="docutils literal notranslate"><span class="pre">get_black_rook_moves()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ref/chessengine.moves.html#chessengine.moves.get_king_moves"><code class="docutils literal notranslate"><span class="pre">get_king_moves()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ref/chessengine.moves.html#chessengine.moves.get_knight_moves"><code class="docutils literal notranslate"><span class="pre">get_knight_moves()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ref/chessengine.moves.html#chessengine.moves.get_rook_moves"><code class="docutils literal notranslate"><span class="pre">get_rook_moves()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ref/chessengine.moves.html#chessengine.moves.get_white_bishop_moves"><code class="docutils literal notranslate"><span class="pre">get_white_bishop_moves()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ref/chessengine.moves.html#chessengine.moves.get_white_king_moves"><code class="docutils literal notranslate"><span class="pre">get_white_king_moves()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ref/chessengine.moves.html#chessengine.moves.get_white_knight_moves"><code class="docutils literal notranslate"><span class="pre">get_white_knight_moves()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ref/chessengine.moves.html#chessengine.moves.get_white_pawn_moves"><code class="docutils literal notranslate"><span class="pre">get_white_pawn_moves()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ref/chessengine.moves.html#chessengine.moves.get_white_queen_moves"><code class="docutils literal notranslate"><span class="pre">get_white_queen_moves()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ref/chessengine.moves.html#chessengine.moves.get_white_rook_moves"><code class="docutils literal notranslate"><span class="pre">get_white_rook_moves()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ref/chessengine.utils.html">chessengine.utils</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ref/chessengine.utils.html#chessengine.utils.get_bit_positions"><code class="docutils literal notranslate"><span class="pre">get_bit_positions()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ref/chessengine.utils.html#chessengine.utils.get_file"><code class="docutils literal notranslate"><span class="pre">get_file()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ref/chessengine.utils.html#chessengine.utils.get_rank"><code class="docutils literal notranslate"><span class="pre">get_rank()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ref/chessengine.utils.html#chessengine.utils.lsb_pos"><code class="docutils literal notranslate"><span class="pre">lsb_pos()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ref/chessengine.utils.html#chessengine.utils.clear_lines"><code class="docutils literal notranslate"><span class="pre">clear_lines()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ref/chessengine.utils.html#chessengine.utils.change_turn"><code class="docutils literal notranslate"><span class="pre">change_turn()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ref/chessengine.utils.html#chessengine.utils.score_from_move"><code class="docutils literal notranslate"><span class="pre">score_from_move()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ref/chessengine.pgn.node.html">chessengine.pgn.node</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ref/chessengine.pgn.node.html#chessengine.pgn.node.Game"><code class="docutils literal notranslate"><span class="pre">Game</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="ref/chessengine.pgn.node.html#chessengine.pgn.node.Game.add_header"><code class="docutils literal notranslate"><span class="pre">Game.add_header()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="ref/chessengine.pgn.node.html#chessengine.pgn.node.GameNode"><code class="docutils literal notranslate"><span class="pre">GameNode</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="ref/chessengine.pgn.node.html#chessengine.pgn.node.GameNode.add_child"><code class="docutils literal notranslate"><span class="pre">GameNode.add_child()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="ref/chessengine.pgn.node.html#chessengine.pgn.node.GameNode.get_child"><code class="docutils literal notranslate"><span class="pre">GameNode.get_child()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ref/chessengine.pgn.parser.html">chessengine.pgn.parser</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ref/chessengine.pgn.parser.html#chessengine.pgn.parser.PGNParser"><code class="docutils literal notranslate"><span class="pre">PGNParser</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="ref/chessengine.pgn.parser.html#chessengine.pgn.parser.PGNParser.parse"><code class="docutils literal notranslate"><span class="pre">PGNParser.parse()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </div>
 <section id="summary">
@@ -284,9 +374,7 @@
             
           </div>
           <div class="right-details">
-            <div class="icons">
-              
-            </div>
+            
           </div>
         </div>
         
@@ -322,6 +410,7 @@
     <script src="_static/underscore.js"></script>
     <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
     <script src="_static/scripts/furo.js"></script>
     </body>
 </html>

@@ -39,13 +39,14 @@ Attributes For Chess Board
       - A dictionary mapping tuples of the format ``(side, piece)`` to the corresponding bitboard. For example, ``board[("white", "pawns")]`` returns the bitboard corresponding to white pawns.
     * - ``Board.moves``
       - ``list[tuple]``
-      - A list of all moves made on the board. Moves are stored as a 6-tuple in the format ``(start, end, captured_side, captured_piece, captured_bitboard, castle_type)`` where -
+      - A list of all moves made on the board. Moves are stored as a 6-tuple in the format ``(start, end, captured_side, captured_piece, captured_bitboard, castle_type, score)`` where -
             * ``start`` is the :ref:`position <position_representation>` the piece started from
             * ``end`` is the position the piece landed on
             * ``captured_side`` is the side of the piece captured (if any, else ``None``)
             * ``captured_piece`` is the piece captured (if any, else ``None``)
             * ``captured_bitboard`` is the bitboard of the captured piece before it was captured (used to restore it when we want to undo moves).
             * ``castle_type`` is a string representing the castle type the move was (if it was a castle), else ``None``. ``castle_type`` can take values ``"white_kingside"``, ``"white_queenside"``, ``"black_kingside"``, ``"black_queenside"``.
+            * ``score`` is the score (current static evaluation) of the board
     * - ``Board.piece_count``
       - ``dict[tuple[str,str], int]``
       - A dictionary mapping tuples of the format (side, piece) to the number of pieces of that side on the board currently. For example, at the start of the game ``piece_count[("white", "pawns")]`` will be 8.
@@ -130,4 +131,4 @@ be specified as mentioned here. Moreover, the ``Board.move`` function also requi
 its ``start`` and ``end`` arguments.
 
 To help with converting between coordinates on the board, positions, and powers
-of 2, you can use the ``chessengine.lookup_tables`` module.
+of 2, you can use the :ref:`lookup_tables` module.

@@ -84,20 +84,6 @@ class Board:
         self.black_kings = 1152921504606846976  # (E8)
 
         self.score = 0
-        self.piece_count = {
-            ("white", "kings"): 1,
-            ("white", "queens"): 1,
-            ("white", "rooks"): 2,
-            ("white", "bishops"): 2,
-            ("white", "knights"): 2,
-            ("white", "pawns"): 8,
-            ("black", "kings"): 1,
-            ("black", "queens"): 1,
-            ("black", "rooks"): 2,
-            ("black", "bishops"): 2,
-            ("black", "knights"): 2,
-            ("black", "pawns"): 8,
-        }
 
         if side.lower().strip() not in ["black", "white"]:
             raise ValueError(f'side must be one of "black" or "white". Got {side}')
@@ -496,7 +482,6 @@ class Board:
                     black_pawn_bb = self.get_bitboard("black", "pawns")
                     black_pawn_bb &= clear_position[end >> 8]
                     self.set_bitboard("black", "pawns", black_pawn_bb)
-                    self.piece_count[("black", "pawns")] -= 1
                     self.en_passant_position = 0
 
                 # Clear self.en_passant_position
@@ -514,7 +499,6 @@ class Board:
                     white_pawn_bb = self.get_bitboard("white", "pawns")
                     white_pawn_bb &= clear_position[end << 8]
                     self.set_bitboard("white", "pawns", white_pawn_bb)
-                    self.piece_count[("white", "pawns")] -= 1
                     self.en_passant_position = 0
 
                 # Clear self.en_passant_position
@@ -529,7 +513,6 @@ class Board:
             opp_side_board = self.get_bitboard(end_side, end_piece)
             opp_side_board &= clear_position[end]
             self.set_bitboard(end_side, end_piece, opp_side_board)
-            self.piece_count[(end_side, end_piece)] -= 1
 
         # Clear the moved piece's original position (set "start" to 0)
         move_side_board = self.get_bitboard(start_side, start_piece)
@@ -753,7 +736,6 @@ class Board:
             self.move(start=start, end=end, track=False)
             if side is not None:
                 self.set_bitboard(side, piece, board)
-                self.piece_count[(side, piece)] += 1
 
     def get_moves(
         self, side: str, piece: str = None, position: int = None
