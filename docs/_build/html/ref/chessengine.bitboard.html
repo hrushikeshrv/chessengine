@@ -5,10 +5,10 @@
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 <link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="chessengine.exceptions" href="chessengine.exceptions.html" /><link rel="prev" title="API Reference" href="../api.html" />
 
-    <meta name="generator" content="sphinx-5.1.1, furo 2022.09.15"/>
+    <!-- Generated with Sphinx 5.3.0 and Furo 2022.12.07 -->
         <title>chessengine.bitboard - chessengine 0.3.2 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?digest=9ec31e2665bf879c1d47d93a8ec4893870ee1e45" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?digest=91d0f0d1c444bdcb17a68e833c7a53903343c195" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
     
     
@@ -134,7 +134,7 @@
           <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
         </button>
       </div>
-      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
         <div class="visually-hidden">Toggle table of contents sidebar</div>
         <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
       </label>
@@ -149,7 +149,7 @@
   <span class="sidebar-brand-text">chessengine 0.3.2 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
-  <input class="sidebar-search" placeholder=Search name="q" aria-label="Search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
   <input type="hidden" name="check_keywords" value="yes">
   <input type="hidden" name="area" value="default">
 </form>
@@ -188,7 +188,8 @@
           <span>Back to top</span>
         </a>
         <div class="content-icon-container">
-          <div class="theme-toggle-container theme-toggle-content">
+          
+<div class="theme-toggle-container theme-toggle-content">
             <button class="theme-toggle">
               <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
               <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
@@ -196,7 +197,7 @@
               <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
             </button>
           </div>
-          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
             <div class="visually-hidden">Toggle table of contents sidebar</div>
             <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
           </label>
@@ -293,6 +294,13 @@ call this function yourself, use Board.search_forward instead.</p>
 </dd></dl>
 
 <dl class="py property">
+<dt class="sig sig-object py" id="chessengine.bitboard.Board.board">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">board</span></span><a class="headerlink" href="#chessengine.bitboard.Board.board" title="Permalink to this definition">#</a></dt>
+<dd><p>A dictionary mapping a side and piece to its corresponding bitboard.
+Useful when we want to iterate over all the bitboards of the board</p>
+</dd></dl>
+
+<dl class="py property">
 <dt class="sig sig-object py" id="chessengine.bitboard.Board.board_pieces">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">board_pieces</span></span><a class="headerlink" href="#chessengine.bitboard.Board.board_pieces" title="Permalink to this definition">#</a></dt>
 <dd><p>A list of all bitboards of the pieces that belong to the Board.</p>
@@ -345,7 +353,7 @@ convention.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="chessengine.bitboard.Board.get_moves">
-<span class="sig-name descname"><span class="pre">get_moves</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">side</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">piece</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">position</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#chessengine.bitboard.Board.get_moves" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">get_moves</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">side</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">piece</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">position</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#chessengine.bitboard.Board.get_moves" title="Permalink to this definition">#</a></dt>
 <dd><p>Get all end positions a piece of side can reach starting from position.
 <code class="docutils literal notranslate"><span class="pre">side</span></code> is always required, piece and position are optional.</p>
 <p>If piece is not specified, gets all moves for all pieces of the passed side, i.e. get
@@ -358,8 +366,8 @@ gets all valid moves for all white rooks on the board.</p>
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>side</strong> (<em>str</em>) – “white” or “black”</p></li>
-<li><p><strong>piece</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) – Can be one of - “kings”, “queens”, “bishops”, “knights”, “rooks”, “pawns”</p></li>
-<li><p><strong>position</strong> (<em>Optional</em><em>[</em><em>int</em><em>]</em>) – A power of 2 corresponding to a position on the board. See <a class="reference internal" href="../chessboard.html#position-representation"><span class="std std-ref">Representing Positions On The Board</span></a></p></li>
+<li><p><strong>piece</strong> (<em>str</em>) – Can be one of - “kings”, “queens”, “bishops”, “knights”, “rooks”, “pawns”</p></li>
+<li><p><strong>position</strong> (<em>int</em>) – A power of 2 corresponding to a position on the board. See <a class="reference internal" href="../chessboard.html#position-representation"><span class="std std-ref">Representing Positions On The Board</span></a></p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -367,7 +375,7 @@ gets all valid moves for all white rooks on the board.</p>
 See <a class="reference internal" href="../chessboard.html#position-representation"><span class="std std-ref">Representing Positions On The Board</span></a></p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>list[tuple[int, int]]</p>
+<dd class="field-odd"><p>list[tuple[int, int, int]]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -467,7 +475,7 @@ Board.move on all. Tracks all moves by default in <code class="docutils literal 
 
 <dl class="py method">
 <dt class="sig sig-object py" id="chessengine.bitboard.Board.move">
-<span class="sig-name descname"><span class="pre">move</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">score</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">track</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#chessengine.bitboard.Board.move" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">move</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">score</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">track</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#chessengine.bitboard.Board.move" title="Permalink to this definition">#</a></dt>
 <dd><p>Moves the piece at start to end. Doesn’t check anything, just makes
 the move (unless the start or end positions are invalid). Also checks if move
 is a castle, moves the rook automatically on castle, and updates each
@@ -487,7 +495,7 @@ cases when you want to make arbitrary moves outside the rules and/or the game lo
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>start</strong> (<em>int</em>) – The start position of the move. See <a class="reference internal" href="../chessboard.html#position-representation"><span class="std std-ref">Representing Positions On The Board</span></a></p></li>
 <li><p><strong>end</strong> (<em>int</em>) – The end position of the move. See <a class="reference internal" href="../chessboard.html#position-representation"><span class="std std-ref">Representing Positions On The Board</span></a></p></li>
-<li><p><strong>score</strong> (<em>Optional</em><em>[</em><em>int</em><em>]</em>) – The new score/evaluation of the board after the move is made</p></li>
+<li><p><strong>score</strong> (<em>int</em>) – The new score/evaluation of the board after the move is made</p></li>
 <li><p><strong>track</strong> (<em>bool</em>) – If <code class="docutils literal notranslate"><span class="pre">True</span></code>, the move made will be stored in self.moves</p></li>
 </ul>
 </dd>
@@ -583,7 +591,7 @@ move search exponentially.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="chessengine.bitboard.Board.search_forward">
-<span class="sig-name descname"><span class="pre">search_forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">depth</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">4</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#chessengine.bitboard.Board.search_forward" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">search_forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">depth</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">4</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#chessengine.bitboard.Board.search_forward" title="Permalink to this definition">#</a></dt>
 <dd><p>Execute an alpha-beta pruned depth-first search to find the optimal move from
 the current board state.</p>
 <dl class="field-list simple">
@@ -595,7 +603,7 @@ the current board state.</p>
 element is the best found move as a 2 tuple containing the start position and the end position</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>tuple[int, tuple[int, int]]</p>
+<dd class="field-odd"><p>tuple[int, tuple[int, int, int]]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -622,19 +630,6 @@ element is the best found move as a 2 tuple containing the start position and th
 <dt class="sig sig-object py" id="chessengine.bitboard.Board.undo_move">
 <span class="sig-name descname"><span class="pre">undo_move</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#chessengine.bitboard.Board.undo_move" title="Permalink to this definition">#</a></dt>
 <dd><p>Undo the last tracked move.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>None</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="chessengine.bitboard.Board.update_board_state">
-<span class="sig-name descname"><span class="pre">update_board_state</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#chessengine.bitboard.Board.update_board_state" title="Permalink to this definition">#</a></dt>
-<dd><p>Updates all Board attributes when a move is made or the state of the Board
-changes in any way. You should call this if you manually make any changes to
-bitboards attributes, otherwise it is called automatically.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>None</p>
@@ -683,16 +678,62 @@ bitboards attributes, otherwise it is called automatically.</p>
             
           </div>
           <div class="right-details">
-            <div class="icons">
-              
-            </div>
+            
           </div>
         </div>
         
       </footer>
     </div>
-    <aside class="toc-drawer no-toc">
+    <aside class="toc-drawer">
       
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">chessengine.bitboard</a><ul>
+<li><a class="reference internal" href="#chessengine.bitboard.Board"><code class="docutils literal notranslate"><span class="pre">Board</span></code></a><ul>
+<li><a class="reference internal" href="#chessengine.bitboard.Board.__eq__"><code class="docutils literal notranslate"><span class="pre">Board.__eq__()</span></code></a></li>
+<li><a class="reference internal" href="#chessengine.bitboard.Board.__hash__"><code class="docutils literal notranslate"><span class="pre">Board.__hash__()</span></code></a></li>
+<li><a class="reference internal" href="#chessengine.bitboard.Board.__init__"><code class="docutils literal notranslate"><span class="pre">Board.__init__()</span></code></a></li>
+<li><a class="reference internal" href="#chessengine.bitboard.Board.__repr__"><code class="docutils literal notranslate"><span class="pre">Board.__repr__()</span></code></a></li>
+<li><a class="reference internal" href="#chessengine.bitboard.Board.__str__"><code class="docutils literal notranslate"><span class="pre">Board.__str__()</span></code></a></li>
+<li><a class="reference internal" href="#chessengine.bitboard.Board.__weakref__"><code class="docutils literal notranslate"><span class="pre">Board.__weakref__</span></code></a></li>
+<li><a class="reference internal" href="#chessengine.bitboard.Board.alpha_beta_search"><code class="docutils literal notranslate"><span class="pre">Board.alpha_beta_search()</span></code></a></li>
+<li><a class="reference internal" href="#chessengine.bitboard.Board.board"><code class="docutils literal notranslate"><span class="pre">Board.board</span></code></a></li>
+<li><a class="reference internal" href="#chessengine.bitboard.Board.board_pieces"><code class="docutils literal notranslate"><span class="pre">Board.board_pieces</span></code></a></li>
+<li><a class="reference internal" href="#chessengine.bitboard.Board.copy"><code class="docutils literal notranslate"><span class="pre">Board.copy()</span></code></a></li>
+<li><a class="reference internal" href="#chessengine.bitboard.Board.evaluate_score"><code class="docutils literal notranslate"><span class="pre">Board.evaluate_score()</span></code></a></li>
+<li><a class="reference internal" href="#chessengine.bitboard.Board.get_bitboard"><code class="docutils literal notranslate"><span class="pre">Board.get_bitboard()</span></code></a></li>
+<li><a class="reference internal" href="#chessengine.bitboard.Board.get_moves"><code class="docutils literal notranslate"><span class="pre">Board.get_moves()</span></code></a></li>
+<li><a class="reference internal" href="#chessengine.bitboard.Board.get_self_piece_bitboard"><code class="docutils literal notranslate"><span class="pre">Board.get_self_piece_bitboard()</span></code></a></li>
+<li><a class="reference internal" href="#chessengine.bitboard.Board.get_side_bitboard"><code class="docutils literal notranslate"><span class="pre">Board.get_side_bitboard()</span></code></a></li>
+<li><a class="reference internal" href="#chessengine.bitboard.Board.handle_player_move"><code class="docutils literal notranslate"><span class="pre">Board.handle_player_move()</span></code></a></li>
+<li><a class="reference internal" href="#chessengine.bitboard.Board.identify_piece_at"><code class="docutils literal notranslate"><span class="pre">Board.identify_piece_at()</span></code></a></li>
+<li><a class="reference internal" href="#chessengine.bitboard.Board.make_moves"><code class="docutils literal notranslate"><span class="pre">Board.make_moves()</span></code></a></li>
+<li><a class="reference internal" href="#chessengine.bitboard.Board.move"><code class="docutils literal notranslate"><span class="pre">Board.move()</span></code></a></li>
+<li><a class="reference internal" href="#chessengine.bitboard.Board.move_raw"><code class="docutils literal notranslate"><span class="pre">Board.move_raw()</span></code></a></li>
+<li><a class="reference internal" href="#chessengine.bitboard.Board.move_san"><code class="docutils literal notranslate"><span class="pre">Board.move_san()</span></code></a></li>
+<li><a class="reference internal" href="#chessengine.bitboard.Board.opponent_pieces"><code class="docutils literal notranslate"><span class="pre">Board.opponent_pieces</span></code></a></li>
+<li><a class="reference internal" href="#chessengine.bitboard.Board.play"><code class="docutils literal notranslate"><span class="pre">Board.play()</span></code></a></li>
+<li><a class="reference internal" href="#chessengine.bitboard.Board.play_pvp"><code class="docutils literal notranslate"><span class="pre">Board.play_pvp()</span></code></a></li>
+<li><a class="reference internal" href="#chessengine.bitboard.Board.search_forward"><code class="docutils literal notranslate"><span class="pre">Board.search_forward()</span></code></a></li>
+<li><a class="reference internal" href="#chessengine.bitboard.Board.set_bitboard"><code class="docutils literal notranslate"><span class="pre">Board.set_bitboard()</span></code></a></li>
+<li><a class="reference internal" href="#chessengine.bitboard.Board.undo_move"><code class="docutils literal notranslate"><span class="pre">Board.undo_move()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
       
       
     </aside>
@@ -702,6 +743,7 @@ bitboards attributes, otherwise it is called automatically.</p>
     <script src="../_static/underscore.js"></script>
     <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
     <script src="../_static/scripts/furo.js"></script>
     </body>
 </html>

@@ -5,10 +5,10 @@
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 <link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="chessengine.moves" href="chessengine.moves.html" /><link rel="prev" title="chessengine.exceptions" href="chessengine.exceptions.html" />
 
-    <meta name="generator" content="sphinx-5.1.1, furo 2022.09.15"/>
+    <!-- Generated with Sphinx 5.3.0 and Furo 2022.12.07 -->
         <title>chessengine.lookup_tables - chessengine 0.3.2 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?digest=9ec31e2665bf879c1d47d93a8ec4893870ee1e45" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?digest=91d0f0d1c444bdcb17a68e833c7a53903343c195" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
     
     
@@ -134,7 +134,7 @@
           <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
         </button>
       </div>
-      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
         <div class="visually-hidden">Toggle table of contents sidebar</div>
         <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
       </label>
@@ -149,7 +149,7 @@
   <span class="sidebar-brand-text">chessengine 0.3.2 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
-  <input class="sidebar-search" placeholder=Search name="q" aria-label="Search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
   <input type="hidden" name="check_keywords" value="yes">
   <input type="hidden" name="area" value="default">
 </form>
@@ -188,7 +188,8 @@
           <span>Back to top</span>
         </a>
         <div class="content-icon-container">
-          <div class="theme-toggle-container theme-toggle-content">
+          
+<div class="theme-toggle-container theme-toggle-content">
             <button class="theme-toggle">
               <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
               <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
@@ -196,15 +197,104 @@
               <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
             </button>
           </div>
-          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
             <div class="visually-hidden">Toggle table of contents sidebar</div>
             <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
           </label>
         </div>
         <article role="main">
           <section id="module-chessengine.lookup_tables">
-<span id="chessengine-lookup-tables"></span><h1>chessengine.lookup_tables<a class="headerlink" href="#module-chessengine.lookup_tables" title="Permalink to this heading">#</a></h1>
+<span id="chessengine-lookup-tables"></span><span id="lookup-tables"></span><h1>chessengine.lookup_tables<a class="headerlink" href="#module-chessengine.lookup_tables" title="Permalink to this heading">#</a></h1>
 <p>Lookup tables are bitboards that allow us to mask or clear specific ranks, files, or positions of the chessboard</p>
+<dl class="py data">
+<dt class="sig sig-object py" id="chessengine.lookup_tables.pos_to_coords">
+<span class="sig-prename descclassname"><span class="pre">chessengine.lookup_tables.</span></span><span class="sig-name descname"><span class="pre">pos_to_coords</span></span><a class="headerlink" href="#chessengine.lookup_tables.pos_to_coords" title="Permalink to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict[int, str]</p>
+</dd>
+</dl>
+<p>A dictionary mapping position <em>indices</em> on the board to their square names. 0 is mapped to “A1”, 1
+is mapped to “B1”, 8 is mapped to “A2”, 9 is mapped to “B2”, and so on.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="chessengine.lookup_tables.coords_to_pos">
+<span class="sig-prename descclassname"><span class="pre">chessengine.lookup_tables.</span></span><span class="sig-name descname"><span class="pre">coords_to_pos</span></span><a class="headerlink" href="#chessengine.lookup_tables.coords_to_pos" title="Permalink to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict[str, int]</p>
+</dd>
+</dl>
+<p>A dictionary mapping squares on the board to their position <em>indices</em>. Basically the reverse mapping
+of <code class="docutils literal notranslate"><span class="pre">pos_to_coords</span></code>. “A1” is mapped to 0, “B1” is mapped to 1, “A2” is mapped to 8, “B2” is mapped
+to 9, and so on.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="chessengine.lookup_tables.clear_rank">
+<span class="sig-prename descclassname"><span class="pre">chessengine.lookup_tables.</span></span><span class="sig-name descname"><span class="pre">clear_rank</span></span><a class="headerlink" href="#chessengine.lookup_tables.clear_rank" title="Permalink to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict[int, int]</p>
+</dd>
+</dl>
+<p>A dictionary mapping ranks to a bitboard having 0s only on that rank. For example,
+<code class="docutils literal notranslate"><span class="pre">clear_rank[1]</span></code> is a bitboard having only 0s on positions on the first rank,
+and 1s on all other positions.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="chessengine.lookup_tables.mask_rank">
+<span class="sig-prename descclassname"><span class="pre">chessengine.lookup_tables.</span></span><span class="sig-name descname"><span class="pre">mask_rank</span></span><a class="headerlink" href="#chessengine.lookup_tables.mask_rank" title="Permalink to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict[int, int]</p>
+</dd>
+</dl>
+<p>A dictionary mapping ranks to a bitboard having 1s only on that rank, and 0s on all
+other ranks. For example, <code class="docutils literal notranslate"><span class="pre">mask_rank[1]</span></code> is a bitboard having only 1s on positions
+on the first rank, and 0s on all other position.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="chessengine.lookup_tables.clear_file">
+<span class="sig-prename descclassname"><span class="pre">chessengine.lookup_tables.</span></span><span class="sig-name descname"><span class="pre">clear_file</span></span><a class="headerlink" href="#chessengine.lookup_tables.clear_file" title="Permalink to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict[int, int]</p>
+</dd>
+</dl>
+<p>A dictionary mapping files to a bitboard having 0s only on that file, and 1s on all
+other ranks. For example, <code class="docutils literal notranslate"><span class="pre">clear_file[1]</span></code> is a bitboard having only 0s on positions
+on the first file, and 1s on all other positions.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="chessengine.lookup_tables.mask_file">
+<span class="sig-prename descclassname"><span class="pre">chessengine.lookup_tables.</span></span><span class="sig-name descname"><span class="pre">mask_file</span></span><a class="headerlink" href="#chessengine.lookup_tables.mask_file" title="Permalink to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict[int, int]</p>
+</dd>
+</dl>
+<p>A dictionary mapping files to a bitboard having 1s only on that file, and 0s on all
+other ranks. For example, <code class="docutils literal notranslate"><span class="pre">mask_file[1]</span></code> is a bitboard having only 1s on positions
+on the first file, and 0s on all other positions.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="chessengine.lookup_tables.clear_position">
+<span class="sig-prename descclassname"><span class="pre">chessengine.lookup_tables.</span></span><span class="sig-name descname"><span class="pre">clear_position</span></span><a class="headerlink" href="#chessengine.lookup_tables.clear_position" title="Permalink to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict[int, int]</p>
+</dd>
+</dl>
+<p>A dictionary mapping <em>positions</em> to bitboards with a 0 at that position and 1 at all
+other positions.</p>
+</dd></dl>
+
 </section>
 
         </article>
@@ -244,16 +334,39 @@
             
           </div>
           <div class="right-details">
-            <div class="icons">
-              
-            </div>
+            
           </div>
         </div>
         
       </footer>
     </div>
-    <aside class="toc-drawer no-toc">
+    <aside class="toc-drawer">
       
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">chessengine.lookup_tables</a><ul>
+<li><a class="reference internal" href="#chessengine.lookup_tables.pos_to_coords"><code class="docutils literal notranslate"><span class="pre">pos_to_coords</span></code></a></li>
+<li><a class="reference internal" href="#chessengine.lookup_tables.coords_to_pos"><code class="docutils literal notranslate"><span class="pre">coords_to_pos</span></code></a></li>
+<li><a class="reference internal" href="#chessengine.lookup_tables.clear_rank"><code class="docutils literal notranslate"><span class="pre">clear_rank</span></code></a></li>
+<li><a class="reference internal" href="#chessengine.lookup_tables.mask_rank"><code class="docutils literal notranslate"><span class="pre">mask_rank</span></code></a></li>
+<li><a class="reference internal" href="#chessengine.lookup_tables.clear_file"><code class="docutils literal notranslate"><span class="pre">clear_file</span></code></a></li>
+<li><a class="reference internal" href="#chessengine.lookup_tables.mask_file"><code class="docutils literal notranslate"><span class="pre">mask_file</span></code></a></li>
+<li><a class="reference internal" href="#chessengine.lookup_tables.clear_position"><code class="docutils literal notranslate"><span class="pre">clear_position</span></code></a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
       
       
     </aside>
@@ -263,6 +376,7 @@
     <script src="../_static/underscore.js"></script>
     <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
     <script src="../_static/scripts/furo.js"></script>
     </body>
 </html>
