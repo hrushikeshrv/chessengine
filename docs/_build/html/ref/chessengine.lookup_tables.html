@@ -252,9 +252,9 @@ and 1s on all other positions.</p>
 <dd class="field-odd"><p>dict[int, int]</p>
 </dd>
 </dl>
-<p>A dictionary mapping ranks to a bitboard having 1s only on that rank. For example,
-<code class="docutils literal notranslate"><span class="pre">mask_rank[1]</span></code> is a bitboard having only 1s on positions on the first rank,
-and 0s on all other position.</p>
+<p>A dictionary mapping ranks to a bitboard having 1s only on that rank, and 0s on all
+other ranks. For example, <code class="docutils literal notranslate"><span class="pre">mask_rank[1]</span></code> is a bitboard having only 1s on positions
+on the first rank, and 0s on all other position.</p>
 </dd></dl>
 
 <dl class="py data">
@@ -265,6 +265,34 @@ and 0s on all other position.</p>
 <dd class="field-odd"><p>dict[int, int]</p>
 </dd>
 </dl>
+<p>A dictionary mapping files to a bitboard having 0s only on that file, and 1s on all
+other ranks. For example, <code class="docutils literal notranslate"><span class="pre">clear_file[1]</span></code> is a bitboard having only 0s on positions
+on the first file, and 1s on all other positions.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="chessengine.lookup_tables.mask_file">
+<span class="sig-prename descclassname"><span class="pre">chessengine.lookup_tables.</span></span><span class="sig-name descname"><span class="pre">mask_file</span></span><a class="headerlink" href="#chessengine.lookup_tables.mask_file" title="Permalink to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict[int, int]</p>
+</dd>
+</dl>
+<p>A dictionary mapping files to a bitboard having 1s only on that file, and 0s on all
+other ranks. For example, <code class="docutils literal notranslate"><span class="pre">mask_file[1]</span></code> is a bitboard having only 1s on positions
+on the first file, and 0s on all other positions.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="chessengine.lookup_tables.clear_position">
+<span class="sig-prename descclassname"><span class="pre">chessengine.lookup_tables.</span></span><span class="sig-name descname"><span class="pre">clear_position</span></span><a class="headerlink" href="#chessengine.lookup_tables.clear_position" title="Permalink to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict[int, int]</p>
+</dd>
+</dl>
+<p>A dictionary mapping <em>positions</em> to bitboards with a 0 at that position and 1 at all
+other positions.</p>
 </dd></dl>
 
 </section>
@@ -330,6 +358,8 @@ and 0s on all other position.</p>
 <li><a class="reference internal" href="#chessengine.lookup_tables.clear_rank"><code class="docutils literal notranslate"><span class="pre">clear_rank</span></code></a></li>
 <li><a class="reference internal" href="#chessengine.lookup_tables.mask_rank"><code class="docutils literal notranslate"><span class="pre">mask_rank</span></code></a></li>
 <li><a class="reference internal" href="#chessengine.lookup_tables.clear_file"><code class="docutils literal notranslate"><span class="pre">clear_file</span></code></a></li>
+<li><a class="reference internal" href="#chessengine.lookup_tables.mask_file"><code class="docutils literal notranslate"><span class="pre">mask_file</span></code></a></li>
+<li><a class="reference internal" href="#chessengine.lookup_tables.clear_position"><code class="docutils literal notranslate"><span class="pre">clear_position</span></code></a></li>
 </ul>
 </li>
 </ul>

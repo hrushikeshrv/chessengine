@@ -35,11 +35,32 @@ chessengine.lookup\_tables
 
     :type: dict[int, int]
 
-    A dictionary mapping ranks to a bitboard having 1s only on that rank. For example,
-    ``mask_rank[1]`` is a bitboard having only 1s on positions on the first rank,
-    and 0s on all other position.
+    A dictionary mapping ranks to a bitboard having 1s only on that rank, and 0s on all
+    other ranks. For example, ``mask_rank[1]`` is a bitboard having only 1s on positions
+    on the first rank, and 0s on all other position.
 
 
 .. py:data:: clear_file
 
     :type: dict[int, int]
+
+    A dictionary mapping files to a bitboard having 0s only on that file, and 1s on all
+    other ranks. For example, ``clear_file[1]`` is a bitboard having only 0s on positions
+    on the first file, and 1s on all other positions.
+
+
+.. py:data:: mask_file
+
+    :type: dict[int, int]
+
+    A dictionary mapping files to a bitboard having 1s only on that file, and 0s on all
+    other ranks. For example, ``mask_file[1]`` is a bitboard having only 1s on positions
+    on the first file, and 0s on all other positions.
+
+
+.. py:data:: clear_position
+
+    :type: dict[int, int]
+
+    A dictionary mapping *positions* to bitboards with a 0 at that position and 1 at all
+    other positions.
