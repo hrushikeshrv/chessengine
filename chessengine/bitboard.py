@@ -737,9 +737,6 @@ class Board:
         self.black_queen_side_castle = black_queen_side_castle
 
         if castle_type is not None:
-            # TODO - if user castles when both self.white_kingside and self.white_queenside are
-            #       True, undoing this move only lets the user castle to the same side they castled
-            #       before undoing. Same for black.
             if castle_type == "white_kingside":
                 self.move(start=start, end=end, track=False)  # Move king
                 self.move(2**5, 2**7, track=False)  # Move rook
