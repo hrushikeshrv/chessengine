@@ -466,6 +466,10 @@ class Board:
                 end_board,
                 castle_type,
                 self.score,
+                self.white_king_side_castle,
+                self.white_queen_side_castle,
+                self.black_king_side_castle,
+                self.black_queen_side_castle,
             )
             self.moves.append(start_state)
 
@@ -713,8 +717,24 @@ class Board:
         """
         if not self.moves:
             raise RuntimeError("No moves have been made yet to undo.")
-        end, start, side, piece, board, castle_type, prev_score = self.moves.pop()
+        (
+            end,
+            start,
+            side,
+            piece,
+            board,
+            castle_type,
+            prev_score,
+            white_king_side_castle,
+            white_queen_side_castle,
+            black_king_side_castle,
+            black_queen_side_castle,
+        ) = self.moves.pop()
         self.score = prev_score
+        self.white_king_side_castle = white_king_side_castle
+        self.white_queen_side_castle = white_queen_side_castle
+        self.black_king_side_castle = black_king_side_castle
+        self.black_queen_side_castle = black_queen_side_castle
 
         if castle_type is not None:
             # TODO - if user castles when both self.white_kingside and self.white_queenside are
