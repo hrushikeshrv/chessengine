@@ -1,5 +1,7 @@
 """
-Lookup tables are bitboards that allow us to mask or clear specific ranks, files, or positions of the chessboard
+The lookup tables module provides mappings between different position representation
+formats, as well as utility bitboards that let you mask or clear individual ranks, files,
+or positions on the chess board.
 """
 
 pos_to_coords = {

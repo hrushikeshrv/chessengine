@@ -6,7 +6,7 @@
 <link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Usage &amp; Installation" href="usage.html" /><link rel="prev" title="chessengine.pgn.parser" href="ref/chessengine.pgn.parser.html" />
 
     <!-- Generated with Sphinx 5.3.0 and Furo 2022.12.07 -->
-        <title>Internal Board Representation - chessengine 0.3.2 documentation</title>
+        <title>Internal Board Representation - chessengine 0.3.3 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=91d0f0d1c444bdcb17a68e833c7a53903343c195" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
@@ -123,7 +123,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="index.html"><div class="brand">chessengine 0.3.2 documentation</div></a>
+      <a href="index.html"><div class="brand">chessengine 0.3.3 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -146,7 +146,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
   
   
-  <span class="sidebar-brand-text">chessengine 0.3.2 documentation</span>
+  <span class="sidebar-brand-text">chessengine 0.3.3 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -244,8 +244,9 @@ on your <code class="docutils literal notranslate"><span class="pre">Board</span
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">Board.moves</span></code></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">list[tuple]</span></code></p></td>
-<td><dl class="simple">
-<dt>A list of all moves made on the board. Moves are stored as a 6-tuple in the format <code class="docutils literal notranslate"><span class="pre">(start,</span> <span class="pre">end,</span> <span class="pre">captured_side,</span> <span class="pre">captured_piece,</span> <span class="pre">captured_bitboard,</span> <span class="pre">castle_type,</span> <span class="pre">score)</span></code> where -</dt><dd><ul class="simple">
+<td><p>A list of all moves made on the board. Moves are stored as a tuple containing the fields listed below -</p>
+<blockquote>
+<div><ol class="arabic simple" start="0">
 <li><p><code class="docutils literal notranslate"><span class="pre">start</span></code> is the <a class="reference internal" href="#position-representation"><span class="std std-ref">position</span></a> the piece started from</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">end</span></code> is the position the piece landed on</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">captured_side</span></code> is the side of the piece captured (if any, else <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
@@ -253,24 +254,23 @@ on your <code class="docutils literal notranslate"><span class="pre">Board</span
 <li><p><code class="docutils literal notranslate"><span class="pre">captured_bitboard</span></code> is the bitboard of the captured piece before it was captured (used to restore it when we want to undo moves).</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">castle_type</span></code> is a string representing the castle type the move was (if it was a castle), else <code class="docutils literal notranslate"><span class="pre">None</span></code>. <code class="docutils literal notranslate"><span class="pre">castle_type</span></code> can take values <code class="docutils literal notranslate"><span class="pre">&quot;white_kingside&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;white_queenside&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;black_kingside&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;black_queenside&quot;</span></code>.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">score</span></code> is the score (current static evaluation) of the board</p></li>
-</ul>
-</dd>
-</dl>
+<li><p><code class="docutils literal notranslate"><span class="pre">white_king_side_castle</span></code> is a flag indicating whether white could castle king side</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">white_queen_side_castle</span></code> is a flag indicating whether white could castle queen side</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">black_king_side_castle</span></code> is a flag indicating whether black could castle king side</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">black_queen_side_castle</span></code> is a flag indicating whether black could castle queen side</p></li>
+</ol>
+</div></blockquote>
 </td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">Board.piece_count</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">dict[tuple[str,str],</span> <span class="pre">int]</span></code></p></td>
-<td><p>A dictionary mapping tuples of the format (side, piece) to the number of pieces of that side on the board currently. For example, at the start of the game <code class="docutils literal notranslate"><span class="pre">piece_count[(&quot;white&quot;,</span> <span class="pre">&quot;pawns&quot;)]</span></code> will be 8.</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">Board.side</span></code></p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">Board.side</span></code></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">str</span></code></p></td>
 <td><p>The side of the board. Can be <code class="docutils literal notranslate"><span class="pre">&quot;black&quot;</span></code> or <code class="docutils literal notranslate"><span class="pre">&quot;white&quot;</span></code>.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">Board.opponent_side</span></code></p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">Board.opponent_side</span></code></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">str</span></code></p></td>
 <td><p>The side of the opponent. Can be <code class="docutils literal notranslate"><span class="pre">&quot;black&quot;</span></code> or <code class="docutils literal notranslate"><span class="pre">&quot;white&quot;</span></code></p></td>
 </tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">Board.en_passant_position</span></code></p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">Board.en_passant_position</span></code></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">int</span></code></p></td>
 <td><p>The position on the board to which a pawn can move to capture a pawn of the opposite side by en passant. Set to <code class="docutils literal notranslate"><span class="pre">0</span></code> if no en passant move can be made in the current turn.</p></td>
 </tr>
@@ -369,7 +369,7 @@ as mentioned here. In general, all functions that accept a <code class="docutils
 be specified as mentioned here. Moreover, the <code class="docutils literal notranslate"><span class="pre">Board.move</span></code> function also requires this format for
 its <code class="docutils literal notranslate"><span class="pre">start</span></code> and <code class="docutils literal notranslate"><span class="pre">end</span></code> arguments.</p>
 <p>To help with converting between coordinates on the board, positions, and powers
-of 2, you can use the <span class="xref std std-ref">lookup_tables</span> module.</p>
+of 2, you can use the <a class="reference internal" href="ref/chessengine.lookup_tables.html#lookup-tables"><span class="std std-ref">chessengine.lookup_tables</span></a> module.</p>
 </section>
 </section>
 
