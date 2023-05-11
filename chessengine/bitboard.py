@@ -1018,14 +1018,14 @@ class Board:
         Play a game of chess on the terminal with another player
         """
         print(self)
-        lines_printed = 20
+        lines_printed = 11
 
         side_to_move = "white"
         last_move = ""
         while True:
             clear_lines(lines_printed)
             print(self)
-            lines_printed = 20
+            lines_printed = 11
 
             move, lines_added, move_undone = self.handle_player_move(
                 side_to_move, last_move
