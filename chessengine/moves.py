@@ -3,6 +3,7 @@ Functions for generating moves for all supported pieces in all supported scenari
 """
 
 
+from chessengine.lookup_tables import knight_attacks
 from chessengine.utils import get_rank, get_file, score_from_move
 
 HIGHEST_SQUARE = 2**63
@@ -209,42 +210,15 @@ def get_knight_moves(board, side: str, position: int) -> list[tuple[int, int, in
     :param side: The side of the knight. "white" or "black"
     :param position: The position the knight starts on. See :ref:`position_representation`
     """
+    _ = knight_attacks[position]
     moves = []
-    rank = get_rank(position)
-    file = get_file(position)
-
-    if rank >= 3:
-        if file >= 2:
-            _ = position >> 17
-            check_valid_position(board, side, "knights", position, _, moves)
-        if file <= 7:
-            _ = position >> 15
-            check_valid_position(board, side, "knights", position, _, moves)
-
-    if rank >= 2:
-        if file >= 3:
-            _ = position >> 10
-            check_valid_position(board, side, "knights", position, _, moves)
-        if file <= 6:
-            _ = position >> 6
-            check_valid_position(board, side, "knights", position, _, moves)
-
-    if rank <= 6:
-        if file >= 2:
-            _ = position << 15
-            check_valid_position(board, side, "knights", position, _, moves)
-        if file <= 7:
-            _ = position << 17
-            check_valid_position(board, side, "knights", position, _, moves)
-
-    if rank <= 7:
-        if file >= 3:
-            _ = position << 6
-            check_valid_position(board, side, "knights", position, _, moves)
-        if file <= 6:
-            _ = position << 10
-            check_valid_position(board, side, "knights", position, _, moves)
-
+    for pos in _:
+        if side == "white" and board.all_white & pos == 0:
+            end_side, end_piece, end_board = board.identify_piece_at(pos)
+            score = score_from_move(
+                "white", "knights", position, pos, end_piece, board.score
+            )
+            moves.append((position, pos, score))
     return moves
 
 
