@@ -455,9 +455,13 @@ def get_black_pawn_moves(board, position: int) -> list[tuple[int, int, int]]:
     en_passant_position = board.en_passant_position
     if en_passant_position == position >> 9 and file >= 2:
         _ = position >> 9
-        check_valid_position(board, "black", "pawns", position, _, moves)
+        # Set score to None since get_score_from_move doesn't calculate en passant scores correctly
+        # This forces the board class to calculate the score, which handles en passant moves correctly
+        moves.append((position, _, None))
     if en_passant_position == position >> 7 and file <= 7:
         _ = position >> 7
-        check_valid_position(board, "black", "pawns", position, _, moves)
+        # Set score to None since get_score_from_move doesn't calculate en passant scores correctly
+        # This forces the board class to calculate the score, which handles en passant moves correctly
+        moves.append((position, _, None))
 
     return moves
