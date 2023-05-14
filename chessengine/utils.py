@@ -138,7 +138,7 @@ def score_from_move(
 
     :return: The new score/evaluation of the board after the move is made
     """
-    # TODO - Doesn't take into account pawn promotions. Add support for pawn promotions
+    # TODO - Add support for pawn promotions
     piece_values = {
         "pawns": 100,
         "rooks": 500,

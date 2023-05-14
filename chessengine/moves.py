@@ -216,8 +216,12 @@ def get_knight_moves(board, side: str, position: int) -> list[tuple[int, int, in
         if side == "white" and board.all_white & pos == 0:
             end_side, end_piece, end_board = board.identify_piece_at(pos)
             score = score_from_move(
-                "white", "knights", position, pos, end_piece, board.score
+                side, "knights", position, pos, end_piece, board.score
             )
+            moves.append((position, pos, score))
+        if side == "black" and board.all_black & pos == 0:
+            end_side, end_piece, end_board = board.identify_piece_at(pos)
+            score = score_from_move(side, "knights", position, pos, end_piece, board.score)
             moves.append((position, pos, score))
     return moves
 
@@ -394,11 +398,14 @@ def get_white_pawn_moves(board, position: int) -> list[tuple[int, int, int]]:
     en_passant_position = board.en_passant_position
     if en_passant_position == position << 7 and file >= 2:
         _ = position << 7
-        check_valid_position(board, "white", "pawns", position, _, moves)
+        # Set score to None since get_score_from_move doesn't calculate en passant scores correctly
+        # This forces the board class to calculate the score, which handles en passant moves correctly
+        moves.append((position, _, None))
     if en_passant_position == position << 9 and file <= 7:
         _ = position << 9
-        check_valid_position(board, "white", "pawns", position, _, moves)
-
+        # Set score to None since get_score_from_move doesn't calculate en passant scores correctly
+        # This forces the board class to calculate the score, which handles en passant moves correctly
+        moves.append((position, _, None))
     return moves
 
 
