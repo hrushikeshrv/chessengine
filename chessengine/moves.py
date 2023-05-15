@@ -221,7 +221,9 @@ def get_knight_moves(board, side: str, position: int) -> list[tuple[int, int, in
             moves.append((position, pos, score))
         if side == "black" and board.all_black & pos == 0:
             end_side, end_piece, end_board = board.identify_piece_at(pos)
-            score = score_from_move(side, "knights", position, pos, end_piece, board.score)
+            score = score_from_move(
+                side, "knights", position, pos, end_piece, board.score
+            )
             moves.append((position, pos, score))
     return moves
 
