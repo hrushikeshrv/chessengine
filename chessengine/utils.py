@@ -173,3 +173,15 @@ def score_from_move(
                 + piece_square_table[("white", end_piece)][int(log2(end))]
             )
     return new_score
+
+
+def print_bb(bitboard: int) -> None:
+    """
+    Prints a bitboard to the console with helpful formatting
+    to make it easier to debug bitboard operations
+    """
+    bitboard = bin(bitboard)[2:]
+    bitboard = "0" * (64 - len(bitboard)) + bitboard
+    bitboard = bitboard.replace("0", ".")
+    for i in range(8):
+        print(bitboard[8 * i : 8 * i + 8][::-1])
