@@ -181,6 +181,8 @@ def print_bb(bitboard: int) -> None:
     to make it easier to debug bitboard operations
     """
     bitboard = bin(bitboard)[2:]
+    if len(bitboard) > 64:
+        raise ValueError("Invalid bitboard longer than 64 bits passed.")
     bitboard = "0" * (64 - len(bitboard)) + bitboard
     bitboard = bitboard.replace("0", ".")
     for i in range(8):
