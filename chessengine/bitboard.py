@@ -569,7 +569,7 @@ class Board:
                 f"There is no piece at {pos_to_coords[int(log2(start))]} to move."
             )
         moves = self.get_moves(side=side, piece=piece)
-        if (start, end) not in moves:
+        if not any((start, end) == (move[0], move[1]) for move in moves):
             raise MoveError(
                 f"{pos_to_coords[int(log2(start))]} to {pos_to_coords[int(log2(end))]} is not a valid move for {side}"
             )
